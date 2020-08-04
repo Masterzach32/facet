@@ -1,7 +1,7 @@
-import org.jetbrains.dokka.gradle.DokkaTask
+val kotlinx_coroutines_version: String by project
 
 plugins {
-    kotlin("jvm") version "1.3.71" apply false
+    kotlin("jvm") version "1.3.72" apply false
     id("com.gorylenko.gradle-git-properties") version "2.2.2" apply false
     id("net.thauvin.erik.gradle.semver") version "1.0.4"
     id("org.jetbrains.dokka") version "0.10.1"
@@ -14,7 +14,8 @@ repositories {
 }
 
 allprojects {
-    group = "io.discordcommons"
+    group = "io.facet"
+    version = getVersionFromSemver()
 }
 
 subprojects {
@@ -28,8 +29,9 @@ subprojects {
     }
 
     dependencies {
-        "implementation"(kotlin("stdlib-jdk8"))
-        "implementation"("com.discord4j:discord4j-core:3.0.14")
+        implementation(kotlin("stdlib-jdk8"))
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$kotlinx_coroutines_version")
     }
 
     val sourcesJar by tasks.registering(Jar::class) {
@@ -57,11 +59,13 @@ subprojects {
     }
 }
 
-val dokka by tasks.getting(DokkaTask::class) {
-    outputFormat = "html"
-    outputDirectory = "$buildDir/dokka"
+tasks {
+    dokka {
+        outputFormat = "html"
+        outputDirectory = "$buildDir/dokka"
 
-    subProjects = project.subprojects.toList().map { it.name }
+        subProjects = project.subprojects.toList().map { it.name }
+    }
 }
 
 fun getVersionFromSemver() = file("version.properties")

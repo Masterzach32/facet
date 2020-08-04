@@ -1,13 +1,11 @@
-package io.discordcommons.core
-
-import discord4j.core.DiscordClient
+package io.facet.core
 
 /**
- * A feature is any code that can be installed into the [DiscordClient] to improve its functionality.
+ * A feature is any code that can be installed into an object to improve its functionality.
  */
-abstract class Feature<out TConfiguration : Any, TFeature : Any>(
+abstract class Feature<in TApplication, out TConfiguration : Any, TFeature : Any>(
         keyName: String,
-        val requiredFeatures: List<Feature<*, *>> = emptyList()
+        val requiredFeatures: List<Feature<*, *, *>> = emptyList()
 ) {
 
     val key = AttributeKey<TFeature>(keyName)
@@ -22,5 +20,8 @@ abstract class Feature<out TConfiguration : Any, TFeature : Any>(
                             "Missing required features: $it")
             }
 
-    abstract fun install(client: DiscordClient, configuration: TConfiguration.() -> Unit): TFeature
+    /**
+     * Installs the
+     */
+    abstract fun install(client: TApplication, configuration: TConfiguration.() -> Unit): TFeature
 }

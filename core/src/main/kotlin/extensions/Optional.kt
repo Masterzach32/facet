@@ -1,7 +1,13 @@
-package io.discordcommons.core.extensions
+package io.facet.core.extensions
 
 import java.util.*
 
+/**
+ * Extension function to convert a nullable type to an optional.
+ */
 fun <T : Any> T?.toOptional() = Optional.ofNullable(this)
 
-fun <T : Any> Optional<T>.getOrNull(): T? = if (isPresent) get() else null
+fun <T : Any> Optional<T>.grab(): T? = orElse(null)
+
+val <T : Any> Optional<T>.value: T?
+    get() = orElse(null)

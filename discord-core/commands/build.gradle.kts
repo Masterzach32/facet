@@ -1,4 +1,5 @@
 
+val discord4j_version: String by project
 val brigadier_version: String by project
 
 repositories {
@@ -6,7 +7,7 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":core"))
+    api(project(":discord-core"))
     api("com.mojang:brigadier:$brigadier_version")
 }
 

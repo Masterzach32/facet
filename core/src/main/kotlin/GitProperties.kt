@@ -1,8 +1,7 @@
-package io.discordcommons.core
+package io.facet.core
 
 import java.io.IOException
 import java.util.*
-
 
 /**
  * Provide information about the Git repository version captured at build time.

@@ -1,3 +1,4 @@
-rootProject.name = "discordcommons"
+rootProject.name = "facet"
 include(":core")
-include(":features:commands")
+include(":discord-core")
+include(":discord-core:commands")

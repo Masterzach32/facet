@@ -1,5 +1,3 @@
-package io.discordcommons.core
+package io.facet.core
 
-internal object Features : LinkedHashMap<AttributeKey<*>, Any>() {
-
-}
+object Features : LinkedHashMap<AttributeKey<*>, Any>()
