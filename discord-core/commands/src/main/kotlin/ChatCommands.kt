@@ -53,6 +53,43 @@ class ChatCommands(config: Config, private val client: GatewayDiscordClient) {
 
     fun registerCommands(vararg commands: ChatCommand) = commands.forEach { registerCommand(it) }
 
+    private val cache = ConcurrentHashMap<String, ParseResults<ChatCommandSource>>()
+
+    private val listener = listener<MessageCreateEvent> {
+        // if user is bot, dont continue
+        if (message.author.map { it.isBot }.orElse(true))
+            return@listener
+
+        val prefix = commandPrefixFor(guildId)
+
+        // make sure message starts with the command prefix for this guild
+        if (message.content.startsWith(prefix).not())
+            return@listener
+
+        val content = message.content.drop(prefix.length).trim()
+        val parseResults: ParseResults<ChatCommandSource> = cache[content] ?: dispatcher.parse(
+            content,
+            ChatCommandSource(this, content, prefix)
+        )//.also { cache[content] = it } TODO: Fix caching
+
+        if (parseResults.exceptions.isNotEmpty())
+            return@listener // TODO user feedback / help
+
+        val aliasUsed = parseResults.reader.string.split(" ").first()
+        val commandUsed = commandMap[aliasUsed] ?: error("Could not find registered command: \"${aliasUsed}\"")
+        val isGuild = guildId.isPresent
+
+        when (commandUsed.scope) {
+            Scope.ALL -> dispatcher.executeSuspend(parseResults)
+            Scope.GUILD -> if (isGuild) dispatcher.executeSuspend(parseResults)
+            Scope.PRIVATE -> if (!isGuild) dispatcher.executeSuspend(parseResults)
+        }
+
+        client.eventDispatcher.publish(
+            CommandExecutedEvent(client, shardInfo, commandUsed, parseResults.context.source)
+        )
+    }
+
     class Config {
         internal val commands = mutableSetOf<ChatCommand>()
         internal lateinit var commandPrefix: suspend (guildId: Optional<Snowflake>) -> String
@@ -83,7 +120,7 @@ class ChatCommands(config: Config, private val client: GatewayDiscordClient) {
                     command.register(client, feature.dispatcher)
                 }
 
-                client.register(ChatCommandListener(feature))
+                client.register(feature.listener)
             }
         }
     }

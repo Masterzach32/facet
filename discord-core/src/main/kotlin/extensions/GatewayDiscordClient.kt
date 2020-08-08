@@ -45,19 +45,23 @@ fun <TConfiguration : Any, TFeature : Any> GatewayDiscordClient.install(
  */
 inline fun <reified E : Event> GatewayDiscordClient.listen(): Flux<E> = on(E::class.java)
 
-private val eventScope = CoroutineScope(Job())
+internal val botScope = CoroutineScope(SupervisorJob())
 
-fun <E : Event> GatewayDiscordClient.register(listener: Listener<E>, scope: CoroutineScope = eventScope) {
-    scope.async {
-        on(listener.type.java).flatMap { event ->
-            mono {
-                try {
-                    listener.on(event)
-                } catch (e: Throwable) {
-                    println("error occurred while processing event: ${listener.type.simpleName}")
-                    e.printStackTrace()
-                }
+val GatewayDiscordClient.scope: CoroutineScope
+    get() = botScope
+
+fun <E : Event> GatewayDiscordClient.register(
+    listener: Listener<E>,
+    scope: CoroutineScope = this.scope
+): Job = scope.async {
+    on(listener.type.java).flatMap { event ->
+        mono {
+            try {
+                listener.on(event)
+            } catch (e: Throwable) {
+                println("error occurred while processing event: ${listener.type.simpleName}")
+                e.printStackTrace()
             }
-        }.awaitLast()
-    }
+        }
+    }.awaitLast()
 }

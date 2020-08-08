@@ -4,7 +4,7 @@ plugins {
     kotlin("jvm") version "1.3.72" apply false
     id("com.gorylenko.gradle-git-properties") version "2.2.2" apply false
     id("net.thauvin.erik.gradle.semver") version "1.0.4"
-    id("org.jetbrains.dokka") version "0.10.1"
+    id("org.jetbrains.dokka") version "1.4.0-rc"
     `java-library`
     `maven-publish`
 }
@@ -60,11 +60,12 @@ subprojects {
 }
 
 tasks {
-    dokka {
-        outputFormat = "html"
-        outputDirectory = "$buildDir/dokka"
+    dokkaHtmlMultimodule {
+        outputDirectory = "$buildDir/multimodule"
+    }
 
-        subProjects = project.subprojects.toList().map { it.name }
+    build {
+        dependsOn(dokkaHtmlMultimodule)
     }
 }
 
