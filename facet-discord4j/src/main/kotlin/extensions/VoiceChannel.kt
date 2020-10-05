@@ -1,0 +1,29 @@
+package io.facet.discord.extensions
+
+import discord4j.common.util.*
+import discord4j.core.`object`.*
+import discord4j.core.`object`.entity.*
+import discord4j.core.`object`.entity.channel.*
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.reactive.*
+
+/**
+ * Gets the members currently connected to this voice channel by requesting the [VoiceState]s of this guild
+ * and filtering by this [VoiceChannel]s Snowflake ID.
+ */
+val VoiceChannel.connectedMembers: Flow<Member>
+    get() = voiceStates.asFlow()
+        .map { it.member.await() }
+
+/**
+ * Gets the members currently connected to this voice channel by requesting the [VoiceState]s of this channel.
+ */
+suspend fun VoiceChannel.getConnectedMembers(): List<Member> = connectedMembers.toList()
+
+/**
+ * Gets the [Snowflake] ids of the members currently connected to this voice channel by requesting the [VoiceState]s
+ * of this channel.
+ */
+suspend fun VoiceChannel.getConnectedMemberIds(): List<Snowflake> = voiceStates
+    .await()
+    .map(VoiceState::getUserId)
