@@ -25,6 +25,10 @@ subprojects {
     repositories {
         mavenCentral()
         jcenter()
+        maven("https://jitpack.io")
+        // used for Discord4J snapshot builds
+//        maven("https://oss.sonatype.org/content/repositories/snapshots")
+//        maven("https://repo.spring.io/milestone")
     }
 
     dependencies {

@@ -14,7 +14,6 @@ import io.facet.discord.extensions.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
 import org.slf4j.*
-import java.util.*
 import java.util.concurrent.*
 
 /**
@@ -81,13 +80,13 @@ class ChatCommands(config: Config, private val client: GatewayDiscordClient) {
 
     class Config {
         internal val commands = mutableSetOf<ChatCommand>()
-        internal lateinit var commandPrefix: suspend (guildId: Optional<Snowflake>) -> String
+        internal lateinit var commandPrefix: suspend (guildId: Snowflake?) -> String
 
         var commandConcurrency: Int = Runtime.getRuntime().availableProcessors()
 
         var useDefaultHelpCommand = false
 
-        fun commandPrefix(block: suspend (guildId: Optional<Snowflake>) -> String) {
+        fun commandPrefix(block: suspend (guildId: Snowflake?) -> String) {
             commandPrefix = block
         }
         
@@ -144,7 +143,7 @@ class ChatCommands(config: Config, private val client: GatewayDiscordClient) {
             if (event.message.author.map { it.isBot }.orElse(true))
                 return
 
-            val prefix = feature.commandPrefixFor(event.guildId)
+            val prefix = feature.commandPrefixFor(event.guildId.value)
 
             // make sure message starts with the command prefix for this guild
             if (event.message.content.startsWith(prefix).not())
@@ -166,7 +165,7 @@ class ChatCommands(config: Config, private val client: GatewayDiscordClient) {
             if (isGuild && commandUsed.discordPermsRequired.isNotEmpty()) {
                 val channel = event.message.channel.await() as GuildMessageChannel
                 val ourEffectivePerms = channel.getEffectivePermissions(event.client.selfId).await()
-                val userEffectivePerms = channel.getEffectivePermissions(event.member.grab()!!.id).await()
+                val userEffectivePerms = channel.getEffectivePermissions(event.member.value!!.id).await()
 
                 if (!ourEffectivePerms.containsAll(commandUsed.discordPermsRequired) ||
                     !userEffectivePerms.containsAll(commandUsed.discordPermsRequired))
