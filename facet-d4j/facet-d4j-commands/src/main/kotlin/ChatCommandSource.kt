@@ -24,7 +24,7 @@ class ChatCommandSource(
     val message: Message = event.message
     val user: User = message.author.get()
 
-    val member: Member = event.member.get()
+    val member: Member by lazy { event.member.get() }
 
     suspend fun getGuild(): Guild = event.guild.await()
     suspend fun getChannel(): MessageChannel = event.message.channel.await()

@@ -11,60 +11,40 @@ import java.util.function.*
 /**
  * Creates a new [EmbedTemplate] using an [EmbedBuilder].
  */
-inline fun embed(block: EmbedBuilder.() -> Unit) = EmbedBuilder(EmbedCreateSpec())
+inline fun embed(block: EmbedBuilder.() -> Unit): EmbedTemplate = EmbedBuilder()
     .apply(block)
     .toTemplate()
 
-class EmbedTemplate(private val data: EmbedData) : Consumer<EmbedCreateSpec>, (EmbedCreateSpec) -> Unit {
+class EmbedTemplate(
+    private val data: EmbedData
+) : Consumer<EmbedCreateSpec>, (EmbedCreateSpec) -> Unit {
 
-    override fun accept(spec: EmbedCreateSpec) = spec.fromData(data)
+    override fun accept(spec: EmbedCreateSpec) = spec.populateFromData(data)
 
     override fun invoke(spec: EmbedCreateSpec) = accept(spec)
 
-    inline fun andThen(spec: EmbedBuilder.() -> Unit): EmbedTemplate {
-        return embed {
-            accept(this.spec)
-            spec()
-        }
+    inline fun andThen(spec: EmbedBuilder.() -> Unit): EmbedTemplate = embed {
+        accept(this.spec)
+        spec()
     }
 }
 
-class EmbedBuilder(val spec: EmbedCreateSpec) {
+class EmbedBuilder(val spec: EmbedCreateSpec = EmbedCreateSpec()) {
 
     var title: String = ""
         set(value) = spec.setTitle(value).let { field = value }
-    @Deprecated("Use title property")
-    fun title(value: String) {
-        title = value
-    }
 
     var description: String = ""
         set(value) = spec.setDescription(value).let { field = value }
-    @Deprecated("Use description property")
-    fun description(value: String) {
-        description = value
-    }
 
     var url: String = ""
         set(value) = spec.setUrl(value).let { field = value }
-    @Deprecated("Use url property")
-    fun url(value: String) {
-        url = value
-    }
 
     var timestamp: Instant = Instant.EPOCH
         set(value) = spec.setTimestamp(value).let { field = value }
-    @Deprecated("Use timestamp property")
-    fun timestamp(timestamp: Instant) {
-        this.timestamp = timestamp
-    }
 
     var color: Color = Color.WHITE
         set(value) = spec.setColor(value).let { field = value }
-    @Deprecated("Use color property")
-    fun color(color: Color) {
-        this.color = color
-    }
 
     fun footer(text: String, icon: String? = null) {
         spec.setFooter(text, icon)
@@ -72,17 +52,9 @@ class EmbedBuilder(val spec: EmbedCreateSpec) {
 
     var imageUrl: String = ""
         set(value) = spec.setImage(value).let { field = value }
-    @Deprecated("Use imageUrl property")
-    fun image(url: String) {
-        imageUrl = url
-    }
 
     var thumbnailUrl: String = ""
         set(value) = spec.setThumbnail(value).let { field = value }
-    @Deprecated("Use thumbnailUrl property")
-    fun thumbnail(url: String) {
-        thumbnailUrl = url
-    }
 
     fun author(name: String, url: String? = null, iconUrl: String? = null) {
         spec.setAuthor(name, url, iconUrl)
@@ -95,7 +67,7 @@ class EmbedBuilder(val spec: EmbedCreateSpec) {
     fun toTemplate(): EmbedTemplate = EmbedTemplate(spec.asRequest())
 }
 
-internal fun EmbedCreateSpec.fromData(request: EmbedData) {
+internal fun EmbedCreateSpec.populateFromData(request: EmbedData) {
     request.title().nullable?.let { setTitle(it) }
     request.description().nullable?.let { setDescription(it) }
     request.url().nullable?.let { setUrl(it) }

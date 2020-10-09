@@ -22,7 +22,7 @@ object Help : ChatCommand(
             val commandsByCategory = feature.commands.groupBy(ChatCommand::category)
             val commandPrefix = feature.commandPrefixFor(guildId)
 
-            getChannel().sendEmbed {
+            respondEmbed {
                 color = Color.LIGHT_GRAY
                 title = "Help and Info"
                 description = """
@@ -47,7 +47,7 @@ object Help : ChatCommand(
                 val prefix = feature.commandPrefixFor(guildId)
 
                 if (command != null) {
-                    getChannel().sendEmbed {
+                    respondEmbed {
                         color = Color.LIGHT_GRAY
                         title = "Command: **${command.name}**"
                         description = command.description ?: "No description."

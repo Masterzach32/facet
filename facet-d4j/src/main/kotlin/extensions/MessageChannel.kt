@@ -2,14 +2,7 @@ package io.facet.discord.extensions
 
 import discord4j.core.`object`.entity.*
 import discord4j.core.`object`.entity.channel.*
-import discord4j.core.spec.*
 import io.facet.discord.dsl.*
-import reactor.core.publisher.*
-
-@Deprecated("Use sendEmbed()", ReplaceWith("sendEmbed()"))
-fun MessageChannel.createEmbedReceiver(block: EmbedCreateSpec.() -> Unit): Mono<Message> = createEmbed { spec ->
-    spec.apply(block)
-}
 
 /**
  * Builds a message spec with only content and sends it in the specified channel.

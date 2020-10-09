@@ -11,7 +11,7 @@ import java.util.function.*
 /**
  * Creates a new [MessageTemplate] using a [MessageBuilder].
  */
-inline fun message(block: MessageBuilder.() -> Unit) = MessageBuilder(MessageCreateSpec())
+inline fun message(block: MessageBuilder.() -> Unit): MessageTemplate = MessageBuilder()
     .apply(block)
     .toTemplate()
 
@@ -19,40 +19,26 @@ class MessageTemplate(
     private val data: MultipartRequest
 ) : Consumer<MessageCreateSpec>, (MessageCreateSpec) -> Unit {
 
-    override fun accept(spec: MessageCreateSpec) = spec.fromData(data)
+    override fun accept(spec: MessageCreateSpec) = spec.populateFromData(data)
 
     override fun invoke(spec: MessageCreateSpec) = accept(spec)
 
-    inline fun andThen(spec: MessageBuilder.() -> Unit): MessageTemplate {
-        return message {
-            accept(this.spec)
-            spec()
-        }
+    inline fun andThen(spec: MessageBuilder.() -> Unit): MessageTemplate = message {
+        accept(this.spec)
+        spec()
     }
 }
 
-class MessageBuilder(val spec: MessageCreateSpec) {
+class MessageBuilder(val spec: MessageCreateSpec = MessageCreateSpec()) {
 
     var content: String = ""
         set(value) = spec.setContent(value).let { field = value }
-    @Deprecated("Use content property")
-    fun content(content: String) {
-        this.content = content
-    }
 
     var nonce: Snowflake = Snowflake.of(Snowflake.DISCORD_EPOCH)
         set(value) = spec.setNonce(value).let { field = value }
-    @Deprecated("Use nonce property")
-    fun nonce(nonce: Snowflake) {
-        this.nonce = nonce
-    }
 
     var tts: Boolean = false
         set(value) = spec.setTts(value).let { field = value }
-    @Deprecated("Use tts property")
-    fun tts(tts: Boolean) {
-        this.tts = tts
-    }
 
     inline fun embed(dsl: EmbedBuilder.() -> Unit) {
         spec.setEmbed(io.facet.discord.dsl.embed(dsl))
@@ -65,11 +51,6 @@ class MessageBuilder(val spec: MessageCreateSpec) {
             spec.addFile(fileName, file)
     }
 
-    @Deprecated("Use file()", ReplaceWith("file(fileName, file, true)"))
-    fun fileSpoiler(fileName: String, file: InputStream) {
-        file(fileName, file, true)
-    }
-
     inline fun allowedMentions(dsl: AllowedMentionsBuilderDsl.() -> Unit) {
         spec.setAllowedMentions(AllowedMentionsBuilderDsl(AllowedMentions.builder()).apply(dsl).build())
     }
@@ -77,12 +58,12 @@ class MessageBuilder(val spec: MessageCreateSpec) {
     fun toTemplate() = MessageTemplate(spec.asRequest())
 }
 
-private fun MessageCreateSpec.fromData(request: MultipartRequest) {
+private fun MessageCreateSpec.populateFromData(request: MultipartRequest) {
     request.createRequest?.content()?.nullable?.let(this::setContent)
     request.createRequest?.tts()?.nullable?.let(this::setTts)
-    request.createRequest?.embed()?.nullable?.let { embed -> setEmbed { it.fromData(embed) } }
+    request.createRequest?.embed()?.nullable?.let { embed -> setEmbed { it.populateFromData(embed) } }
     request.files.forEach { file -> addFile(file.t1, file.t2) }
-    request.createRequest?.allowedMentions()?.nullable?.let { data -> setAllowedMentions(fromData(data)) }
+    request.createRequest?.allowedMentions()?.nullable?.let { data -> setAllowedMentions(populateFromData(data)) }
 }
 
 class AllowedMentionsBuilderDsl(private val builder: AllowedMentions.Builder) {
@@ -102,7 +83,7 @@ class AllowedMentionsBuilderDsl(private val builder: AllowedMentions.Builder) {
     fun build(): AllowedMentions = builder.build()
 }
 
-private fun fromData(data: AllowedMentionsData): AllowedMentions {
+private fun populateFromData(data: AllowedMentionsData): AllowedMentions {
     val builder = AllowedMentions.builder()
     data.parse().nullable?.map { parseType ->
         when (parseType) {

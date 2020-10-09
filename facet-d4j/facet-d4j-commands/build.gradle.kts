@@ -7,6 +7,6 @@ repositories {
 }
 
 dependencies {
-    api(project(":facet-discord4j"))
+    api(project(":facet-d4j"))
     api("com.mojang:brigadier:$brigadier_version")
 }

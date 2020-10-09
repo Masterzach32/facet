@@ -1,6 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.*
 
 val slf4j_version: String by project
+val logback_version: String by project
 val kotlinx_coroutines_version: String by project
 
 plugins {
@@ -35,9 +36,8 @@ subprojects {
         implementation("org.slf4j:slf4j-api:$slf4j_version")
 
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version")
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$kotlinx_coroutines_version")
 
-        testImplementation("ch.qos.logback:logback-classic:1.2.3")
+        testImplementation("ch.qos.logback:logback-classic:$logback_version")
     }
 
     tasks {
@@ -45,11 +45,11 @@ subprojects {
         val compileTestKotlin by existing(KotlinCompile::class)
 
         compileKotlin {
-            kotlinOptions.jvmTarget = "1.8"
+            kotlinOptions.jvmTarget = "11"
         }
 
         compileTestKotlin {
-            kotlinOptions.jvmTarget = "1.8"
+            kotlinOptions.jvmTarget = "11"
         }
     }
 
