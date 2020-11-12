@@ -15,7 +15,6 @@ plugins {
 
 allprojects {
     group = "io.facet"
-    version = getVersionFromSemver()
 }
 
 subprojects {
@@ -27,9 +26,6 @@ subprojects {
         mavenCentral()
         jcenter()
         maven("https://jitpack.io")
-        // used for Discord4J snapshot builds
-//        maven("https://oss.sonatype.org/content/repositories/snapshots")
-//        maven("https://repo.spring.io/milestone")
     }
 
     dependencies {
@@ -45,11 +41,11 @@ subprojects {
         val compileTestKotlin by existing(KotlinCompile::class)
 
         compileKotlin {
-            kotlinOptions.jvmTarget = "11"
+            kotlinOptions.jvmTarget = "1.8"
         }
 
         compileTestKotlin {
-            kotlinOptions.jvmTarget = "11"
+            kotlinOptions.jvmTarget = "1.8"
         }
     }
 
@@ -60,21 +56,38 @@ subprojects {
 
     publishing {
         repositories {
+            val maven_username: String by project
+            val maven_pass: String by project
             maven {
-                name = "Masterzach32"
-                url = uri("C:\\Users\\Zach Kozar\\maven")
+                name = "Dev"
+                url = uri("https://maven.masterzach32.net/artifactory/dev/")
+                credentials {
+                    username = maven_username
+                    password = maven_pass
+                }
+            }
+
+            maven {
+                name = "Release"
+                url = uri("https://maven.masterzach32.net/artifactory/release/")
+                credentials {
+                    username = maven_username
+                    password = maven_pass
+                }
             }
         }
+
         publications {
-            create<MavenPublication>("mavenKotlin") {
+            create<MavenPublication>("facet") {
                 artifactId = project.name
-                version = getVersionFromSemver()
+                afterEvaluate { version = project.version }
                 from(components["kotlin"])
                 artifact(sourcesJar.get())
                 versionMapping {
                     usage("java-api") {
                         fromResolutionOf("runtimeClasspath")
                     }
+
                     usage("java-runtime") {
                         fromResolutionResult()
                     }
@@ -93,10 +106,3 @@ tasks {
 //        dependsOn(dokkaHtmlMultimodule)
 //    }
 }
-
-fun getVersionFromSemver() = file("version.properties")
-    .readLines()
-    .first { it.contains("version.semver") }
-    .split("=")
-    .last()
-    .trim()

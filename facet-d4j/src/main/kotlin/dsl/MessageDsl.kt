@@ -29,7 +29,9 @@ class MessageTemplate(
     }
 }
 
-class MessageBuilder(val spec: MessageCreateSpec = MessageCreateSpec()) {
+class MessageBuilder(
+    override val spec: MessageCreateSpec = MessageCreateSpec()
+) : TemplateBuilder<MessageCreateSpec, MessageTemplate> {
 
     var content: String = ""
         set(value) = spec.setContent(value).let { field = value }
@@ -55,7 +57,7 @@ class MessageBuilder(val spec: MessageCreateSpec = MessageCreateSpec()) {
         spec.setAllowedMentions(AllowedMentionsBuilderDsl(AllowedMentions.builder()).apply(dsl).build())
     }
 
-    fun toTemplate() = MessageTemplate(spec.asRequest())
+    override fun toTemplate() = MessageTemplate(spec.asRequest())
 }
 
 private fun MessageCreateSpec.populateFromData(request: MultipartRequest) {

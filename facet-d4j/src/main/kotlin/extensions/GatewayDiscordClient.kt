@@ -5,6 +5,8 @@ import discord4j.core.event.domain.*
 import io.facet.core.*
 import io.facet.discord.*
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.reactive.*
 import reactor.core.publisher.*
 
 /**
@@ -33,7 +35,7 @@ fun <TConfiguration : Any, TFeature : Any> GatewayDiscordClient.install(
         config: TConfiguration.() -> Unit = {}
 ) {
     feature.checkRequiredFeatures()
-    feature.also { Features[it.key] = it.install(this, config) }
+    Features[feature.key] = feature.install(this, config)
 }
 
 /**
@@ -41,10 +43,11 @@ fun <TConfiguration : Any, TFeature : Any> GatewayDiscordClient.install(
  */
 inline fun <reified E : Event> GatewayDiscordClient.on(): Flux<E> = on(E::class.java)
 
+inline fun <reified E : Event> GatewayDiscordClient.flowOf(): Flow<E> = on<E>().asFlow()
+
 /**
  * Extension property to get the [BotScope] from the [GatewayDiscordClient] instance.
  */
 @Deprecated("Use BotScope object.", ReplaceWith("BotScope"))
 val GatewayDiscordClient.scope: CoroutineScope
     get() = BotScope
-

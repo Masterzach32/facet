@@ -108,7 +108,7 @@ class ChatCommands(config: Config, private val client: GatewayDiscordClient) {
             return ChatCommands(config, client).also { feature ->
                 val eventsToProcess = Channel<MessageCreateEvent>()
 
-                BotScope.actorListener<MessageCreateEvent>(client) {
+                client.actorListener<MessageCreateEvent> {
                     for (i in 0 until config.commandConcurrency)
                         commandWorker(feature, i, eventsToProcess)
 
@@ -140,7 +140,7 @@ class ChatCommands(config: Config, private val client: GatewayDiscordClient) {
             event: MessageCreateEvent
         ) {
             // if user is bot, skip and continue to next event
-            if (event.message.author.map { it.isBot }.orElse(true))
+            if (event.message.author.value?.isBot == true)
                 return
 
             val prefix = feature.commandPrefixFor(event.guildId.value)

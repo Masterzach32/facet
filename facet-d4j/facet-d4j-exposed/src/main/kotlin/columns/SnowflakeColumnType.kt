@@ -22,6 +22,6 @@ class SnowflakeColumnType : ColumnType() {
 }
 
 /**
- * Creates a numeric column, with the specified [name], for storing 8-byte snowflake IDs.
+ * Creates a numeric column, with the specified [name], for storing unsigned 64-bit snowflake IDs.
  */
 fun Table.snowflake(name: String): Column<Snowflake> = registerColumn(name, SnowflakeColumnType())
