@@ -5,7 +5,7 @@ val logback_version: String by project
 val kotlinx_coroutines_version: String by project
 
 plugins {
-    kotlin("jvm") version "1.4.10" apply false
+    kotlin("jvm") version "1.4.20" apply false
     id("com.gorylenko.gradle-git-properties") version "2.2.2" apply false
     id("net.thauvin.erik.gradle.semver") version "1.0.4"
     //id("org.jetbrains.dokka") version "1.4.10"
@@ -15,6 +15,7 @@ plugins {
 
 allprojects {
     group = "io.facet"
+    version = getVersionFromSemver()
 }
 
 subprojects {
@@ -80,7 +81,7 @@ subprojects {
         publications {
             create<MavenPublication>("facet") {
                 artifactId = project.name
-                afterEvaluate { version = project.version }
+                version = getVersionFromSemver()
                 from(components["kotlin"])
                 artifact(sourcesJar.get())
                 versionMapping {
@@ -106,3 +107,10 @@ tasks {
 //        dependsOn(dokkaHtmlMultimodule)
 //    }
 }
+
+fun getVersionFromSemver() = file("version.properties")
+    .readLines()
+    .first { it.contains("version.semver") }
+    .split("=")
+    .last()
+    .trim()

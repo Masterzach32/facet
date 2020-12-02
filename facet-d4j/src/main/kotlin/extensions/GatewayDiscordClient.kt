@@ -31,8 +31,9 @@ fun <TConfiguration : Any, TFeature : Any> GatewayDiscordClient.feature(
  * listeners are registered. If applicable, the feature can be configured using the config block.
  */
 fun <TConfiguration : Any, TFeature : Any> GatewayDiscordClient.install(
-        feature: DiscordClientFeature<TConfiguration, TFeature>,
-        config: TConfiguration.() -> Unit = {}
+    scope: CoroutineScope,
+    feature: DiscordClientFeature<TConfiguration, TFeature>,
+    config: TConfiguration.() -> Unit = {}
 ) {
     feature.checkRequiredFeatures()
     Features[feature.key] = feature.install(this, config)
@@ -45,9 +46,3 @@ inline fun <reified E : Event> GatewayDiscordClient.on(): Flux<E> = on(E::class.
 
 inline fun <reified E : Event> GatewayDiscordClient.flowOf(): Flow<E> = on<E>().asFlow()
 
-/**
- * Extension property to get the [BotScope] from the [GatewayDiscordClient] instance.
- */
-@Deprecated("Use BotScope object.", ReplaceWith("BotScope"))
-val GatewayDiscordClient.scope: CoroutineScope
-    get() = BotScope

@@ -6,32 +6,29 @@ import discord4j.rest.util.*
 import io.facet.discord.extensions.*
 import java.time.*
 import java.time.format.*
-import java.util.function.*
 
 /**
  * Creates a new [EmbedTemplate] using an [EmbedBuilder].
  */
-inline fun embed(block: EmbedBuilder.() -> Unit): EmbedTemplate = EmbedBuilder()
-    .apply(block)
-    .toTemplate()
+fun embed(buildBlock: EmbedBuilder.() -> Unit): EmbedTemplate = EmbedTemplate(buildBlock)
 
 class EmbedTemplate(
-    private val data: EmbedData
-) : Consumer<EmbedCreateSpec>, (EmbedCreateSpec) -> Unit {
+    private val template: EmbedBuilder.() -> Unit
+) : Template<EmbedCreateSpec> {
 
-    override fun accept(spec: EmbedCreateSpec) = spec.populateFromData(data)
+    override fun accept(spec: EmbedCreateSpec) = EmbedBuilder(spec).run(template)
 
     override fun invoke(spec: EmbedCreateSpec) = accept(spec)
 
-    inline fun andThen(spec: EmbedBuilder.() -> Unit): EmbedTemplate = embed {
-        accept(this.spec)
-        spec()
+    fun andThen(buildBlock: EmbedBuilder.() -> Unit): EmbedTemplate = embed {
+        template()
+        buildBlock()
     }
 }
 
-class EmbedBuilder(
-    override val spec: EmbedCreateSpec = EmbedCreateSpec()
-) : TemplateBuilder<EmbedCreateSpec, EmbedTemplate> {
+class EmbedBuilder internal constructor(
+    override val spec: EmbedCreateSpec
+) : TemplateBuilder<EmbedCreateSpec> {
 
     var title: String = ""
         set(value) = spec.setTitle(value).let { field = value }
@@ -47,6 +44,9 @@ class EmbedBuilder(
 
     var color: Color = Color.WHITE
         set(value) = spec.setColor(value).let { field = value }
+
+    var thumbnailUrl: String = ""
+        set(value) = spec.setThumbnail(value).let { field = value }
 
     fun footer(text: String, icon: String? = null) {
         spec.setFooter(text, icon)
@@ -77,8 +77,6 @@ class EmbedBuilder(
             field(name, value, inline)
         }
     }
-
-    override fun toTemplate() = EmbedTemplate(spec.asRequest())
 
     class EmbedAuthor internal constructor() {
         lateinit var name: String

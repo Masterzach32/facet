@@ -2,36 +2,31 @@ package io.facet.discord.dsl
 
 import discord4j.common.util.*
 import discord4j.core.spec.*
-import discord4j.discordjson.json.*
 import discord4j.rest.util.*
-import io.facet.discord.extensions.*
 import java.io.*
-import java.util.function.*
 
 /**
  * Creates a new [MessageTemplate] using a [MessageBuilder].
  */
-inline fun message(block: MessageBuilder.() -> Unit): MessageTemplate = MessageBuilder()
-    .apply(block)
-    .toTemplate()
+fun message(block: MessageBuilder.() -> Unit): MessageTemplate = MessageTemplate(block)
 
 class MessageTemplate(
-    private val data: MultipartRequest
-) : Consumer<MessageCreateSpec>, (MessageCreateSpec) -> Unit {
+    private val template: MessageBuilder.() -> Unit
+) : Template<MessageCreateSpec> {
 
-    override fun accept(spec: MessageCreateSpec) = spec.populateFromData(data)
+    override fun accept(spec: MessageCreateSpec) = MessageBuilder(spec).run(template)
 
     override fun invoke(spec: MessageCreateSpec) = accept(spec)
 
-    inline fun andThen(spec: MessageBuilder.() -> Unit): MessageTemplate = message {
-        accept(this.spec)
+    fun andThen(spec: MessageBuilder.() -> Unit): MessageTemplate = message {
+        template()
         spec()
     }
 }
 
 class MessageBuilder(
     override val spec: MessageCreateSpec = MessageCreateSpec()
-) : TemplateBuilder<MessageCreateSpec, MessageTemplate> {
+) : TemplateBuilder<MessageCreateSpec> {
 
     var content: String = ""
         set(value) = spec.setContent(value).let { field = value }
@@ -42,7 +37,10 @@ class MessageBuilder(
     var tts: Boolean = false
         set(value) = spec.setTts(value).let { field = value }
 
-    inline fun embed(dsl: EmbedBuilder.() -> Unit) {
+    var messageReference: Snowflake? = null
+        set(value) = spec.setMessageReference(value).let { field = value }
+
+    fun embed(dsl: EmbedBuilder.() -> Unit) {
         spec.setEmbed(io.facet.discord.dsl.embed(dsl))
     }
 
@@ -56,19 +54,12 @@ class MessageBuilder(
     inline fun allowedMentions(dsl: AllowedMentionsBuilderDsl.() -> Unit) {
         spec.setAllowedMentions(AllowedMentionsBuilderDsl(AllowedMentions.builder()).apply(dsl).build())
     }
-
-    override fun toTemplate() = MessageTemplate(spec.asRequest())
-}
-
-private fun MessageCreateSpec.populateFromData(request: MultipartRequest) {
-    request.createRequest?.content()?.nullable?.let(this::setContent)
-    request.createRequest?.tts()?.nullable?.let(this::setTts)
-    request.createRequest?.embed()?.nullable?.let { embed -> setEmbed { it.populateFromData(embed) } }
-    request.files.forEach { file -> addFile(file.t1, file.t2) }
-    request.createRequest?.allowedMentions()?.nullable?.let { data -> setAllowedMentions(populateFromData(data)) }
 }
 
 class AllowedMentionsBuilderDsl(private val builder: AllowedMentions.Builder) {
+
+    var repliedUser: Boolean = true
+        set(value) = builder.repliedUser(value).let { field = value }
 
     fun users(vararg id: Snowflake) {
         builder.allowUser(*id)
@@ -83,20 +74,4 @@ class AllowedMentionsBuilderDsl(private val builder: AllowedMentions.Builder) {
     }
 
     fun build(): AllowedMentions = builder.build()
-}
-
-private fun populateFromData(data: AllowedMentionsData): AllowedMentions {
-    val builder = AllowedMentions.builder()
-    data.parse().nullable?.map { parseType ->
-        when (parseType) {
-            "roles" -> AllowedMentions.Type.ROLE
-            "users" -> AllowedMentions.Type.USER
-            "everyone" -> AllowedMentions.Type.EVERYONE_AND_HERE
-            else -> error("Unexpected parse type: $parseType")
-        }
-    }?.toTypedArray()?.let(builder::parseType)
-    data.roles().nullable?.map(Snowflake::of)?.toTypedArray()?.let(builder::allowRole)
-    data.users().nullable?.map(Snowflake::of)?.toTypedArray()?.let(builder::allowUser)
-
-    return builder.build()
 }

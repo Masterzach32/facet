@@ -12,7 +12,7 @@ suspend fun MessageChannel.sendMessage(content: String): Message = createMessage
 /**
  * Builds a [MessageTemplate] and sends it in the specified channel.
  */
-suspend inline fun MessageChannel.sendMessage(
+suspend fun MessageChannel.sendMessage(
     block: MessageBuilder.() -> Unit
 ): Message = createMessage(message(block)).await()
 
@@ -26,7 +26,7 @@ suspend fun MessageChannel.sendMessage(
 /**
  * Builds an [EmbedTemplate] and sends it in the specified channel.
  */
-suspend inline fun MessageChannel.sendEmbed(
+suspend fun MessageChannel.sendEmbed(
     block: EmbedBuilder.() -> Unit
 ): Message = createEmbed(embed(block)).await()
 

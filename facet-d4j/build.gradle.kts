@@ -4,6 +4,10 @@ val kotlinx_coroutines_version: String by project
 val reactor_kotlin_extensions: String by project
 
 allprojects {
+    repositories {
+        maven("https://oss.sonatype.org/content/repositories/snapshots")
+    }
+
     dependencies {
         implementation("com.discord4j:discord4j-core:$discord4j_version")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$kotlinx_coroutines_version")

@@ -18,12 +18,13 @@ val VoiceChannel.connectedMembers: Flow<Member>
 /**
  * Gets the members currently connected to this voice channel by requesting the [VoiceState]s of this channel.
  */
-suspend fun VoiceChannel.getConnectedMembers(): List<Member> = connectedMembers.toList()
+suspend fun VoiceChannel.getConnectedMembers(): Set<Member> = connectedMembers.toSet()
 
 /**
  * Gets the [Snowflake] ids of the members currently connected to this voice channel by requesting the [VoiceState]s
  * of this channel.
  */
-suspend fun VoiceChannel.getConnectedMemberIds(): List<Snowflake> = voiceStates
+suspend fun VoiceChannel.getConnectedMemberIds(): Set<Snowflake> = voiceStates
     .await()
     .map(VoiceState::getUserId)
+    .toSet()

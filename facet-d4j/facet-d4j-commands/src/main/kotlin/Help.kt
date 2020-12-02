@@ -62,6 +62,7 @@ object Help : ChatCommand(
                         field("Aliases", command.aliases.toString(), true)
                         field("Scope", command.scope.toString(), true)
                         field("Permissions", command.discordPermsRequired.toString(), true)
+                        footer("<> = required | () = optional")
                     }
                 } else {
                     getChannel().sendMessage("Could not find command: `${cmdAlias}`")

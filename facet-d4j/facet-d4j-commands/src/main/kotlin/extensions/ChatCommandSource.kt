@@ -15,27 +15,27 @@ suspend fun ChatCommandSource.respondMessage(
 /**
  * Builds a [MessageTemplate] and sends it in the channel that the command was invoked in.
  */
-suspend inline fun ChatCommandSource.respondMessage(
-    block: MessageBuilder.() -> Unit
-): Message = getChannel().sendMessage(block)
+suspend fun ChatCommandSource.respondMessage(
+    builder: MessageBuilder.() -> Unit
+): Message = getChannel().sendMessage(builder)
 
 /**
  * Sends a message based on the [MessageTemplate] in the channel that the command was invoked in.
  */
-suspend inline fun ChatCommandSource.respondMessage(
+suspend fun ChatCommandSource.respondMessage(
     template: MessageTemplate
 ): Message = getChannel().sendMessage(template)
 
 /**
  * Builds an [EmbedTemplate] and sends it in the channel that the command was invoked in.
  */
-suspend inline fun ChatCommandSource.respondEmbed(
-    block: EmbedBuilder.() -> Unit
-): Message = getChannel().sendEmbed(block)
+suspend fun ChatCommandSource.respondEmbed(
+    builder: EmbedBuilder.() -> Unit
+): Message = getChannel().sendEmbed(builder)
 
 /**
  * Sends an embed based on the [EmbedTemplate] in the channel that the command was invoked in.
  */
-suspend inline fun ChatCommandSource.respondEmbed(
+suspend fun ChatCommandSource.respondEmbed(
     template: EmbedTemplate
 ): Message = getChannel().sendEmbed(template)

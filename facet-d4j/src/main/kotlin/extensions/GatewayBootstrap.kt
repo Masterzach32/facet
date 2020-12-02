@@ -1,6 +1,7 @@
 package io.facet.discord.extensions
 
 import discord4j.core.*
+import discord4j.core.event.*
 import discord4j.core.shard.*
 import discord4j.gateway.*
 import kotlinx.coroutines.*
@@ -8,21 +9,32 @@ import kotlinx.coroutines.reactor.*
 import reactor.core.publisher.*
 
 /**
- * Configures the gateway client.
+ * Configures the event dispatcher before any events can be received.
  */
-inline fun GatewayBootstrap<GatewayOptions>.withFeatures(
-    crossinline configureBlock: GatewayDiscordClient.() -> Unit
-): Mono<Void> = withGateway { gateway ->
-    configureBlock.invoke(gateway)
-
-    Mono.empty<Unit>()
+inline fun GatewayBootstrap<GatewayOptions>.configureDispatcher(
+    crossinline configureBlock: suspend CoroutineScope.(EventDispatcher) -> Unit
+): GatewayBootstrap<GatewayOptions> = withEventDispatcher { dispatcher ->
+    mono {
+        configureBlock(dispatcher)
+    }
 }
 
 /**
  * Configures the gateway client.
  */
 inline fun GatewayBootstrap<GatewayOptions>.withFeatures(
-    crossinline configureBlock: CoroutineScope.(GatewayDiscordClient) -> Unit
+    crossinline configureBlock: suspend GatewayDiscordClient.() -> Unit
+): Mono<Void> = withGateway { gateway ->
+    mono {
+        configureBlock(gateway)
+    }
+}
+
+/**
+ * Configures the gateway client.
+ */
+inline fun GatewayBootstrap<GatewayOptions>.withFeatures(
+    crossinline configureBlock: suspend CoroutineScope.(GatewayDiscordClient) -> Unit
 ): Mono<Void> = withGateway { gateway ->
     mono {
         configureBlock(gateway)

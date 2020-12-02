@@ -82,7 +82,7 @@ class ChatCommands(config: Config, private val client: GatewayDiscordClient) {
         internal val commands = mutableSetOf<ChatCommand>()
         internal lateinit var commandPrefix: suspend (guildId: Snowflake?) -> String
 
-        var commandConcurrency: Int = Runtime.getRuntime().availableProcessors()
+        var commandConcurrency: Int = Runtime.getRuntime().availableProcessors().coerceAtLeast(4)
 
         var useDefaultHelpCommand = false
 

@@ -1,6 +1,7 @@
 package io.facet.discord.event
 
 import discord4j.core.*
+import discord4j.core.event.*
 import discord4j.core.event.domain.*
 import io.facet.discord.*
 import io.facet.discord.extensions.*
@@ -15,14 +16,14 @@ import kotlin.coroutines.*
  * block function whenever a new event of that type is received by the gateway.
  */
 inline fun <reified E : Event> CoroutineScope.listener(
-    gateway: GatewayDiscordClient,
+    dispatcher: EventDispatcher,
     context: CoroutineContext = EmptyCoroutineContext,
     capacity: Int = Channel.RENDEZVOUS,
     start: CoroutineStart = CoroutineStart.DEFAULT,
     crossinline block: suspend CoroutineScope.(E) -> Unit
 ) = launch(context, start) {
     val logger = LoggerFactory.getLogger("EventListener")
-    gateway.flowOf<E>().filterNotNull().buffer(capacity).collect { event ->
+    dispatcher.flowOf<E>().filterNotNull().buffer(capacity).collect { event ->
         try {
             block(event)
         } catch (e: CancellationException) {
@@ -33,13 +34,36 @@ inline fun <reified E : Event> CoroutineScope.listener(
     }
 }
 
-@Deprecated("Use listener method with CoroutineScope receiver.")
-inline fun <reified E : Event> GatewayDiscordClient.listener(
+/**
+ * Creates and launches a new coroutine, which listens to the specified [Event] type and calls the
+ * block function whenever a new event of that type is received by the gateway.
+ */
+inline fun <reified E : Event> CoroutineScope.listener(
+    gateway: GatewayDiscordClient,
     context: CoroutineContext = EmptyCoroutineContext,
     capacity: Int = Channel.RENDEZVOUS,
     start: CoroutineStart = CoroutineStart.DEFAULT,
     crossinline block: suspend CoroutineScope.(E) -> Unit
-) = BotScope.listener(this, context, capacity, start, block)
+) = listener(gateway.eventDispatcher, context, capacity, start, block)
+
+/**
+ * Creates and launches a new coroutine, which launches an actor coroutine and forwards gateway events of the
+ * specified type to it's [ReceiveChannel].
+ */
+@ObsoleteCoroutinesApi
+inline fun <reified E : Event> CoroutineScope.actorListener(
+    dispatcher: EventDispatcher,
+    context: CoroutineContext = EmptyCoroutineContext,
+    capacity: Int = Channel.RENDEZVOUS,
+    start: CoroutineStart = CoroutineStart.DEFAULT,
+    noinline onCompletion: CompletionHandler? = null,
+    noinline block: suspend ActorScope<E>.() -> Unit
+) = launch(context, start) {
+    val eventChannel = actor(capacity = capacity, onCompletion = onCompletion, block = block)
+    dispatcher.flowOf<E>().filterNotNull().collect { event ->
+        eventChannel.send(event)
+    }
+}
 
 /**
  * Creates and launches a new coroutine, which launches an actor coroutine and forwards gateway events of the
@@ -53,12 +77,33 @@ inline fun <reified E : Event> CoroutineScope.actorListener(
     start: CoroutineStart = CoroutineStart.DEFAULT,
     noinline onCompletion: CompletionHandler? = null,
     noinline block: suspend ActorScope<E>.() -> Unit
-) = launch(context, start) {
-    val eventChannel = actor(capacity = capacity, onCompletion = onCompletion, block = block)
-    gateway.flowOf<E>().filterNotNull().collect { event ->
-        eventChannel.send(event)
-    }
-}
+) = actorListener(gateway.eventDispatcher, context, capacity, start, onCompletion, block)
+
+@Deprecated("Use listener method with CoroutineScope receiver.")
+inline fun <reified E : Event> EventDispatcher.listener(
+    context: CoroutineContext = EmptyCoroutineContext,
+    capacity: Int = Channel.RENDEZVOUS,
+    start: CoroutineStart = CoroutineStart.DEFAULT,
+    crossinline block: suspend CoroutineScope.(E) -> Unit
+) = BotScope.listener(this, context, capacity, start, block)
+
+@Deprecated("Use listener method with CoroutineScope receiver.")
+inline fun <reified E : Event> GatewayDiscordClient.listener(
+    context: CoroutineContext = EmptyCoroutineContext,
+    capacity: Int = Channel.RENDEZVOUS,
+    start: CoroutineStart = CoroutineStart.DEFAULT,
+    crossinline block: suspend CoroutineScope.(E) -> Unit
+) = BotScope.listener(this, context, capacity, start, block)
+
+@ObsoleteCoroutinesApi
+@Deprecated("Use listener method with CoroutineScope receiver.")
+inline fun <reified E : Event> EventDispatcher.actorListener(
+    context: CoroutineContext = EmptyCoroutineContext,
+    capacity: Int = Channel.RENDEZVOUS,
+    start: CoroutineStart = CoroutineStart.DEFAULT,
+    noinline onCompletion: CompletionHandler? = null,
+    noinline block: suspend ActorScope<E>.() -> Unit
+) = BotScope.actorListener(this, context, capacity, start, onCompletion, block)
 
 @ObsoleteCoroutinesApi
 @Deprecated("Use listener method with CoroutineScope receiver.")
