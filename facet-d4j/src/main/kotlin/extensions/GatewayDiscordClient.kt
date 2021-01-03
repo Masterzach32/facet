@@ -13,16 +13,16 @@ import reactor.core.publisher.*
  * Gets the currently installed [Feature] instance, if present.
  */
 @Suppress("UNCHECKED_CAST")
-fun <TConfiguration : Any, TFeature : Any> GatewayDiscordClient.featureOrNull(
-        feature: DiscordClientFeature<TConfiguration, TFeature>
+fun <TFeature : Any> GatewayDiscordClient.featureOrNull(
+    feature: Feature<*, *, TFeature>
 ): TFeature? = Features[feature.key]?.let { it as TFeature }
 
 /**
  * Gets the currently installed [Feature] instance, if present. Throws an IllegalStateException if the
  * requested feature is not installed.
  */
-fun <TConfiguration : Any, TFeature : Any> GatewayDiscordClient.feature(
-        feature: DiscordClientFeature<TConfiguration, TFeature>
+fun <TFeature : Any> GatewayDiscordClient.feature(
+    feature: Feature<*, *, TFeature>
 ): TFeature = featureOrNull(feature)
     ?: error("Feature with key ${feature.key} has not been installed into this DiscordClient instance!")
 
@@ -30,13 +30,26 @@ fun <TConfiguration : Any, TFeature : Any> GatewayDiscordClient.feature(
  * Installs a [Feature] into the [DiscordClient]. The feature is immediately set up, and any event
  * listeners are registered. If applicable, the feature can be configured using the config block.
  */
-fun <TConfiguration : Any, TFeature : Any> GatewayDiscordClient.install(
-    scope: CoroutineScope,
-    feature: DiscordClientFeature<TConfiguration, TFeature>,
+@Deprecated("Use install with CoroutineScope parameter.")
+fun <TConfiguration : Any> GatewayDiscordClient.install(
+    feature: GatewayFeature<TConfiguration, *>,
     config: TConfiguration.() -> Unit = {}
 ) {
     feature.checkRequiredFeatures()
-    Features[feature.key] = feature.install(this, config)
+    Features[feature.key] = with(feature) { install(BotScope, config) }
+}
+
+/**
+ * Installs a [Feature] into the [DiscordClient]. The feature is immediately set up, and any event
+ * listeners are registered. If applicable, the feature can be configured using the config block.
+ */
+fun <TConfiguration : Any> GatewayDiscordClient.install(
+    scope: CoroutineScope,
+    feature: GatewayFeature<TConfiguration, *>,
+    config: TConfiguration.() -> Unit = {}
+) {
+    feature.checkRequiredFeatures()
+    Features[feature.key] = with(feature) { install(scope, config) }
 }
 
 /**

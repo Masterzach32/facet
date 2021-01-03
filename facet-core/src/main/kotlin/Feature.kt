@@ -1,11 +1,13 @@
 package io.facet.core
 
+import kotlinx.coroutines.*
+
 /**
  * A feature is any code that can be installed into an object to improve its functionality.
  */
 abstract class Feature<in TApplication, out TConfiguration : Any, TFeature : Any>(
-        keyName: String,
-        val requiredFeatures: List<Feature<*, *, *>> = emptyList()
+    keyName: String,
+    val requiredFeatures: List<Feature<*, *, *>> = emptyList()
 ) {
 
     val key = AttributeKey<TFeature>(keyName)
@@ -22,5 +24,5 @@ abstract class Feature<in TApplication, out TConfiguration : Any, TFeature : Any
     /**
      * Feature installation script
      */
-    abstract fun install(client: TApplication, configuration: TConfiguration.() -> Unit): TFeature
+    abstract fun TApplication.install(scope: CoroutineScope, configuration: TConfiguration.() -> Unit): TFeature
 }

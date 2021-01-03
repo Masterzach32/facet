@@ -4,6 +4,7 @@ import com.mojang.brigadier.*
 import discord4j.common.util.*
 import discord4j.core.*
 import discord4j.core.`object`.entity.channel.*
+import discord4j.core.event.*
 import discord4j.core.event.domain.message.*
 import io.facet.core.extensions.*
 import io.facet.discord.*
@@ -19,7 +20,7 @@ import java.util.concurrent.*
 /**
  * Instance of the [ChatCommands] feature.
  */
-class ChatCommands(config: Config, private val client: GatewayDiscordClient) {
+class ChatCommands(config: Config) {
 
     private val logger = LoggerFactory.getLogger(ChatCommands::class.java)
 
@@ -101,14 +102,13 @@ class ChatCommands(config: Config, private val client: GatewayDiscordClient) {
      * Adds the functionality to the [DiscordClient] to easily listen to and parse user commands. Must be configured
      * with command prefix and commands.
      */
-    companion object : DiscordClientFeature<Config, ChatCommands>("commands") {
+    companion object : EventDispatcherFeature<Config, ChatCommands>("commands") {
 
-        override fun install(client: GatewayDiscordClient, configuration: Config.() -> Unit): ChatCommands {
+        override fun EventDispatcher.install(scope: CoroutineScope, configuration: Config.() -> Unit): ChatCommands {
             val config = Config().apply(configuration)
-            return ChatCommands(config, client).also { feature ->
-                val eventsToProcess = Channel<MessageCreateEvent>()
-
-                client.actorListener<MessageCreateEvent> {
+            return ChatCommands(config).also { feature ->
+                actorListener<MessageCreateEvent>(scope) {
+                    val eventsToProcess = Channel<MessageCreateEvent>()
                     for (i in 0 until config.commandConcurrency)
                         commandWorker(feature, i, eventsToProcess)
 

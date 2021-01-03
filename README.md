@@ -13,14 +13,12 @@ Add these to `build.gradle.kts`:
 ```kotlin
 repositories {
     maven("https://maven.masterzach32.net")
-    maven("https://libraries.minecraft.net")
 }
 
-dependencies {
-    implementation("io.facet:facet-core")
-    implementation("io.facet:facet-discord4j")
-    implementation("io.facet:facet-discord4j-commands")
-    implementation("io.facet:facet-discord4j-exposed")
+dependencies { 
+    val facet_version = "0.1.+"
+    implementation("io.facet:facet-d4j-commands:$facet_version")
+    implementation("io.facet:facet-d4j-exposed:$facet_version")
 }
 ```
 
@@ -60,18 +58,22 @@ fun GatewayDiscordClient.configure() {
 ## Coroutines and event listeners
 Starting a new event listener is easy, all you need is a `CoroutineScope` and an instance of the gateway.
 This launches a new coroutine that collects the events from the gateway using a Flow.
+
 ```kotlin
-// this: CoroutineScope
-// client: GatewayDiscordClient
-listener<MessageCreateEvent>(client) { event ->
+// this: GatewayDiscordClient
+// scope: CoroutineScope
+listener<MessageCreateEvent>(scope) { event ->
     event.message.channel.await().createMessage("Hello!")
 }
 ```
 
 If needed, an actor variant exists which contains a `Channel`.
  This uses the same `ActorScope` that the kotlinx.coroutines library provides.
+
 ```kotlin
-BotScope.actorListener<MessageCreateEvent>(client) {
+// this: GatewayDiscordClient
+// scope: CoroutineScope
+actorListener<MessageCreateEvent>(scope) {
     for (event in channel)
         // handle MessageCreateEvent
 }

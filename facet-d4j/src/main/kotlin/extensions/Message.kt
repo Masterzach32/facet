@@ -2,6 +2,7 @@ package io.facet.discord.extensions
 
 import discord4j.core.`object`.entity.*
 import discord4j.core.`object`.reaction.*
+import discord4j.core.event.domain.message.*
 import discord4j.rest.util.*
 import io.facet.core.extensions.*
 import io.facet.discord.dsl.*
@@ -91,3 +92,7 @@ suspend fun Message.replyEmbed(
  */
 @Deprecated("Use reply", ReplaceWith("reply(template)"))
 suspend fun Message.replyEmbed(template: EmbedTemplate) = reply(template)
+
+val Message.reactionAddEvents: Flow<ReactionAddEvent>
+    get() = client.flowOf<ReactionAddEvent>()
+        .filter { it.messageId == id }

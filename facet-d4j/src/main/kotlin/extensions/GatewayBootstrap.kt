@@ -11,17 +11,18 @@ import reactor.core.publisher.*
 /**
  * Configures the event dispatcher before any events can be received.
  */
-inline fun GatewayBootstrap<GatewayOptions>.configureDispatcher(
-    crossinline configureBlock: suspend CoroutineScope.(EventDispatcher) -> Unit
+inline fun GatewayBootstrap<GatewayOptions>.withFeatures(
+    crossinline configureBlock: suspend EventDispatcher.(CoroutineScope) -> Unit
 ): GatewayBootstrap<GatewayOptions> = withEventDispatcher { dispatcher ->
     mono {
-        configureBlock(dispatcher)
+        configureBlock(dispatcher, this)
     }
 }
 
 /**
  * Configures the gateway client.
  */
+@Deprecated("")
 inline fun GatewayBootstrap<GatewayOptions>.withFeatures(
     crossinline configureBlock: suspend GatewayDiscordClient.() -> Unit
 ): Mono<Void> = withGateway { gateway ->
@@ -34,9 +35,9 @@ inline fun GatewayBootstrap<GatewayOptions>.withFeatures(
  * Configures the gateway client.
  */
 inline fun GatewayBootstrap<GatewayOptions>.withFeatures(
-    crossinline configureBlock: suspend CoroutineScope.(GatewayDiscordClient) -> Unit
+    crossinline configureBlock: suspend GatewayDiscordClient.(CoroutineScope) -> Unit
 ): Mono<Void> = withGateway { gateway ->
     mono {
-        configureBlock(gateway)
+        configureBlock(gateway, this)
     }
 }
