@@ -5,7 +5,7 @@ val logback_version: String by project
 val kotlinx_coroutines_version: String by project
 
 plugins {
-    kotlin("jvm") version "1.4.21" apply false
+    kotlin("jvm") version "1.5.0" apply false
     id("com.gorylenko.gradle-git-properties") version "2.2.2" apply false
     id("net.thauvin.erik.gradle.semver") version "1.0.4"
     //id("org.jetbrains.dokka") version "1.4.10"

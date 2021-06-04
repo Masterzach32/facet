@@ -11,7 +11,15 @@ import reactor.core.publisher.*
 /**
  * Configures the event dispatcher before any events can be received.
  */
+@Deprecated("Use withPlugins()", ReplaceWith("withPlugins(configureBlock)"))
 inline fun GatewayBootstrap<GatewayOptions>.withFeatures(
+    crossinline configureBlock: suspend EventDispatcher.(CoroutineScope) -> Unit
+): GatewayBootstrap<GatewayOptions> = withPlugins(configureBlock)
+
+/**
+ * Configures the event dispatcher before any events can be received.
+ */
+inline fun GatewayBootstrap<GatewayOptions>.withPlugins(
     crossinline configureBlock: suspend EventDispatcher.(CoroutineScope) -> Unit
 ): GatewayBootstrap<GatewayOptions> = withEventDispatcher { dispatcher ->
     mono {
