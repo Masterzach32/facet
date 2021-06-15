@@ -4,6 +4,7 @@ import discord4j.common.util.*
 import discord4j.core.`object`.entity.*
 import discord4j.core.`object`.entity.channel.*
 import discord4j.core.event.domain.*
+import io.facet.core.extensions.*
 import io.facet.discord.extensions.*
 import kotlinx.coroutines.*
 
@@ -19,14 +20,14 @@ import kotlinx.coroutines.*
  * @author Zach Kozar
  * @version 6/13/2021
  */
-class GuildApplicationCommandContext(
+class GlobalInteractionContext(
     event: InteractionCreateEvent,
     workerScope: CoroutineScope
-) : ApplicationCommandContext(event, workerScope) {
+) : InteractionContext(event, workerScope) {
 
-    val guildId: Snowflake = interaction.guildId.get()
-    val member: Member = interaction.member.get()
+    val guildId: Snowflake? = interaction.guildId.unwrap()
+    val member: Member? = interaction.member.unwrap()
 
-    suspend fun getGuild(): Guild = interaction.guild.await()
-    suspend fun getChannel(): GuildMessageChannel = interaction.channel.await() as GuildMessageChannel
+    suspend fun getGuild(): Guild? = interaction.guild.awaitNullable()
+    suspend fun getChannel(): MessageChannel = interaction.channel.await()
 }

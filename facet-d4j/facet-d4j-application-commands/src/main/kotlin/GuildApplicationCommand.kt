@@ -11,10 +11,15 @@ import discord4j.common.util.*
  */
 
 /**
+ * An application command that is only available within a specific guild.
+ *
  * @author Zach Kozar
  * @version 6/13/2021
  */
-interface GuildApplicationCommand : ApplicationCommand<GuildApplicationCommandContext> {
+interface GuildApplicationCommand : ApplicationCommand<GuildInteractionContext> {
 
+    /**
+     * The id of the guild that this command is available in.
+     */
     val guildId: Snowflake
 }

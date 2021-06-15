@@ -11,12 +11,20 @@ import discord4j.discordjson.json.*
  */
 
 /**
+ * A discord application "slash" command.
+ *
  * @author Zach Kozar
  * @version 6/5/2021
  */
-sealed interface ApplicationCommand<in C : ApplicationCommandContext> {
+sealed interface ApplicationCommand<in C : InteractionContext> {
 
+    /**
+     * The discord-json request body to be sent to the Discord API
+     */
     val request: ApplicationCommandRequest
 
+    /**
+     * Called when this command is used in an interaction
+     */
     suspend fun C.execute()
 }

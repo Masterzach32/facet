@@ -9,7 +9,9 @@ package io.facet.discord.appcommands
  */
 
 /**
+ * An application command that is available globally.
+ *
  * @author Zach Kozar
  * @version 6/13/2021
  */
-interface GlobalApplicationCommand : ApplicationCommand<GlobalApplicationCommandContext>
+interface GlobalApplicationCommand : ApplicationCommand<GlobalInteractionContext>

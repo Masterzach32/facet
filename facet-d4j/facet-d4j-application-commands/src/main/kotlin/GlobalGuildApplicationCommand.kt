@@ -9,7 +9,9 @@ package io.facet.discord.appcommands
  */
 
 /**
+ * An application command that is available globally, but can only be used from within a guild.
+ *
  * @author Zach Kozar
  * @version 6/13/2021
  */
-interface GlobalGuildApplicationCommand : ApplicationCommand<GuildApplicationCommandContext>
+interface GlobalGuildApplicationCommand : ApplicationCommand<GuildInteractionContext>

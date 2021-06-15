@@ -19,10 +19,12 @@ import kotlinx.coroutines.*
  */
 
 /**
+ * The context for an interaction with an application command.
+ *
  * @author Zach Kozar
  * @version 6/5/2021
  */
-abstract class ApplicationCommandContext(
+abstract class InteractionContext(
     /**
      * The discord interaction event.
      */

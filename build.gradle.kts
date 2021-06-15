@@ -6,26 +6,27 @@ val kotlinx_coroutines_version: String by project
 
 plugins {
     kotlin("jvm") version "1.5.10" apply false
-    //id("com.gorylenko.gradle-git-properties") version "2.2.2" apply false
-    id("net.thauvin.erik.gradle.semver") version "1.0.4"
-    //id("org.jetbrains.dokka") version "1.4.10"
+    id("org.jetbrains.dokka") version "1.4.32"
     `java-library`
     `maven-publish`
 }
 
 allprojects {
     group = "io.facet"
-    version = getVersionFromSemver()
+    description = "Discord bot framework using D4J and Kotlin"
+
+    repositories {
+        mavenCentral()
+    }
 }
 
 subprojects {
     apply(plugin = "kotlin")
     apply(plugin = "java-library")
     apply(plugin = "maven-publish")
+    apply(plugin = "org.jetbrains.dokka")
 
-    repositories {
-        mavenCentral()
-    }
+    val isRelease = !version.toString().endsWith("-SNAPSHOT")
 
     dependencies {
         implementation("org.slf4j:slf4j-api:$slf4j_version")
@@ -57,22 +58,18 @@ subprojects {
         repositories {
             if (project.hasProperty("maven_username")) {
                 val maven_username: String by project
-                val maven_pass: String by project
+                val maven_password: String by project
                 maven {
-                    name = "Dev"
-                    url = uri("https://maven.masterzach32.net/artifactory/dev/")
-                    credentials {
-                        username = maven_username
-                        password = maven_pass
+                    if (isRelease) {
+                        name = "Release"
+                        url = uri("https://maven.masterzach32.net/artifactory/release/")
+                    } else {
+                        name = "Dev"
+                        url = uri("https://maven.masterzach32.net/artifactory/dev/")
                     }
-                }
-
-                maven {
-                    name = "Release"
-                    url = uri("https://maven.masterzach32.net/artifactory/release/")
                     credentials {
                         username = maven_username
-                        password = maven_pass
+                        password = maven_password
                     }
                 }
             }
@@ -81,7 +78,7 @@ subprojects {
         publications {
             create<MavenPublication>("facet") {
                 artifactId = project.name
-                version = getVersionFromSemver()
+                version = project.version.toString()
                 from(components["kotlin"])
                 artifact(sourcesJar.get())
                 versionMapping {
@@ -99,18 +96,11 @@ subprojects {
 }
 
 tasks {
-//    dokkaHtmlMultiModule.configure {
-//        outputDirectory.set(buildDir.resolve("dokkaMultiModule"))
-//    }
+    dokkaHtmlMultiModule {
+        outputDirectory.set(buildDir.resolve("dokkaMultiModule"))
+    }
 
-//    build {
-//        dependsOn(dokkaHtmlMultimodule)
-//    }
+    build {
+        dependsOn(dokkaHtmlMultimodule)
+    }
 }
-
-fun getVersionFromSemver() = file("version.properties")
-    .readLines()
-    .first { it.contains("version.semver") }
-    .split("=")
-    .last()
-    .trim()

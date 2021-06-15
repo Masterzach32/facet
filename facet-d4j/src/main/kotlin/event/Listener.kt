@@ -67,6 +67,10 @@ inline fun <reified E : Event> CoroutineScope.actorListener(
     noinline block: suspend ActorScope<E>.() -> Unit
 ) = actorListener(gateway.eventDispatcher, context, capacity, start, onCompletion, block)
 
+/**
+ * Creates and launches a new coroutine, which listens to the specified [Event] type and calls the
+ * block function whenever a new event of that type is received by the gateway.
+ */
 inline fun <reified E : Event> EventDispatcher.listener(
     scope: CoroutineScope = BotScope,
     context: CoroutineContext = EmptyCoroutineContext,
@@ -86,6 +90,10 @@ inline fun <reified E : Event> EventDispatcher.listener(
     }
 }
 
+/**
+ * Creates and launches a new coroutine, which listens to the specified [Event] type and calls the
+ * block function whenever a new event of that type is received by the gateway.
+ */
 inline fun <reified E : Event> GatewayDiscordClient.listener(
     scope: CoroutineScope = BotScope,
     context: CoroutineContext = EmptyCoroutineContext,
@@ -94,6 +102,10 @@ inline fun <reified E : Event> GatewayDiscordClient.listener(
     crossinline block: suspend CoroutineScope.(E) -> Unit
 ) = eventDispatcher.listener(scope, context, capacity, start, block)
 
+/**
+ * Creates and launches a new coroutine, which launches an actor coroutine and forwards gateway events of the
+ * specified type to it's [ReceiveChannel].
+ */
 @ObsoleteCoroutinesApi
 inline fun <reified E : Event> EventDispatcher.actorListener(
     scope: CoroutineScope = BotScope,
@@ -109,6 +121,10 @@ inline fun <reified E : Event> EventDispatcher.actorListener(
     }
 }
 
+/**
+ * Creates and launches a new coroutine, which launches an actor coroutine and forwards gateway events of the
+ * specified type to it's [ReceiveChannel].
+ */
 @ObsoleteCoroutinesApi
 inline fun <reified E : Event> GatewayDiscordClient.actorListener(
     scope: CoroutineScope = BotScope,

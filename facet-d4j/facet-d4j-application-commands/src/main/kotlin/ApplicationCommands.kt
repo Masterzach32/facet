@@ -3,9 +3,6 @@ package io.facet.discord.appcommands
 import discord4j.common.util.*
 import discord4j.core.*
 import discord4j.core.event.domain.*
-import discord4j.core.event.domain.lifecycle.*
-import discord4j.core.event.domain.message.*
-import discord4j.discordjson.json.*
 import discord4j.rest.*
 import discord4j.rest.service.*
 import io.facet.discord.*
@@ -55,7 +52,7 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
     val guildCommands: List<GuildApplicationCommand>
         get() = commands.filterIsInstance<GuildApplicationCommand>()
 
-    suspend fun updateCommands(guildIds: List<Snowflake>) {
+    suspend fun updateCommands() {
         val globalCommandNames = globalCommands.map { it.request.name() }
         applicationService.getGlobalApplicationCommands(applicationId).asFlow()
             .collect { registeredCommand ->
@@ -67,20 +64,17 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
         globalCommands.asFlow()
             .onEach { logger.info("Registering command: ${it.request}") }
             .map { it to applicationService.createGlobalApplicationCommand(applicationId, it.request).await() }
-            .onEach { (command, data) -> logger.info("Command registered, (id=${data.id()})") }
+            .onEach { (_, data) -> logger.info("Command registered, (id=${data.id()}, name=${data.name()})") }
             .collect { (command, data) ->
                 _commandMap[data.id().toSnowflake()] = command
             }
 
         guildCommands.asFlow()
             .onEach { logger.info("Registering guild command: ${it.request}") }
-            .flatMapMerge { command ->
-                guildIds.asFlow().map { it to command }
+            .map {
+                it to applicationService.createGuildApplicationCommand(applicationId, it.guildId.asLong(), it.request).await()
             }
-            .map { (guildId, command) ->
-                command to applicationService.createGuildApplicationCommand(applicationId, guildId.asLong(), command.request).await()
-            }
-            .onEach { (command, data) -> logger.info("Command registered, (id=${data.id()})") }
+            .onEach { (_, data) -> logger.info("Command registered, (id=${data.id()}, name=${data.name()})") }
             .collect { (command, data) ->
                 _commandMap[data.id().toSnowflake()] = command
             }
@@ -145,14 +139,14 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
 
                 when (command) {
                     is GlobalApplicationCommand -> {
-                        GlobalApplicationCommandContext(event, scope).apply { command.apply { execute() } }
+                        GlobalInteractionContext(event, scope).apply { command.apply { execute() } }
                     }
                     is GuildApplicationCommand -> {
-                        GuildApplicationCommandContext(event, scope).apply { command.apply { execute() } }
+                        GuildInteractionContext(event, scope).apply { command.apply { execute() } }
                     }
                     is GlobalGuildApplicationCommand -> {
                         if (event.interaction.guildId.isPresent)
-                            GuildApplicationCommandContext(event, scope).apply { command.apply { execute() } }
+                            GuildInteractionContext(event, scope).apply { command.apply { execute() } }
                         else
                             return event.reply("This command is not usable within DMs.").await()
                     }
