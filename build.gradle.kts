@@ -7,6 +7,7 @@ val kotlinx_coroutines_version: String by project
 plugins {
     kotlin("jvm") version "1.5.10" apply false
     id("org.jetbrains.dokka") version "1.4.32"
+    id("net.researchgate.release") version "2.8.1"
     `java-library`
     `maven-publish`
 }
@@ -108,4 +109,10 @@ tasks {
     dokkaHtmlMultiModule {
         outputDirectory.set(buildDir.resolve("dokkaMultiModule"))
     }
+}
+
+release {
+    preTagCommitMessage = "Release version"
+    tagCommitMessage = "Release version"
+    newVersionCommitMessage = "Next development version"
 }
