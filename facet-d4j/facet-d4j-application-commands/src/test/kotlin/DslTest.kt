@@ -23,6 +23,8 @@ class DslTest {
     fun `check dsl builder`() {
         val name = "test"
         val desc = "A test command"
+        val subCommandName = "subcommand"
+        val subCommandDesc = "A sub command"
         val optionName = "option1"
         val optionDesc = "Option 1"
         val optionType = ApplicationCommandOptionType.STRING
@@ -31,8 +33,10 @@ class DslTest {
         val choiceValue = "choice1"
 
         val fromDsl = applicationCommandRequest(name, desc) {
-            addOption(optionName, optionDesc, optionType, optionRequired) {
-                addChoice(choiceName, choiceValue)
+            addSubCommand(subCommandName, subCommandDesc) {
+                addOption(optionName, optionDesc, optionType, optionRequired) {
+                    addChoice(choiceName, choiceValue)
+                }
             }
         }
 
@@ -41,14 +45,21 @@ class DslTest {
             .description(desc)
             .addOption(
                 ApplicationCommandOptionData.builder()
-                    .name(optionName)
-                    .description(optionDesc)
-                    .type(optionType.value)
-                    .required(optionRequired)
-                    .addChoice(
-                        ApplicationCommandOptionChoiceData.builder()
-                            .name(choiceName)
-                            .value(choiceValue)
+                    .name(subCommandName)
+                    .description(subCommandDesc)
+                    .type(ApplicationCommandOptionType.SUB_COMMAND.value)
+                    .addOption(
+                        ApplicationCommandOptionData.builder()
+                            .name(optionName)
+                            .description(optionDesc)
+                            .type(optionType.value)
+                            .required(optionRequired)
+                            .addChoice(
+                                ApplicationCommandOptionChoiceData.builder()
+                                    .name(choiceName)
+                                    .value(choiceValue)
+                                    .build()
+                            )
                             .build()
                     )
                     .build()
