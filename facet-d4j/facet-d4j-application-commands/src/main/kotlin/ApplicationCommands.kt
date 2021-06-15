@@ -127,7 +127,7 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
             val logger = LoggerFactory.getLogger("ApplicationCommandWorker#$index")
             for (event in eventsToProcess) {
                 try {
-                    processInteraction(feature, logger, this, event)
+                    processInteraction(feature, logger, event)
                 } catch (e: Throwable) {
                     logger.error("Exception thrown while processing command:", e)
                 }
@@ -137,7 +137,6 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
         private suspend fun processInteraction(
             feature: ApplicationCommands,
             logger: Logger,
-            scope: CoroutineScope,
             event: InteractionCreateEvent
         ) {
             feature.commandMap[event.commandId]?.also { command ->
@@ -146,11 +145,11 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
                         "server admin if you think that shouldn't be the case.").await()
 
                 val context: InteractionContext = when (command) {
-                    is GlobalApplicationCommand -> GlobalInteractionContext(event, scope)
-                    is GuildApplicationCommand -> GuildInteractionContext(event, scope)
+                    is GlobalApplicationCommand -> GlobalInteractionContext(event)
+                    is GuildApplicationCommand -> GuildInteractionContext(event)
                     is GlobalGuildApplicationCommand -> {
                         if (event.interaction.guildId.isPresent)
-                            GuildInteractionContext(event, scope)
+                            GuildInteractionContext(event)
                         else
                             return event.reply("This command is not usable within DMs.").await()
                     }

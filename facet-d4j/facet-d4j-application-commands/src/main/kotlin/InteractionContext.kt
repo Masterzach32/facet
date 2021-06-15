@@ -1,14 +1,9 @@
 package io.facet.discord.appcommands
 
-import discord4j.common.util.*
 import discord4j.core.*
 import discord4j.core.`object`.command.*
 import discord4j.core.`object`.entity.*
-import discord4j.core.`object`.entity.channel.*
 import discord4j.core.event.domain.*
-import io.facet.core.extensions.*
-import io.facet.discord.extensions.*
-import kotlinx.coroutines.*
 
 /*
  * facet - Created on 6/5/2021
@@ -28,12 +23,7 @@ abstract class InteractionContext(
     /**
      * The discord interaction event.
      */
-    val event: InteractionCreateEvent,
-    /**
-     * The [CoroutineScope] of the command worker coroutine that is processing this command.
-     */
-    @Deprecated("If you need access to a CoroutineScope, use the coroutineScope {} builder.")
-    val workerScope: CoroutineScope
+    val event: InteractionCreateEvent
 ) {
 
     val client: GatewayDiscordClient = event.client

@@ -5,7 +5,6 @@ import discord4j.core.`object`.entity.*
 import discord4j.core.`object`.entity.channel.*
 import discord4j.core.event.domain.*
 import io.facet.discord.extensions.*
-import kotlinx.coroutines.*
 
 /*
  * facet - Created on 6/13/2021
@@ -20,9 +19,8 @@ import kotlinx.coroutines.*
  * @version 6/13/2021
  */
 class GuildInteractionContext(
-    event: InteractionCreateEvent,
-    workerScope: CoroutineScope
-) : InteractionContext(event, workerScope) {
+    event: InteractionCreateEvent
+) : InteractionContext(event) {
 
     val guildId: Snowflake = interaction.guildId.get()
     val member: Member = interaction.member.get()
