@@ -21,6 +21,13 @@ import io.facet.discord.extensions.*
 
 suspend fun InteractionContext.acknowledge() = event.acknowledge().await()
 
+suspend fun InteractionContext.acknowledgeEphemeral() = event.acknowledgeEphemeral().await()
+
+suspend fun InteractionContext.createFollowupMessage(content: String) = event
+    .interactionResponse
+    .createFollowupMessage(content)
+    .await()
+
 suspend fun InteractionContext.createFollowupMessage(template: EmbedTemplate): MessageData {
     val request: MultipartRequest<WebhookExecuteRequest> = MultipartRequest.ofRequest(
         WebhookExecuteRequest.builder()

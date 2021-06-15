@@ -33,23 +33,23 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
     private val applicationService: ApplicationService = restClient.applicationService
     private val applicationId: Long = restClient.applicationId.block()!!
 
-    private val _commandMap = ConcurrentHashMap<Snowflake, ApplicationCommand<*>>()
+    private val _commandMap = ConcurrentHashMap<Snowflake, ApplicationCommand<InteractionContext>>()
 
     /**
      * Commands that have been registered with this feature.
      */
-    val commands: MutableSet<ApplicationCommand<*>> = config.commands
+    val commands: MutableSet<ApplicationCommand<InteractionContext>> = config.commands
 
     /**
      * Lookup map for the command object given it's unique ID
      */
-    val commandMap: Map<Snowflake, ApplicationCommand<*>>
+    val commandMap: Map<Snowflake, ApplicationCommand<InteractionContext>>
         get() = _commandMap
 
     /**
      * All global commands.
      */
-    val globalCommands: List<ApplicationCommand<*>>
+    val globalCommands: List<ApplicationCommand<InteractionContext>>
         get() = commands.filter { it is GlobalApplicationCommand || it is GlobalGuildApplicationCommand }
 
     /**
@@ -82,20 +82,20 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
             }
             .onEach { (_, data) -> logger.info("Command registered, (id=${data.id()}, name=${data.name()})") }
             .collect { (command, data) ->
-                _commandMap[data.id().toSnowflake()] = command
+                _commandMap[data.id().toSnowflake()] = command as ApplicationCommand<InteractionContext>
             }
     }
 
     class Config {
-        internal val commands = mutableSetOf<ApplicationCommand<*>>()
+        internal val commands = mutableSetOf<ApplicationCommand<InteractionContext>>()
 
         var commandConcurrency: Int = Runtime.getRuntime().availableProcessors().coerceAtLeast(4)
 
-        fun registerCommand(command: ApplicationCommand<*>) {
+        fun registerCommand(command: ApplicationCommand<InteractionContext>) {
             commands.add(command)
         }
 
-        fun registerCommand(vararg commands: ApplicationCommand<*>) = commands.forEach { registerCommand(it) }
+        fun registerCommand(vararg commands: ApplicationCommand<InteractionContext>) = commands.forEach { registerCommand(it) }
     }
 
     companion object : GatewayFeature<Config, ApplicationCommands>("applicationCommands") {
@@ -145,20 +145,18 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
                     return event.replyEphemeral("You don't have permission to use that command in this server. Ask a " +
                         "server admin if you think that shouldn't be the case.").await()
 
-                when (command) {
-                    is GlobalApplicationCommand -> {
-                        GlobalInteractionContext(event, scope).apply { command.apply { execute() } }
-                    }
-                    is GuildApplicationCommand -> {
-                        GuildInteractionContext(event, scope).apply { command.apply { execute() } }
-                    }
+                val context: InteractionContext = when (command) {
+                    is GlobalApplicationCommand -> GlobalInteractionContext(event, scope)
+                    is GuildApplicationCommand -> GuildInteractionContext(event, scope)
                     is GlobalGuildApplicationCommand -> {
                         if (event.interaction.guildId.isPresent)
-                            GuildInteractionContext(event, scope).apply { command.apply { execute() } }
+                            GuildInteractionContext(event, scope)
                         else
                             return event.reply("This command is not usable within DMs.").await()
                     }
                 }
+
+                context.apply { command.apply { execute() } }
             } ?: logger.warn("Could not find command with ID ${event.commandId}, name ${event.commandName}.")
         }
     }

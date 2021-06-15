@@ -50,8 +50,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: Publish with Gradle
-        run: ./gradlew -x test publish
+      - name: Test & Publish with Gradle
+        run: ./gradlew test publish
         env:
           ORG_GRADLE_PROJECT_maven_username: ${{ secrets.maven_username }}
           ORG_GRADLE_PROJECT_maven_password: ${{ secrets.maven_password }}
