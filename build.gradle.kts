@@ -99,8 +99,4 @@ tasks {
     dokkaHtmlMultiModule {
         outputDirectory.set(buildDir.resolve("dokkaMultiModule"))
     }
-
-    build {
-        dependsOn(dokkaHtmlMultimodule)
-    }
 }
