@@ -17,4 +17,7 @@ import io.facet.discord.dsl.*
  * @version 6/13/2021
  */
 
+/**
+ * Creates an [EmbedData] object from this template. Used with MultipartRequests
+ */
 fun EmbedTemplate.asRequest(): EmbedData = EmbedCreateSpec().also { spec -> accept(spec) }.asRequest()
