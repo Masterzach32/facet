@@ -46,9 +46,15 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
     val commandMap: Map<Snowflake, ApplicationCommand<*>>
         get() = _commandMap
 
+    /**
+     * All global commands.
+     */
     val globalCommands: List<ApplicationCommand<*>>
         get() = commands.filter { it is GlobalApplicationCommand || it is GlobalGuildApplicationCommand }
 
+    /**
+     * All guild commands.
+     */
     val guildCommands: List<GuildApplicationCommand>
         get() = commands.filterIsInstance<GuildApplicationCommand>()
 
