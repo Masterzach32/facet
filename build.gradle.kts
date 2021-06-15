@@ -34,6 +34,8 @@ subprojects {
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version")
 
         testImplementation("ch.qos.logback:logback-classic:$logback_version")
+        testImplementation(platform("org.junit:junit-bom:5.7.2"))
+        testImplementation("org.junit.jupiter:junit-jupiter")
     }
 
     tasks {
@@ -41,11 +43,18 @@ subprojects {
         val compileTestKotlin by existing(KotlinCompile::class)
 
         compileKotlin {
-            kotlinOptions.jvmTarget = "11"
+            kotlinOptions.jvmTarget = "1.8"
         }
 
         compileTestKotlin {
-            kotlinOptions.jvmTarget = "11"
+            kotlinOptions.jvmTarget = "1.8"
+        }
+
+        test {
+            useJUnitPlatform()
+            testLogging {
+                events("passed", "skipped", "failed")
+            }
         }
     }
 
