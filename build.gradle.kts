@@ -65,6 +65,26 @@ subprojects {
     }
 
     publishing {
+        publications {
+            create<MavenPublication>("facet") {
+                artifactId = project.name
+                version = project.version.toString()
+                from(components["kotlin"])
+                artifact(sourcesJar.get())
+                versionMapping {
+                    usage("java-api") {
+                        fromResolutionOf("runtimeClasspath")
+                    }
+
+                    usage("java-runtime") {
+                        fromResolutionResult()
+                    }
+                }
+
+                pom {  }
+            }
+        }
+
         repositories {
             if (project.hasProperty("maven_username")) {
                 val maven_username: String by project
@@ -80,24 +100,6 @@ subprojects {
                     credentials {
                         username = maven_username
                         password = maven_password
-                    }
-                }
-            }
-        }
-
-        publications {
-            create<MavenPublication>("facet") {
-                artifactId = project.name
-                version = project.version.toString()
-                from(components["kotlin"])
-                artifact(sourcesJar.get())
-                versionMapping {
-                    usage("java-api") {
-                        fromResolutionOf("runtimeClasspath")
-                    }
-
-                    usage("java-runtime") {
-                        fromResolutionResult()
                     }
                 }
             }
