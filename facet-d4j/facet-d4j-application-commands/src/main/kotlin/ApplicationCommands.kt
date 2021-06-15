@@ -106,6 +106,8 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
         ): ApplicationCommands {
             val config = Config().apply(configuration)
             return ApplicationCommands(config, restClient).also { feature ->
+                scope.launch { feature.updateCommands() }
+
                 actorListener<InteractionCreateEvent>(scope) {
                     val eventsToProcess = Channel<InteractionCreateEvent>()
                     for (i in 0 until config.commandConcurrency)
