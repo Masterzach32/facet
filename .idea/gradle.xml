@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="delegatedBuild" value="false" />
+        <option name="testRunner" value="PLATFORM" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../../Gradle/5.4.1" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/facet-core" />
+            <option value="$PROJECT_DIR$/facet-d4j" />
+            <option value="$PROJECT_DIR$/facet-d4j/facet-d4j-application-commands" />
+            <option value="$PROJECT_DIR$/facet-d4j/facet-d4j-commands" />
+            <option value="$PROJECT_DIR$/facet-d4j/facet-d4j-exposed" />
+            <option value="$PROJECT_DIR$/facet-d4j/facet-d4j-lavaplayer-extensions" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>

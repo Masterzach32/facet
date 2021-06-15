@@ -23,6 +23,11 @@ fun <T> CommandDispatcher<T>.literal(name: String, setup: DSLCommandNode<T>.() -
     return node.node
 }
 
+//suspend fun CommandDispatcher<ChatCommandSource>.parseSuspend(
+//    command: String,
+//    source: ChatCommandSource
+//): ParseResults<ChatCommandSource> {}
+
 suspend fun CommandDispatcher<ChatCommandSource>.executeSuspend(parseResults: ParseResults<ChatCommandSource>): Int {
     if (parseResults.getReader().canRead()) {
         if (parseResults.getExceptions().size == 1) {

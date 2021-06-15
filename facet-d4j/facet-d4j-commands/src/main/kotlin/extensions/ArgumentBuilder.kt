@@ -5,6 +5,7 @@ import com.mojang.brigadier.context.*
 import io.facet.discord.commands.*
 import kotlinx.coroutines.*
 
+@Deprecated("Use CommandNode DSL")
 fun <S, T : ArgumentBuilder<S, T>> ArgumentBuilder<S, T>.executesSuspend(
     command: suspend (context: CommandContext<S>) -> Unit
 ): T {
@@ -15,6 +16,7 @@ fun <S, T : ArgumentBuilder<S, T>> ArgumentBuilder<S, T>.executesSuspend(
     })
 }
 
+@Deprecated("Use CommandNode DSL")
 fun <S, T : ArgumentBuilder<S, T>> ArgumentBuilder<S, T>.requiresSuspend(
     requirement: suspend (source: S) -> Boolean
 ): T {

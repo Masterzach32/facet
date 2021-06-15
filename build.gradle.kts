@@ -5,8 +5,8 @@ val logback_version: String by project
 val kotlinx_coroutines_version: String by project
 
 plugins {
-    kotlin("jvm") version "1.5.0" apply false
-    id("com.gorylenko.gradle-git-properties") version "2.2.2" apply false
+    kotlin("jvm") version "1.5.10" apply false
+    //id("com.gorylenko.gradle-git-properties") version "2.2.2" apply false
     id("net.thauvin.erik.gradle.semver") version "1.0.4"
     //id("org.jetbrains.dokka") version "1.4.10"
     `java-library`
@@ -25,8 +25,6 @@ subprojects {
 
     repositories {
         mavenCentral()
-        jcenter()
-        maven("https://jitpack.io")
     }
 
     dependencies {
@@ -42,11 +40,11 @@ subprojects {
         val compileTestKotlin by existing(KotlinCompile::class)
 
         compileKotlin {
-            kotlinOptions.jvmTarget = "1.8"
+            kotlinOptions.jvmTarget = "11"
         }
 
         compileTestKotlin {
-            kotlinOptions.jvmTarget = "1.8"
+            kotlinOptions.jvmTarget = "11"
         }
     }
 
@@ -57,23 +55,25 @@ subprojects {
 
     publishing {
         repositories {
-            val maven_username: String by project
-            val maven_pass: String by project
-            maven {
-                name = "Dev"
-                url = uri("https://maven.masterzach32.net/artifactory/dev/")
-                credentials {
-                    username = maven_username
-                    password = maven_pass
+            if (project.hasProperty("maven_username")) {
+                val maven_username: String by project
+                val maven_pass: String by project
+                maven {
+                    name = "Dev"
+                    url = uri("https://maven.masterzach32.net/artifactory/dev/")
+                    credentials {
+                        username = maven_username
+                        password = maven_pass
+                    }
                 }
-            }
 
-            maven {
-                name = "Release"
-                url = uri("https://maven.masterzach32.net/artifactory/release/")
-                credentials {
-                    username = maven_username
-                    password = maven_pass
+                maven {
+                    name = "Release"
+                    url = uri("https://maven.masterzach32.net/artifactory/release/")
+                    credentials {
+                        username = maven_username
+                        password = maven_pass
+                    }
                 }
             }
         }

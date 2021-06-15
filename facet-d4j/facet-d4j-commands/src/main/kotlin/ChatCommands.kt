@@ -140,10 +140,10 @@ class ChatCommands(config: Config) {
             event: MessageCreateEvent
         ) {
             // if user is bot, skip and continue to next event
-            if (event.message.author.value?.isBot == true)
+            if (event.message.author.unwrap()?.isBot == true)
                 return
 
-            val prefix = feature.commandPrefixFor(event.guildId.value)
+            val prefix = feature.commandPrefixFor(event.guildId.unwrap())
 
             // make sure message starts with the command prefix for this guild
             if (event.message.content.startsWith(prefix).not())
@@ -165,7 +165,7 @@ class ChatCommands(config: Config) {
             if (isGuild && commandUsed.discordPermsRequired.isNotEmpty()) {
                 val channel = event.message.channel.await() as GuildMessageChannel
                 val ourEffectivePerms = channel.getEffectivePermissions(event.client.selfId).await()
-                val userEffectivePerms = channel.getEffectivePermissions(event.member.value!!.id).await()
+                val userEffectivePerms = channel.getEffectivePermissions(event.member.unwrap()!!.id).await()
 
                 if (!ourEffectivePerms.containsAll(commandUsed.discordPermsRequired) ||
                     !userEffectivePerms.containsAll(commandUsed.discordPermsRequired))

@@ -7,8 +7,14 @@ import java.util.*
  */
 fun <T : Any> T?.toOptional() = Optional.ofNullable(this)
 
-@Deprecated("Use .value", ReplaceWith("value"))
-fun <T : Any> Optional<T>.grab(): T? = orElse(null)
+@Deprecated("Use unwrap()", ReplaceWith("unwrap()"))
+fun <T : Any> Optional<T>.grab(): T? = unwrap()
 
+@Deprecated("Use unwrap()", ReplaceWith("unwrap()"))
 val <T : Any> Optional<T>.value: T?
-    get() = orElse(null)
+    get() = unwrap()
+
+/**
+ * Unwraps an Optional<T> to a nullable T?.
+ */
+fun <T> Optional<T>.unwrap(): T? = orElse(null)

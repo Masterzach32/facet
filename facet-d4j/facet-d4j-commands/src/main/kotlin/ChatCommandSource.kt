@@ -20,7 +20,7 @@ class ChatCommandSource(
 ) : CoroutineScope by scope {
 
     val client: GatewayDiscordClient = event.client
-    val guildId: Snowflake? = event.guildId.value
+    val guildId: Snowflake? = event.guildId.unwrap()
     val message: Message = event.message
     val user: User = message.author.get()
 
