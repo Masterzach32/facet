@@ -38,7 +38,7 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
     /**
      * Commands that have been registered with this feature.
      */
-    val commands: MutableSet<ApplicationCommand<InteractionContext>> = config.commands
+    val commands: MutableSet<ApplicationCommand<InteractionContext>> = config.commands as MutableSet<ApplicationCommand<InteractionContext>>
 
     /**
      * Lookup map for the command object given it's unique ID
@@ -87,15 +87,15 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
     }
 
     class Config {
-        internal val commands = mutableSetOf<ApplicationCommand<InteractionContext>>()
+        internal val commands = mutableSetOf<ApplicationCommand<*>>()
 
         var commandConcurrency: Int = Runtime.getRuntime().availableProcessors().coerceAtLeast(4)
 
-        fun registerCommand(command: ApplicationCommand<InteractionContext>) {
+        fun registerCommand(command: ApplicationCommand<*>) {
             commands.add(command)
         }
 
-        fun registerCommand(vararg commands: ApplicationCommand<InteractionContext>) = commands.forEach { registerCommand(it) }
+        fun registerCommand(vararg commands: ApplicationCommand<*>) = commands.forEach { registerCommand(it) }
     }
 
     companion object : GatewayFeature<Config, ApplicationCommands>("applicationCommands") {
