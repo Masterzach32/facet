@@ -100,7 +100,7 @@ subprojects {
 
 tasks {
     dokkaHtmlMultiModule {
-        outputDirectory.set(buildDir.resolve("dokkaMultiModule"))
+        outputDirectory.set(buildDir.resolve("dokka"))
     }
 }
 
