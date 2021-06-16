@@ -2,11 +2,12 @@ name: Java CI
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - 'master'
+      - 'feature/**'
     tags-ignore:
       - '*.*'
   pull_request:
-    branches: [ master ]
     types: [opened, synchronize, reopened]
 
 jobs:
