@@ -80,8 +80,6 @@ subprojects {
                         fromResolutionResult()
                     }
                 }
-
-                pom {  }
             }
         }
 
