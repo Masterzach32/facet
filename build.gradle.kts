@@ -84,20 +84,20 @@ subprojects {
         }
 
         repositories {
-            if (project.hasProperty("maven_username")) {
-                val maven_username: String by project
-                val maven_password: String by project
-                maven {
-                    if (isRelease) {
-                        name = "Release"
-                        url = uri("https://maven.masterzach32.net/artifactory/release/")
-                    } else {
-                        name = "Dev"
-                        url = uri("https://maven.masterzach32.net/artifactory/dev/")
-                    }
+            maven {
+                if (isRelease) {
+                    name = "Release"
+                    url = uri("https://maven.masterzach32.net/artifactory/release/")
+                } else {
+                    name = "Dev"
+                    url = uri("https://maven.masterzach32.net/artifactory/dev/")
+                }
+                val mavenUsername = findProperty("maven_username")?.toString()
+                val mavenPassword = findProperty("maven_password")?.toString()
+                if (mavenPassword != null && mavenPassword != null) {
                     credentials {
-                        username = maven_username
-                        password = maven_password
+                        username = mavenUsername
+                        password = mavenPassword
                     }
                 }
             }
