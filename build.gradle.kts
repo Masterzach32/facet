@@ -86,11 +86,11 @@ subprojects {
         repositories {
             maven {
                 if (isRelease) {
-                    name = "Release"
-                    url = uri("https://maven.masterzach32.net/artifactory/release/")
+                    name = "Releases"
+                    url = uri("https://maven.masterzach32.net/artifactory/facet-releases/")
                 } else {
-                    name = "Dev"
-                    url = uri("https://maven.masterzach32.net/artifactory/dev/")
+                    name = "Snapshots"
+                    url = uri("https://maven.masterzach32.net/artifactory/facet-snapshots/")
                 }
                 val mavenUsername = findProperty("maven_username")?.toString()
                 val mavenPassword = findProperty("maven_password")?.toString()
@@ -107,7 +107,7 @@ subprojects {
 
 tasks {
     dokkaHtmlMultiModule {
-        outputDirectory.set(buildDir.resolve("dokkaMultiModule"))
+        outputDirectory.set(buildDir.resolve("dokka"))
     }
 }
 

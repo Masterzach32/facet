@@ -30,7 +30,7 @@ import java.util.concurrent.*
 class ApplicationCommands(config: Config, restClient: RestClient) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
-    private val applicationService: ApplicationService = restClient.applicationService
+    private val service: ApplicationService = restClient.applicationService
     private val applicationId: Long = restClient.applicationId.block()!!
 
     private val _commandMap = ConcurrentHashMap<Snowflake, ApplicationCommand<InteractionContext>>()
@@ -38,10 +38,12 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
     /**
      * Commands that have been registered with this feature.
      */
-    val commands: MutableSet<ApplicationCommand<InteractionContext>> = config.commands as MutableSet<ApplicationCommand<InteractionContext>>
+    @Suppress("UNCHECKED_CAST")
+    val commands: MutableSet<ApplicationCommand<InteractionContext>> =
+        config.commands as MutableSet<ApplicationCommand<InteractionContext>>
 
     /**
-     * Lookup map for the command object given it's unique ID
+     * Lookup map for the command object given it's unique ID.
      */
     val commandMap: Map<Snowflake, ApplicationCommand<InteractionContext>>
         get() = _commandMap
@@ -60,27 +62,18 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
 
     suspend fun updateCommands() {
         val globalCommandNames = globalCommands.map { it.request.name() }
-        applicationService.getGlobalApplicationCommands(applicationId).asFlow()
-            .collect { registeredCommand ->
-                when {
-                    registeredCommand.name() in globalCommandNames -> {}
-                }
-            }
+        service.getGlobalApplicationCommands(applicationId).asFlow()
+            .filter { it.name() !in globalCommandNames }
+            .collect { service.deleteGlobalApplicationCommand(applicationId, it.id().toLong()).await() }
 
         globalCommands.asFlow()
-            .onEach { logger.info("Registering command: ${it.request}") }
-            .map { it to applicationService.createGlobalApplicationCommand(applicationId, it.request).await() }
-            .onEach { (_, data) -> logger.info("Command registered, (id=${data.id()}, name=${data.name()})") }
+            .map { it to service.createGlobalApplicationCommand(applicationId, it.request).await() }
             .collect { (command, data) ->
                 _commandMap[data.id().toSnowflake()] = command
             }
 
         guildCommands.asFlow()
-            .onEach { logger.info("Registering guild command: ${it.request}") }
-            .map {
-                it to applicationService.createGuildApplicationCommand(applicationId, it.guildId.asLong(), it.request).await()
-            }
-            .onEach { (_, data) -> logger.info("Command registered, (id=${data.id()}, name=${data.name()})") }
+            .map { it to service.createGuildApplicationCommand(applicationId, it.guildId.asLong(), it.request).await() }
             .collect { (command, data) ->
                 _commandMap[data.id().toSnowflake()] = command as ApplicationCommand<InteractionContext>
             }
@@ -140,9 +133,15 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
             event: InteractionCreateEvent
         ) {
             feature.commandMap[event.commandId]?.also { command ->
-                if (command is PermissibleApplicationCommand && !command.hasPermission(event.interaction.user, event.interaction.guild.awaitNullable()))
-                    return event.replyEphemeral("You don't have permission to use that command in this server. Ask a " +
-                        "server admin if you think that shouldn't be the case.").await()
+                if (command is PermissibleApplicationCommand && !command.hasPermission(
+                        event.interaction.user,
+                        event.interaction.guild.awaitNullable()
+                    )
+                )
+                    return event.replyEphemeral(
+                        "You don't have permission to use that command in this server. Ask a server " +
+                            "admin if you think that shouldn't be the case."
+                    ).await()
 
                 val context: InteractionContext = when (command) {
                     is GlobalApplicationCommand -> GlobalInteractionContext(event)
