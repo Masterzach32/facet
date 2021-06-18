@@ -12,13 +12,12 @@ Facet is a library to make writing Discord bots easier. Features include:
 Add these to `build.gradle.kts`:
 ```kotlin
 repositories {
-    maven("https://maven.masterzach32.net")
+    maven("https://maven.masterzach32.net/artifactory/releases")
 }
 
 dependencies { 
-    val facet_version = "0.1.+"
+    val facet_version = "0.3.+"
     implementation("io.facet:facet-d4j-commands:$facet_version")
-    implementation("io.facet:facet-d4j-exposed:$facet_version")
 }
 ```
 
