@@ -1,5 +1,6 @@
 package io.facet.discord.appcommands
 
+import discord4j.common.util.*
 import discord4j.core.*
 import discord4j.core.`object`.command.*
 import discord4j.core.`object`.entity.*
@@ -28,6 +29,7 @@ abstract class InteractionContext(
 
     val client: GatewayDiscordClient = event.client
     val interaction: Interaction = event.interaction
+    val channelId: Snowflake = interaction.channelId
     val user: User = interaction.user
 
     val command: ApplicationCommandInteraction = interaction.commandInteraction
