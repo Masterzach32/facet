@@ -33,6 +33,7 @@ class Dsl {
         val choiceValue = "choice1"
 
         val fromDsl = applicationCommandRequest(name, desc) {
+            defaultPermission = true
             addSubCommand(subCommandName, subCommandDesc) {
                 addOption(optionName, optionDesc, optionType, optionRequired) {
                     addChoice(choiceName, choiceValue)
@@ -64,6 +65,7 @@ class Dsl {
                     )
                     .build()
             )
+            .defaultPermission(true)
             .build()
 
         assertEquals(fromBuilder, fromDsl, "Dsl request should match builder request")

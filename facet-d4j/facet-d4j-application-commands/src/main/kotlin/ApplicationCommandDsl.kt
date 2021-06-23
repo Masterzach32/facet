@@ -31,10 +31,12 @@ fun applicationCommandRequest(
     if (builder.options.isNotEmpty())
         data.options(builder.options)
 
-    return data.name(name).description(desc).build()
+    return data.name(name).description(desc).defaultPermission(builder.defaultPermission).build()
 }
 
 open class ApplicationCommandBuilder {
+
+    var defaultPermission: Boolean = true
 
     val options = mutableListOf<ApplicationCommandOptionData>()
 
