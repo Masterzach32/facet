@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Assertions.*
  * @author Zach Kozar
  * @version 6/15/2021
  */
-class DslTest {
+class Dsl {
 
     @Test
     fun `check dsl builder`() {

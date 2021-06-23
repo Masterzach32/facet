@@ -3,6 +3,7 @@ package io.facet.discord.appcommands
 import discord4j.common.util.*
 import discord4j.core.*
 import discord4j.core.event.domain.*
+import discord4j.discordjson.json.*
 import discord4j.rest.*
 import discord4j.rest.service.*
 import io.facet.discord.*
@@ -11,7 +12,6 @@ import io.facet.discord.extensions.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.reactive.*
 import org.slf4j.*
 import java.util.concurrent.*
 
@@ -62,12 +62,19 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
 
     suspend fun updateCommands() {
         val globalCommandNames = globalCommands.map { it.request.name() }
-        service.getGlobalApplicationCommands(applicationId).asFlow()
+        val registeredGlobalCommands: List<ApplicationCommandData> =
+            service.getGlobalApplicationCommands(applicationId).await()
+
+        registeredGlobalCommands
             .filter { it.name() !in globalCommandNames }
             .onEach { logger.info("Deleting unused application command: ${it.name()}") }
-            .collect { service.deleteGlobalApplicationCommand(applicationId, it.id().toLong()).await() }
+            .forEach { service.deleteGlobalApplicationCommand(applicationId, it.id().toLong()).await() }
 
         globalCommands.asFlow()
+            .filterNot { command ->
+                compareCommands(command.request, registeredGlobalCommands.first { it.name() == command.request.name() })
+            }
+            .onEach { logger.info("Updating global application command: ${it.request.name()}") }
             .map { it to service.createGlobalApplicationCommand(applicationId, it.request).await() }
             .collect { (command, data) ->
                 _commandMap[data.id().toSnowflake()] = command
@@ -79,6 +86,14 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
                 _commandMap[data.id().toSnowflake()] = command as ApplicationCommand<InteractionContext>
             }
     }
+
+    /**
+     * Compares the application command request with the application command data. If there is a difference, returns false.
+     */
+    private fun compareCommands(request: ApplicationCommandRequest, actual: ApplicationCommandData): Boolean =
+        request.name() == actual.name() && request.description() == actual.description() &&
+            request.defaultPermission() == actual.defaultPermission() &&
+            request.options() == actual.options()
 
     class Config {
         internal val commands = mutableSetOf<ApplicationCommand<*>>()
