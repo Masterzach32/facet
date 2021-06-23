@@ -43,6 +43,7 @@ fun <TConfiguration : Any> GatewayDiscordClient.install(
  * Installs a [Feature] into the [DiscordClient]. The feature is immediately set up, and any event
  * listeners are registered. If applicable, the feature can be configured using the config block.
  */
+@ObsoleteCoroutinesApi
 fun <TConfiguration : Any> GatewayDiscordClient.install(
     scope: CoroutineScope,
     feature: GatewayFeature<TConfiguration, *>,

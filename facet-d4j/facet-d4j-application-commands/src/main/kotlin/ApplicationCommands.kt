@@ -64,6 +64,7 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
         val globalCommandNames = globalCommands.map { it.request.name() }
         service.getGlobalApplicationCommands(applicationId).asFlow()
             .filter { it.name() !in globalCommandNames }
+            .onEach { logger.info("Deleting unused application command: ${it.name()}") }
             .collect { service.deleteGlobalApplicationCommand(applicationId, it.id().toLong()).await() }
 
         globalCommands.asFlow()
