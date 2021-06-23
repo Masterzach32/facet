@@ -72,6 +72,8 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
 
         globalCommands.asFlow()
             .filterNot { command ->
+                logger.debug(command.request.toString())
+                logger.debug(registeredGlobalCommands.first { it.name() == command.request.name() }.toString())
                 compareCommands(command.request, registeredGlobalCommands.first { it.name() == command.request.name() })
             }
             .onEach { logger.info("Updating global application command: ${it.request.name()}") }
