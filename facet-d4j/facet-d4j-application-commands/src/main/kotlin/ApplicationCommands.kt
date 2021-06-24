@@ -11,7 +11,6 @@ import io.facet.discord.event.*
 import io.facet.discord.extensions.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
-import kotlinx.coroutines.flow.*
 import org.slf4j.*
 import java.util.concurrent.*
 
@@ -65,37 +64,45 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
         val registeredGlobalCommands: List<ApplicationCommandData> =
             service.getGlobalApplicationCommands(applicationId).await()
 
+        // delete commands no longer in use
         registeredGlobalCommands
             .filter { it.name() !in globalCommandNames }
             .onEach { logger.info("Deleting unused application command: ${it.name()}") }
             .forEach { service.deleteGlobalApplicationCommand(applicationId, it.id().toLong()).await() }
 
-        globalCommands.asFlow()
-            .filterNot { command ->
-                logger.debug(command.request.toString())
-                logger.debug(registeredGlobalCommands.first { it.name() == command.request.name() }.toString())
-                compareCommands(command.request, registeredGlobalCommands.first { it.name() == command.request.name() })
-            }
-            .onEach { logger.info("Updating global application command: ${it.request.name()}") }
-            .map { it to service.createGlobalApplicationCommand(applicationId, it.request).await() }
-            .collect { (command, data) ->
-                _commandMap[data.id().toSnowflake()] = command
+        // create, update, or leave commands in use
+        globalCommands.forEach { command ->
+            val registeredCommand = registeredGlobalCommands.firstOrNull { it.name() == command.request.name() }
+            logger.debug(command.request.toString())
+            logger.debug(registeredCommand.toString())
+
+            val commandId: String = when {
+                // upsert command
+                registeredCommand == null || isUpsertRequired(command.request, registeredCommand) -> {
+                    logger.info("Pushing global application command: ${command.request.name()}")
+                    service.createGlobalApplicationCommand(applicationId, command.request).await().id()
+                }
+                // no action necessary
+                else -> registeredCommand.id()
             }
 
-        guildCommands.asFlow()
+            _commandMap[commandId.toSnowflake()] = command
+        }
+
+        guildCommands
             .map { it to service.createGuildApplicationCommand(applicationId, it.guildId.asLong(), it.request).await() }
-            .collect { (command, data) ->
+            .forEach { (command, data) ->
                 _commandMap[data.id().toSnowflake()] = command as ApplicationCommand<InteractionContext>
             }
     }
 
     /**
-     * Compares the application command request with the application command data. If there is a difference, returns false.
+     * Compares the application command request with the application command data. If there is a difference, returns true.
      */
-    private fun compareCommands(request: ApplicationCommandRequest, actual: ApplicationCommandData): Boolean =
-        request.name() == actual.name() && request.description() == actual.description() &&
+    private fun isUpsertRequired(request: ApplicationCommandRequest, actual: ApplicationCommandData): Boolean =
+        !(request.name() == actual.name() && request.description() == actual.description() &&
             request.defaultPermission() == actual.defaultPermission() &&
-            request.options() == actual.options()
+            request.options() == actual.options())
 
     class Config {
         internal val commands = mutableSetOf<ApplicationCommand<*>>()
