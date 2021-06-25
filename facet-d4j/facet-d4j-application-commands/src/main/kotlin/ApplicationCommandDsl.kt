@@ -44,14 +44,14 @@ open class ApplicationCommandBuilder {
         name: String,
         desc: String,
         type: ApplicationCommandOptionType,
-        required: Boolean? = null,
+        required: Boolean = false,
         block: OptionBuilder.() -> Unit = {}
     ) {
         val data = ApplicationCommandOptionData.builder()
 
         val builder = OptionBuilder().apply(block)
 
-        if (required != null)
+        if (required)
             data.required(required)
 
         if (builder.options.isNotEmpty())
