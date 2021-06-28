@@ -94,7 +94,7 @@ subprojects {
                 }
                 val mavenUsername = findProperty("maven_username")?.toString()
                 val mavenPassword = findProperty("maven_password")?.toString()
-                if (mavenPassword != null && mavenPassword != null) {
+                if (mavenUsername != null && mavenPassword != null) {
                     credentials {
                         username = mavenUsername
                         password = mavenPassword

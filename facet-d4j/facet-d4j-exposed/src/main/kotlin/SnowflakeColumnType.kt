@@ -1,4 +1,4 @@
-package io.facet.discord.exposed.columns
+package io.facet.discord.exposed
 
 import discord4j.common.util.*
 import io.facet.discord.extensions.*
@@ -19,6 +19,10 @@ class SnowflakeColumnType : ColumnType() {
     override fun notNullValueToDB(value: Any): Any = (value as Snowflake).asLong()
 
     override fun nonNullValueToString(value: Any): String = notNullValueToDB(value).toString()
+
+    companion object {
+        internal val INSTANCE = SnowflakeColumnType()
+    }
 }
 
 /**

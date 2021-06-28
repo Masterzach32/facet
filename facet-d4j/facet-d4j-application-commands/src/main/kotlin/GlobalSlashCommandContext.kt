@@ -3,7 +3,7 @@ package io.facet.discord.appcommands
 import discord4j.common.util.*
 import discord4j.core.`object`.entity.*
 import discord4j.core.`object`.entity.channel.*
-import discord4j.core.event.domain.*
+import discord4j.core.event.domain.interaction.*
 import io.facet.core.extensions.*
 import io.facet.discord.extensions.*
 
@@ -19,9 +19,9 @@ import io.facet.discord.extensions.*
  * @author Zach Kozar
  * @version 6/13/2021
  */
-class GlobalInteractionContext(
-    event: InteractionCreateEvent
-) : InteractionContext(event) {
+class GlobalSlashCommandContext(
+    event: SlashCommandEvent
+) : SlashCommandContext(event) {
 
     val guildId: Snowflake? = interaction.guildId.unwrap()
     val member: Member? = interaction.member.unwrap()

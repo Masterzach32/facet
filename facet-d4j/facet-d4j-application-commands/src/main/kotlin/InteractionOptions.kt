@@ -15,13 +15,16 @@ import kotlin.reflect.*
  */
 
 /**
+ * An experimental class for getting command options through property delegation.
+ *
  * @author Zach Kozar
  * @version 6/19/2021
  */
 @Experimental
 class InteractionOptions(private val commandInteraction: ApplicationCommandInteraction) {
 
-    inline operator fun <reified T> getValue(thisRef: Any?, property: KProperty<*>): T {
+    @Suppress("UNCHECKED_CAST")
+    operator fun <T> getValue(thisRef: Any?, property: KProperty<*>): T {
         val option = search(property.name) ?: error("No property by name ${property.name}.")
         val optionValue = option.value.unwrap() ?: error("${property.name} was null.")
 
@@ -36,7 +39,13 @@ class InteractionOptions(private val commandInteraction: ApplicationCommandInter
         }
     }
 
-    fun search(name: String): ApplicationCommandInteractionOption? =
+    fun <T> defaultValue(value: T) = DefaultValueOptionDelegate(value)
+
+    fun <T> nullable() = NullableOptionDelegate<T>()
+
+    operator fun contains(name: String): Boolean = search(name) != null
+
+    private fun search(name: String): ApplicationCommandInteractionOption? =
         commandInteraction.options
             .firstOrNull { it.name == name }
             ?: commandInteraction.options
@@ -49,4 +58,24 @@ class InteractionOptions(private val commandInteraction: ApplicationCommandInter
             ?: node.options
                 .mapNotNull { search(name, it) }
                 .firstOrNull()
+
+    inner class DefaultValueOptionDelegate<T>(private val value: T) {
+
+        operator fun getValue(thisRef: Any?, property: KProperty<*>): T {
+            return if (property.name !in this@InteractionOptions)
+                value
+            else
+                this@InteractionOptions.getValue(thisRef, property)
+        }
+    }
+
+    inner class NullableOptionDelegate<T> {
+
+        operator fun getValue(thisRef: Any?, property: KProperty<*>): T? {
+            return if (property.name !in this@InteractionOptions)
+                null
+            else
+                this@InteractionOptions.getValue(thisRef, property)
+        }
+    }
 }

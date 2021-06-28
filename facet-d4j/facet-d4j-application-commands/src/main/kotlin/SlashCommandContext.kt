@@ -5,7 +5,7 @@ import discord4j.common.util.*
 import discord4j.core.*
 import discord4j.core.`object`.command.*
 import discord4j.core.`object`.entity.*
-import discord4j.core.event.domain.*
+import discord4j.core.event.domain.interaction.*
 
 /*
  * facet - Created on 6/5/2021
@@ -21,11 +21,11 @@ import discord4j.core.event.domain.*
  * @author Zach Kozar
  * @version 6/5/2021
  */
-abstract class InteractionContext(
+abstract class SlashCommandContext(
     /**
      * The discord interaction event.
      */
-    val event: InteractionCreateEvent
+    val event: SlashCommandEvent
 ) {
 
     val client: GatewayDiscordClient = event.client
@@ -33,8 +33,6 @@ abstract class InteractionContext(
     val channelId: Snowflake = interaction.channelId
     val user: User = interaction.user
 
-    val command: ApplicationCommandInteraction = interaction.commandInteraction
-
     @Experimental
-    val options: InteractionOptions = InteractionOptions(command)
+    val options: InteractionOptions = InteractionOptions(interaction.commandInteraction.get())
 }

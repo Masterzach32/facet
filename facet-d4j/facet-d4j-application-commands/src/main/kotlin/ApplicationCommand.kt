@@ -16,7 +16,7 @@ import discord4j.discordjson.json.*
  * @author Zach Kozar
  * @version 6/5/2021
  */
-sealed interface ApplicationCommand<in C : InteractionContext> {
+sealed interface ApplicationCommand<in C : SlashCommandContext> {
 
     /**
      * The discord-json request body to be sent to the Discord API

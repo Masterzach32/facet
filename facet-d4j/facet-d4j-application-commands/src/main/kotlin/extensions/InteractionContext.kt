@@ -19,16 +19,16 @@ import io.facet.discord.extensions.*
  * @version 6/6/2021
  */
 
-suspend fun InteractionContext.acknowledge() = event.acknowledge().await()
+suspend fun SlashCommandContext.acknowledge() = event.acknowledge().await()
 
-suspend fun InteractionContext.acknowledgeEphemeral() = event.acknowledgeEphemeral().await()
+suspend fun SlashCommandContext.acknowledgeEphemeral() = event.acknowledgeEphemeral().await()
 
-suspend fun InteractionContext.createFollowupMessage(content: String) = event
+suspend fun SlashCommandContext.createFollowupMessage(content: String) = event
     .interactionResponse
     .createFollowupMessage(content)
     .await()
 
-suspend fun InteractionContext.createFollowupMessage(template: EmbedTemplate): MessageData {
+suspend fun SlashCommandContext.createFollowupMessage(template: EmbedTemplate): MessageData {
     val request: MultipartRequest<WebhookExecuteRequest> = MultipartRequest.ofRequest(
         WebhookExecuteRequest.builder()
             .addEmbed(template.asRequest())
