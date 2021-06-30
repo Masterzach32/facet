@@ -2,7 +2,8 @@ package io.facet.discord.appcommands
 
 import discord4j.common.util.*
 import discord4j.core.*
-import discord4j.core.event.domain.*
+import discord4j.core.event.domain.interaction.*
+import discord4j.discordjson.json.*
 import discord4j.rest.*
 import discord4j.rest.service.*
 import io.facet.discord.*
@@ -10,8 +11,6 @@ import io.facet.discord.event.*
 import io.facet.discord.extensions.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.reactive.*
 import org.slf4j.*
 import java.util.concurrent.*
 
@@ -30,26 +29,28 @@ import java.util.concurrent.*
 class ApplicationCommands(config: Config, restClient: RestClient) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
-    private val applicationService: ApplicationService = restClient.applicationService
+    private val service: ApplicationService = restClient.applicationService
     private val applicationId: Long = restClient.applicationId.block()!!
 
-    private val _commandMap = ConcurrentHashMap<Snowflake, ApplicationCommand<*>>()
+    private val _commandMap = ConcurrentHashMap<Snowflake, ApplicationCommand<SlashCommandContext>>()
 
     /**
      * Commands that have been registered with this feature.
      */
-    val commands: MutableSet<ApplicationCommand<*>> = config.commands
+    @Suppress("UNCHECKED_CAST")
+    val commands: MutableSet<ApplicationCommand<SlashCommandContext>> =
+        config.commands as MutableSet<ApplicationCommand<SlashCommandContext>>
 
     /**
-     * Lookup map for the command object given it's unique ID
+     * Lookup map for the command object given it's unique ID.
      */
-    val commandMap: Map<Snowflake, ApplicationCommand<*>>
+    val commandMap: Map<Snowflake, ApplicationCommand<SlashCommandContext>>
         get() = _commandMap
 
     /**
      * All global commands.
      */
-    val globalCommands: List<ApplicationCommand<*>>
+    val globalCommands: List<ApplicationCommand<SlashCommandContext>>
         get() = commands.filter { it is GlobalApplicationCommand || it is GlobalGuildApplicationCommand }
 
     /**
@@ -60,31 +61,48 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
 
     suspend fun updateCommands() {
         val globalCommandNames = globalCommands.map { it.request.name() }
-        applicationService.getGlobalApplicationCommands(applicationId).asFlow()
-            .collect { registeredCommand ->
-                when {
-                    registeredCommand.name() in globalCommandNames -> {}
+        val registeredGlobalCommands: List<ApplicationCommandData> =
+            service.getGlobalApplicationCommands(applicationId).await()
+
+        // delete commands no longer in use
+        registeredGlobalCommands
+            .filter { it.name() !in globalCommandNames }
+            .onEach { logger.info("Deleting unused application command: ${it.name()}") }
+            .forEach { service.deleteGlobalApplicationCommand(applicationId, it.id().toLong()).await() }
+
+        // create, update, or leave commands in use
+        globalCommands.forEach { command ->
+            val registeredCommand = registeredGlobalCommands.firstOrNull { it.name() == command.request.name() }
+            logger.debug(command.request.toString())
+            logger.debug(registeredCommand.toString())
+
+            val commandId: String = when {
+                // upsert command
+                registeredCommand == null || isUpsertRequired(command.request, registeredCommand) -> {
+                    logger.info("Pushing global application command: ${command.request.name()}")
+                    service.createGlobalApplicationCommand(applicationId, command.request).await().id()
                 }
+                // no action necessary
+                else -> registeredCommand.id()
             }
 
-        globalCommands.asFlow()
-            .onEach { logger.info("Registering command: ${it.request}") }
-            .map { it to applicationService.createGlobalApplicationCommand(applicationId, it.request).await() }
-            .onEach { (_, data) -> logger.info("Command registered, (id=${data.id()}, name=${data.name()})") }
-            .collect { (command, data) ->
-                _commandMap[data.id().toSnowflake()] = command
-            }
+            _commandMap[commandId.toSnowflake()] = command
+        }
 
-        guildCommands.asFlow()
-            .onEach { logger.info("Registering guild command: ${it.request}") }
-            .map {
-                it to applicationService.createGuildApplicationCommand(applicationId, it.guildId.asLong(), it.request).await()
-            }
-            .onEach { (_, data) -> logger.info("Command registered, (id=${data.id()}, name=${data.name()})") }
-            .collect { (command, data) ->
-                _commandMap[data.id().toSnowflake()] = command
+        guildCommands
+            .map { it to service.createGuildApplicationCommand(applicationId, it.guildId.asLong(), it.request).await() }
+            .forEach { (command, data) ->
+                _commandMap[data.id().toSnowflake()] = command as ApplicationCommand<SlashCommandContext>
             }
     }
+
+    /**
+     * Compares the application command request with the application command data. If there is a difference, returns true.
+     */
+    private fun isUpsertRequired(request: ApplicationCommandRequest, actual: ApplicationCommandData): Boolean =
+        !(request.name() == actual.name() && request.description() == actual.description() &&
+            request.defaultPermission() == actual.defaultPermission() &&
+            request.options() == actual.options())
 
     class Config {
         internal val commands = mutableSetOf<ApplicationCommand<*>>()
@@ -106,8 +124,10 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
         ): ApplicationCommands {
             val config = Config().apply(configuration)
             return ApplicationCommands(config, restClient).also { feature ->
-                actorListener<InteractionCreateEvent>(scope) {
-                    val eventsToProcess = Channel<InteractionCreateEvent>()
+                scope.launch { feature.updateCommands() }
+
+                actorListener<SlashCommandEvent>(scope) {
+                    val eventsToProcess = Channel<SlashCommandEvent>()
                     for (i in 0 until config.commandConcurrency)
                         commandWorker(feature, i, eventsToProcess)
 
@@ -120,12 +140,12 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
         private fun CoroutineScope.commandWorker(
             feature: ApplicationCommands,
             index: Int,
-            eventsToProcess: ReceiveChannel<InteractionCreateEvent>
+            eventsToProcess: ReceiveChannel<SlashCommandEvent>
         ) = launch {
             val logger = LoggerFactory.getLogger("ApplicationCommandWorker#$index")
             for (event in eventsToProcess) {
                 try {
-                    processInteraction(feature, logger, this, event)
+                    processInteraction(feature, event.commandId, logger, event)
                 } catch (e: Throwable) {
                     logger.error("Exception thrown while processing command:", e)
                 }
@@ -134,29 +154,32 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
 
         private suspend fun processInteraction(
             feature: ApplicationCommands,
+            commandId: Snowflake,
             logger: Logger,
-            scope: CoroutineScope,
-            event: InteractionCreateEvent
+            event: SlashCommandEvent
         ) {
-            feature.commandMap[event.commandId]?.also { command ->
-                if (command is PermissibleApplicationCommand && !command.hasPermission(event.interaction.user, event.interaction.guild.awaitNullable()))
-                    return event.replyEphemeral("You don't have permission to use that command in this server. Ask a " +
-                        "server admin if you think that shouldn't be the case.").await()
+            feature.commandMap[commandId]?.also { command ->
+                if (command is PermissibleApplicationCommand && !command.hasPermission(
+                        event.interaction.user,
+                        event.interaction.guild.awaitNullable()
+                    )
+                )
+                    return event.replyEphemeral(
+                        ":no_entry_sign: You don't have permission to use that command in this server."
+                    ).await()
 
-                when (command) {
-                    is GlobalApplicationCommand -> {
-                        GlobalInteractionContext(event, scope).apply { command.apply { execute() } }
-                    }
-                    is GuildApplicationCommand -> {
-                        GuildInteractionContext(event, scope).apply { command.apply { execute() } }
-                    }
+                val context: SlashCommandContext = when (command) {
+                    is GlobalApplicationCommand -> GlobalSlashCommandContext(event)
+                    is GuildApplicationCommand -> GuildSlashCommandContext(event)
                     is GlobalGuildApplicationCommand -> {
                         if (event.interaction.guildId.isPresent)
-                            GuildInteractionContext(event, scope).apply { command.apply { execute() } }
+                            GuildSlashCommandContext(event)
                         else
-                            return event.reply("This command is not usable within DMs.").await()
+                            return event.replyEphemeral("This command is not usable within DMs.").await()
                     }
                 }
+
+                command.run { context.execute() }
             } ?: logger.warn("Could not find command with ID ${event.commandId}, name ${event.commandName}.")
         }
     }

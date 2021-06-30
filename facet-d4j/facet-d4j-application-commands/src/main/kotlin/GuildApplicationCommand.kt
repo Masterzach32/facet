@@ -16,7 +16,7 @@ import discord4j.common.util.*
  * @author Zach Kozar
  * @version 6/13/2021
  */
-interface GuildApplicationCommand : ApplicationCommand<GuildInteractionContext> {
+interface GuildApplicationCommand : ApplicationCommand<GuildSlashCommandContext> {
 
     /**
      * The id of the guild that this command is available in.

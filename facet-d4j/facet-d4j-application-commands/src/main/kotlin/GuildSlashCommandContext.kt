@@ -3,9 +3,8 @@ package io.facet.discord.appcommands
 import discord4j.common.util.*
 import discord4j.core.`object`.entity.*
 import discord4j.core.`object`.entity.channel.*
-import discord4j.core.event.domain.*
+import discord4j.core.event.domain.interaction.*
 import io.facet.discord.extensions.*
-import kotlinx.coroutines.*
 
 /*
  * facet - Created on 6/13/2021
@@ -19,10 +18,9 @@ import kotlinx.coroutines.*
  * @author Zach Kozar
  * @version 6/13/2021
  */
-class GuildInteractionContext(
-    event: InteractionCreateEvent,
-    workerScope: CoroutineScope
-) : InteractionContext(event, workerScope) {
+class GuildSlashCommandContext(
+    event: SlashCommandEvent
+) : SlashCommandContext(event) {
 
     val guildId: Snowflake = interaction.guildId.get()
     val member: Member = interaction.member.get()

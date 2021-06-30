@@ -5,6 +5,7 @@ val reactor_kotlin_extensions: String by project
 
 allprojects {
     repositories {
+        //maven("https://maven.masterzach32.net/artifactory/snapshots/")
         maven("https://oss.sonatype.org/content/repositories/snapshots")
         maven("https://repo.spring.io/milestone")
     }

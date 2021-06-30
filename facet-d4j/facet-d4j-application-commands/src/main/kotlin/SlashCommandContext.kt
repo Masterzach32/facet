@@ -1,14 +1,11 @@
 package io.facet.discord.appcommands
 
+import discord4j.common.annotations.*
 import discord4j.common.util.*
 import discord4j.core.*
 import discord4j.core.`object`.command.*
 import discord4j.core.`object`.entity.*
-import discord4j.core.`object`.entity.channel.*
-import discord4j.core.event.domain.*
-import io.facet.core.extensions.*
-import io.facet.discord.extensions.*
-import kotlinx.coroutines.*
+import discord4j.core.event.domain.interaction.*
 
 /*
  * facet - Created on 6/5/2021
@@ -24,21 +21,18 @@ import kotlinx.coroutines.*
  * @author Zach Kozar
  * @version 6/5/2021
  */
-abstract class InteractionContext(
+abstract class SlashCommandContext(
     /**
      * The discord interaction event.
      */
-    val event: InteractionCreateEvent,
-    /**
-     * The [CoroutineScope] of the command worker coroutine that is processing this command.
-     */
-    @Deprecated("If you need access to a CoroutineScope, use the coroutineScope {} builder.")
-    val workerScope: CoroutineScope
+    val event: SlashCommandEvent
 ) {
 
     val client: GatewayDiscordClient = event.client
     val interaction: Interaction = event.interaction
+    val channelId: Snowflake = interaction.channelId
     val user: User = interaction.user
 
-    val command: ApplicationCommandInteraction = interaction.commandInteraction
+    @Experimental
+    val options: InteractionOptions = InteractionOptions(interaction.commandInteraction.get())
 }

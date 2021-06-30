@@ -35,6 +35,8 @@ subprojects {
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version")
 
         testImplementation("ch.qos.logback:logback-classic:$logback_version")
+        testImplementation(platform("org.junit:junit-bom:5.7.2"))
+        testImplementation("org.junit.jupiter:junit-jupiter")
     }
 
     tasks {
@@ -42,11 +44,18 @@ subprojects {
         val compileTestKotlin by existing(KotlinCompile::class)
 
         compileKotlin {
-            kotlinOptions.jvmTarget = "11"
+            kotlinOptions.jvmTarget = "1.8"
         }
 
         compileTestKotlin {
-            kotlinOptions.jvmTarget = "11"
+            kotlinOptions.jvmTarget = "1.8"
+        }
+
+        test {
+            useJUnitPlatform()
+            testLogging {
+                events("passed", "skipped", "failed")
+            }
         }
     }
 
@@ -71,26 +80,24 @@ subprojects {
                         fromResolutionResult()
                     }
                 }
-
-                pom {  }
             }
         }
 
         repositories {
-            if (project.hasProperty("maven_username")) {
-                val maven_username: String by project
-                val maven_password: String by project
-                maven {
-                    if (isRelease) {
-                        name = "Release"
-                        url = uri("https://maven.masterzach32.net/artifactory/release/")
-                    } else {
-                        name = "Dev"
-                        url = uri("https://maven.masterzach32.net/artifactory/dev/")
-                    }
+            maven {
+                if (isRelease) {
+                    name = "Releases"
+                    url = uri("https://maven.masterzach32.net/artifactory/facet-releases/")
+                } else {
+                    name = "Snapshots"
+                    url = uri("https://maven.masterzach32.net/artifactory/facet-snapshots/")
+                }
+                val mavenUsername = findProperty("maven_username")?.toString()
+                val mavenPassword = findProperty("maven_password")?.toString()
+                if (mavenUsername != null && mavenPassword != null) {
                     credentials {
-                        username = maven_username
-                        password = maven_password
+                        username = mavenUsername
+                        password = mavenPassword
                     }
                 }
             }

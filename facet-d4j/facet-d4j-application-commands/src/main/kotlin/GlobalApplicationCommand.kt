@@ -14,4 +14,4 @@ package io.facet.discord.appcommands
  * @author Zach Kozar
  * @version 6/13/2021
  */
-interface GlobalApplicationCommand : ApplicationCommand<GlobalInteractionContext>
+interface GlobalApplicationCommand : ApplicationCommand<GlobalSlashCommandContext>

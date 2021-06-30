@@ -1,7 +1,6 @@
-package io.facet.discord.exposed.dao
+package io.facet.discord.exposed
 
 import discord4j.common.util.*
-import io.facet.discord.exposed.columns.*
 import org.jetbrains.exposed.dao.id.*
 import org.jetbrains.exposed.sql.*
 
