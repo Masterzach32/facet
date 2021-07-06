@@ -12,15 +12,15 @@ import reactor.core.publisher.*
  * Configures the event dispatcher before any events can be received.
  */
 @Deprecated("Use withPlugins()", ReplaceWith("withPlugins(configureBlock)"))
-inline fun GatewayBootstrap<GatewayOptions>.withFeatures(
-    crossinline configureBlock: suspend EventDispatcher.(CoroutineScope) -> Unit
+fun GatewayBootstrap<GatewayOptions>.withFeatures(
+    configureBlock: suspend EventDispatcher.(CoroutineScope) -> Unit
 ): GatewayBootstrap<GatewayOptions> = withPlugins(configureBlock)
 
 /**
  * Configures the event dispatcher before any events can be received.
  */
-inline fun GatewayBootstrap<GatewayOptions>.withPlugins(
-    crossinline configureBlock: suspend EventDispatcher.(CoroutineScope) -> Unit
+fun GatewayBootstrap<GatewayOptions>.withPlugins(
+    configureBlock: suspend EventDispatcher.(CoroutineScope) -> Unit
 ): GatewayBootstrap<GatewayOptions> = withEventDispatcher { dispatcher ->
     mono {
         configureBlock(dispatcher, this)
@@ -31,8 +31,8 @@ inline fun GatewayBootstrap<GatewayOptions>.withPlugins(
  * Configures the gateway client.
  */
 @Deprecated("")
-inline fun GatewayBootstrap<GatewayOptions>.withFeatures(
-    crossinline configureBlock: suspend GatewayDiscordClient.() -> Unit
+fun GatewayBootstrap<GatewayOptions>.withFeatures(
+    configureBlock: suspend GatewayDiscordClient.() -> Unit
 ): Mono<Void> = withGateway { gateway ->
     mono {
         configureBlock(gateway)
@@ -42,8 +42,8 @@ inline fun GatewayBootstrap<GatewayOptions>.withFeatures(
 /**
  * Configures the gateway client.
  */
-inline fun GatewayBootstrap<GatewayOptions>.withFeatures(
-    crossinline configureBlock: suspend GatewayDiscordClient.(CoroutineScope) -> Unit
+fun GatewayBootstrap<GatewayOptions>.withPlugins(
+    configureBlock: suspend GatewayDiscordClient.(CoroutineScope) -> Unit
 ): Mono<Void> = withGateway { gateway ->
     mono {
         configureBlock(gateway, this)

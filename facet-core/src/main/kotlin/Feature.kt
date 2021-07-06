@@ -24,5 +24,5 @@ abstract class Feature<in TApplication, out TConfiguration : Any, TFeature : Any
     /**
      * Feature installation script
      */
-    abstract fun TApplication.install(scope: CoroutineScope, configuration: TConfiguration.() -> Unit): TFeature
+    abstract suspend fun TApplication.install(scope: CoroutineScope, configuration: TConfiguration.() -> Unit): TFeature
 }

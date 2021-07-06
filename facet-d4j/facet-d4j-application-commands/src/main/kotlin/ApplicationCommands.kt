@@ -118,7 +118,7 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
 
     companion object : GatewayFeature<Config, ApplicationCommands>("applicationCommands") {
 
-        override fun GatewayDiscordClient.install(
+        override suspend fun GatewayDiscordClient.install(
             scope: CoroutineScope,
             configuration: Config.() -> Unit
         ): ApplicationCommands {

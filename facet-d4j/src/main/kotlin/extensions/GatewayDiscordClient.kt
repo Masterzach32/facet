@@ -31,7 +31,7 @@ fun <TFeature : Any> GatewayDiscordClient.feature(
  * listeners are registered. If applicable, the feature can be configured using the config block.
  */
 @Deprecated("Use install with CoroutineScope parameter.")
-fun <TConfiguration : Any> GatewayDiscordClient.install(
+suspend fun <TConfiguration : Any> GatewayDiscordClient.install(
     feature: GatewayFeature<TConfiguration, *>,
     config: TConfiguration.() -> Unit = {}
 ) {
@@ -44,7 +44,7 @@ fun <TConfiguration : Any> GatewayDiscordClient.install(
  * listeners are registered. If applicable, the feature can be configured using the config block.
  */
 @ObsoleteCoroutinesApi
-fun <TConfiguration : Any> GatewayDiscordClient.install(
+suspend fun <TConfiguration : Any> GatewayDiscordClient.install(
     scope: CoroutineScope,
     feature: GatewayFeature<TConfiguration, *>,
     config: TConfiguration.() -> Unit = {}

@@ -41,7 +41,7 @@ class MessageBuilder(
         set(value) = spec.setMessageReference(value).let { field = value }
 
     fun embed(dsl: EmbedBuilder.() -> Unit) {
-        spec.setEmbed(io.facet.discord.dsl.embed(dsl))
+        spec.addEmbed(io.facet.discord.dsl.embed(dsl))
     }
 
     fun file(fileName: String, file: InputStream, spoiler: Boolean = false) {

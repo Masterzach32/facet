@@ -1,7 +1,6 @@
 package io.facet.discord.appcommands.extensions
 
 import discord4j.discordjson.json.*
-import discord4j.rest.util.*
 import io.facet.discord.appcommands.*
 import io.facet.discord.dsl.*
 import io.facet.discord.extensions.*
@@ -23,17 +22,13 @@ suspend fun SlashCommandContext.acknowledge() = event.acknowledge().await()
 
 suspend fun SlashCommandContext.acknowledgeEphemeral() = event.acknowledgeEphemeral().await()
 
+@Deprecated("")
 suspend fun SlashCommandContext.createFollowupMessage(content: String) = event
     .interactionResponse
     .createFollowupMessage(content)
     .await()
 
+@Deprecated("")
 suspend fun SlashCommandContext.createFollowupMessage(template: EmbedTemplate): MessageData {
-    val request: MultipartRequest<WebhookExecuteRequest> = MultipartRequest.ofRequest(
-        WebhookExecuteRequest.builder()
-            .addEmbed(template.asRequest())
-            .build()
-    )
-
-    return event.interactionResponse.createFollowupMessage(request).await()
+    return event.interactionResponse.createFollowupMessage(template.asMultipartRequest()).await()
 }

@@ -33,7 +33,7 @@ fun <TFeature : Any> EventDispatcher.feature(
  * listeners are registered. If applicable, the feature can be configured using the config block.
  */
 @Deprecated("Use install with CoroutineScope parameter.")
-fun <TConfiguration : Any> EventDispatcher.install(
+suspend fun <TConfiguration : Any> EventDispatcher.install(
     feature: EventDispatcherFeature<TConfiguration, *>,
     config: TConfiguration.() -> Unit = {}
 ) {
@@ -46,7 +46,7 @@ fun <TConfiguration : Any> EventDispatcher.install(
  * listeners are registered. If applicable, the feature can be configured using the config block.
  */
 @ObsoleteCoroutinesApi
-fun <TConfiguration : Any> EventDispatcher.install(
+suspend fun <TConfiguration : Any> EventDispatcher.install(
     scope: CoroutineScope,
     feature: EventDispatcherFeature<TConfiguration, *>,
     config: TConfiguration.() -> Unit = {}

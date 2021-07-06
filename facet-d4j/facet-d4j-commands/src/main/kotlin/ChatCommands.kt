@@ -104,7 +104,7 @@ class ChatCommands(config: Config) {
      */
     companion object : EventDispatcherFeature<Config, ChatCommands>("commands") {
 
-        override fun EventDispatcher.install(scope: CoroutineScope, configuration: Config.() -> Unit): ChatCommands {
+        override suspend fun EventDispatcher.install(scope: CoroutineScope, configuration: Config.() -> Unit): ChatCommands {
             val config = Config().apply(configuration)
             return ChatCommands(config).also { feature ->
                 actorListener<MessageCreateEvent>(scope) {
