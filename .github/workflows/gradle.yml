@@ -42,6 +42,32 @@ jobs:
           java-version: ${{ matrix.java }}
       - name: Build Project
         run: ./gradlew build
+  docs:
+    name: Generate and Publish Docs
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 16
+      - name: Generate Docs
+        run: ./gradlew docs
+      - name: Publish Docs
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/docs
   publish:
     name: Publish artifacts
     runs-on: ubuntu-latest

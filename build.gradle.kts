@@ -6,7 +6,7 @@ val kotlinx_coroutines_version: String by project
 
 plugins {
     kotlin("jvm") version "1.5.10" apply false
-    id("org.jetbrains.dokka") version "1.4.32"
+    id("org.jetbrains.dokka") version "1.5.0"
     id("net.researchgate.release") version "2.8.1"
     `java-library`
     `maven-publish`
@@ -106,7 +106,12 @@ subprojects {
 
 tasks {
     dokkaHtmlMultiModule {
-        outputDirectory.set(buildDir.resolve("dokka"))
+        outputDirectory.set(buildDir.resolve("docs"))
+    }
+
+    val docs by creating {
+        dependsOn(dokkaHtmlMultiModule)
+        group = "documentation"
     }
 }
 
