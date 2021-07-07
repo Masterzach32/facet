@@ -70,15 +70,15 @@ subprojects {
                 artifactId = project.name
                 version = project.version.toString()
                 from(components["java"])
-                versionMapping {
-                    usage("java-api") {
-                        fromResolutionOf("runtimeClasspath")
-                    }
-
-                    usage("java-runtime") {
-                        fromResolutionResult()
-                    }
-                }
+//                versionMapping {
+//                    usage("java-api") {
+//                        fromResolutionOf("runtimeClasspath")
+//                    }
+//
+//                    usage("java-runtime") {
+//                        fromResolutionResult()
+//                    }
+//                }
             }
         }
 

@@ -6,6 +6,8 @@ Facet is a library to make writing Discord bots easier. Features include:
 * DSL syntax for commands, messages, and bot setup.
 * Many useful extension functions for Discord4J objects.
 
+View the [KDocs](https://masterzach32.github.io/facet)
+
 **This documentation is a WIP**
 
 ## Setup
