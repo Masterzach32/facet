@@ -59,9 +59,9 @@ subprojects {
         }
     }
 
-    java {
-        withSourcesJar()
-        withJavadocJar()
+    val sourcesJar by tasks.registering(Jar::class) {
+        archiveClassifier.set("sources")
+        from((project.the<SourceSetContainer>()["main"] as SourceSet).allSource)
     }
 
     publishing {
@@ -69,7 +69,8 @@ subprojects {
             create<MavenPublication>("facet") {
                 artifactId = project.name
                 version = project.version.toString()
-                from(components["java"])
+                from(components["kotlin"])
+                artifact(sourcesJar.get())
 //                versionMapping {
 //                    usage("java-api") {
 //                        fromResolutionOf("runtimeClasspath")
