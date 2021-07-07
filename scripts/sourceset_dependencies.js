@@ -1,0 +1,1 @@
+sourceset_dependencies = '{":facet-core:dokkaHtmlPartial/main":[],":facet-d4j:facet-d4j-application-commands:dokkaHtmlPartial/main":[],":facet-d4j:facet-d4j-lavaplayer-extensions:dokkaHtmlPartial/main":[],":facet-d4j:dokkaHtmlPartial/main":[],":facet-d4j:facet-d4j-exposed:dokkaHtmlPartial/main":[],":facet-d4j:facet-d4j-commands:dokkaHtmlPartial/main":[]}'

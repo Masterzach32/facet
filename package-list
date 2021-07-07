@@ -1,0 +1,28 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:////PointingToDeclaration/facet-d4j-lavaplayer-extensions/[root]/index.html
+$dokka.location:/FlowEventAdapter///PointingToDeclaration/facet-d4j-lavaplayer-extensions/[root]/-flow-event-adapter/index.html
+$dokka.location:/FlowEventAdapter/FlowEventAdapter/#/PointingToDeclaration/facet-d4j-lavaplayer-extensions/[root]/-flow-event-adapter/-flow-event-adapter.html
+$dokka.location:/FlowEventAdapter/eventFlow/#/PointingToDeclaration/facet-d4j-lavaplayer-extensions/[root]/-flow-event-adapter/event-flow.html
+$dokka.location:/FlowEventAdapter/of/#/PointingToDeclaration/facet-d4j-lavaplayer-extensions/[root]/-flow-event-adapter/of.html
+$dokka.location:/FlowEventAdapter/onEvent/#com.sedmelluq.discord.lavaplayer.player.event.AudioEvent/PointingToDeclaration/facet-d4j-lavaplayer-extensions/[root]/-flow-event-adapter/on-event.html
+module:facet-core
+io.facet.core
+io.facet.core.extensions
+io.facet.core.util
+module:facet-d4j
+io.facet.discord
+io.facet.discord.dsl
+io.facet.discord.event
+io.facet.discord.extensions
+module:facet-d4j-application-commands
+io.facet.discord.appcommands
+io.facet.discord.appcommands.extensions
+module:facet-d4j-commands
+io.facet.discord.commands
+io.facet.discord.commands.arguments
+io.facet.discord.commands.dsl
+io.facet.discord.commands.events
+io.facet.discord.commands.extensions
+module:facet-d4j-exposed
+io.facet.discord.exposed
