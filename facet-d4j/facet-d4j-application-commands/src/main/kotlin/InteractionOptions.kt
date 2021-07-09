@@ -62,20 +62,20 @@ class InteractionOptions(private val commandInteraction: ApplicationCommandInter
     inner class DefaultValueOptionDelegate<T>(private val value: T) {
 
         operator fun getValue(thisRef: Any?, property: KProperty<*>): T {
-            return if (property.name !in this@InteractionOptions)
-                value
-            else
+            return if (property.name in this@InteractionOptions)
                 this@InteractionOptions.getValue(thisRef, property)
+            else
+                value
         }
     }
 
     inner class NullableOptionDelegate<T> {
 
         operator fun getValue(thisRef: Any?, property: KProperty<*>): T? {
-            return if (property.name !in this@InteractionOptions)
-                null
-            else
+            return if (property.name in this@InteractionOptions)
                 this@InteractionOptions.getValue(thisRef, property)
+            else
+                null
         }
     }
 }
