@@ -2,6 +2,7 @@ package io.facet.discord.extensions
 
 import discord4j.core.`object`.entity.*
 import discord4j.core.`object`.entity.channel.*
+import discord4j.core.spec.*
 import io.facet.discord.dsl.*
 
 /**
@@ -10,29 +11,29 @@ import io.facet.discord.dsl.*
 suspend fun MessageChannel.sendMessage(content: String): Message = createMessage(content).await()
 
 /**
- * Builds a [MessageTemplate] and sends it in the specified channel.
+ * Builds a [MessageCreateSpec] and sends it in the specified channel.
  */
 suspend fun MessageChannel.sendMessage(
     block: MessageBuilder.() -> Unit
 ): Message = createMessage(message(block)).await()
 
 /**
- * Sends a message in the specified channel based on the [MessageTemplate].
+ * Sends a message in the specified channel based on the [MessageCreateSpec].
  */
 suspend fun MessageChannel.sendMessage(
-    template: MessageTemplate
+    template: MessageCreateSpec
 ): Message = createMessage(template).await()
 
 /**
- * Builds an [EmbedTemplate] and sends it in the specified channel.
+ * Builds an [EmbedCreateSpec] and sends it in the specified channel.
  */
 suspend fun MessageChannel.sendEmbed(
     block: EmbedBuilder.() -> Unit
 ): Message = createEmbed(embed(block)).await()
 
 /**
- * Sends an embed in the specified channel based on the [EmbedTemplate].
+ * Sends an embed in the specified channel based on the [EmbedCreateSpec].
  */
 suspend fun MessageChannel.sendEmbed(
-    template: EmbedTemplate
-): Message = createEmbed(template).await()
+    spec: EmbedCreateSpec
+): Message = createEmbed(spec).await()

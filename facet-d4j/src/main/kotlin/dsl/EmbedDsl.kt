@@ -1,55 +1,75 @@
 package io.facet.discord.dsl
 
+import discord4j.common.annotations.*
 import discord4j.core.spec.*
 import discord4j.rest.util.*
 import java.time.*
 
 /**
- * Creates a new [EmbedTemplate] using an [EmbedBuilder].
+ * Creates a new [EmbedCreateSpec] using an [EmbedBuilder].
  */
-fun embed(buildBlock: EmbedBuilder.() -> Unit): EmbedTemplate = EmbedTemplate(buildBlock)
+fun embed(buildBlock: EmbedBuilder.() -> Unit): EmbedCreateSpec = EmbedBuilder().apply(buildBlock).build()
 
-class EmbedTemplate(
-    private val template: EmbedBuilder.() -> Unit
-) : Template<EmbedCreateSpec> {
+/**
+ * Edit an [EmbedCreateSpec] using an [EmbedBuilder]
+ */
+@Experimental
+@Deprecated("", ReplaceWith("and(buildBlock)"))
+fun EmbedCreateSpec.andThen(buildBlock: EmbedBuilder.() -> Unit): EmbedCreateSpec = and(buildBlock)
 
-    override fun accept(spec: EmbedCreateSpec) = EmbedBuilder(spec).run(template)
-
-    override fun invoke(spec: EmbedCreateSpec) = accept(spec)
-
-    fun andThen(buildBlock: EmbedBuilder.() -> Unit): EmbedTemplate = embed {
-        template()
-        buildBlock()
-    }
-}
+/**
+ * Edit an [EmbedCreateSpec] using an [EmbedBuilder]
+ */
+@Experimental
+fun EmbedCreateSpec.and(buildBlock: EmbedBuilder.() -> Unit): EmbedCreateSpec =
+    EmbedBuilder(this).apply(buildBlock).build()
 
 class EmbedBuilder internal constructor(
-    override val spec: EmbedCreateSpec
-) : TemplateBuilder<EmbedCreateSpec> {
+    private val builder: EmbedCreateSpec.Builder = EmbedCreateSpec.builder()
+) : SpecBuilder<EmbedCreateSpec> {
 
-    var title: String = ""
-        set(value) = spec.setTitle(value).let { field = value }
+    internal constructor(spec: EmbedCreateSpec) : this(EmbedCreateSpec.builder().from(spec))
 
-    var description: String = ""
-        set(value) = spec.setDescription(value).let { field = value }
+    var title: String
+        get() = build().title().get()
+        set(value) = builder.title(value).let {}
 
-    var url: String = ""
-        set(value) = spec.setUrl(value).let { field = value }
+    var description: String
+        get() = build().description().get()
+        set(value) = builder.description(value).let {}
 
-    var timestamp: Instant = Instant.EPOCH
-        set(value) = spec.setTimestamp(value).let { field = value }
+    var url: String
+        get() = build().url().get()
+        set(value) = builder.url(value).let {}
 
-    var color: Color = Color.WHITE
-        set(value) = spec.setColor(value).let { field = value }
+    var timestamp: Instant
+        get() = build().timestamp().get()
+        set(value) = builder.timestamp(value).let {}
 
-    var imageUrl: String = ""
-        set(value) = spec.setImage(value).let { field = value }
+    var color: Color
+        get() = build().color().get()
+        set(value) = builder.color(value).let {}
 
-    var thumbnailUrl: String = ""
-        set(value) = spec.setThumbnail(value).let { field = value }
+    @Deprecated("Use \"image\"")
+    var imageUrl: String
+        get() = image
+        set(value) = let { image = value }
+
+    var image: String
+        get() = build().image().get()
+        set(value) = builder.image(value).let {}
+
+    @Deprecated("Use \"thumbnail\"")
+    var thumbnailUrl: String
+        get() = thumbnail
+        set(value) = let { thumbnail = value }
+
+    var thumbnail: String
+        get() = build().thumbnail().get()
+        set(value) = builder.thumbnail(value).let {}
 
     fun footer(text: String, icon: String? = null) {
-        spec.setFooter(text, icon)
+        builder.footer(EmbedCreateFields.Footer.of(text, icon))
     }
 
     fun footer(footerSpec: EmbedFooter.() -> Unit) {
@@ -59,7 +79,7 @@ class EmbedBuilder internal constructor(
     }
 
     fun author(name: String, url: String? = null, iconUrl: String? = null) {
-        spec.setAuthor(name, url, iconUrl)
+        builder.author(EmbedCreateFields.Author.of(name, url, iconUrl))
     }
 
     fun author(authorSpec: EmbedAuthor.() -> Unit) {
@@ -69,7 +89,7 @@ class EmbedBuilder internal constructor(
     }
 
     fun field(name: String, value: String, inline: Boolean = false) {
-        spec.addField(name, value, inline)
+        builder.addField(EmbedCreateFields.Field.of(name, value, inline))
     }
 
     fun field(fieldSpec: EmbedField.() -> Unit) {
@@ -77,6 +97,8 @@ class EmbedBuilder internal constructor(
             field(name, value, inline)
         }
     }
+
+    override fun build(): EmbedCreateSpec = builder.build()
 
     class EmbedAuthor internal constructor() {
         lateinit var name: String

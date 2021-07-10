@@ -97,7 +97,8 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
     }
 
     /**
-     * Compares the application command request with the application command data. If there is a difference, returns true.
+     * Compares the application command request with the application command data.
+     * If there is a difference, returns true.
      */
     private fun isUpsertRequired(request: ApplicationCommandRequest, actual: ApplicationCommandData): Boolean =
         !(request.name() == actual.name() && request.description() == actual.description() &&
@@ -164,9 +165,9 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
                         event.interaction.guild.awaitNullable()
                     )
                 )
-                    return event.replyEphemeral(
-                        ":no_entry_sign: You don't have permission to use that command in this server."
-                    ).await()
+                    return event.reply(":no_entry_sign: You don't have permission to use that command in this server.")
+                        .withEphemeral(true)
+                        .await()
 
                 val context: SlashCommandContext = when (command) {
                     is GlobalApplicationCommand -> GlobalSlashCommandContext(event)
@@ -175,7 +176,7 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
                         if (event.interaction.guildId.isPresent)
                             GuildSlashCommandContext(event)
                         else
-                            return event.replyEphemeral("This command is not usable within DMs.").await()
+                            return event.reply("This command is not usable within DMs.").withEphemeral(true).await()
                     }
                 }
 

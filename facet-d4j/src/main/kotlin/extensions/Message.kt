@@ -3,7 +3,7 @@ package io.facet.discord.extensions
 import discord4j.core.`object`.entity.*
 import discord4j.core.`object`.reaction.*
 import discord4j.core.event.domain.message.*
-import discord4j.rest.util.*
+import discord4j.core.spec.*
 import io.facet.core.extensions.*
 import io.facet.discord.dsl.*
 import kotlinx.coroutines.flow.*
@@ -44,21 +44,21 @@ suspend fun Message.reply(
 })
 
 /**
- * Sends a [Message] as a reply to the receiver, building the message from the specified [MessageTemplate].
+ * Sends a [Message] as a reply to the receiver, building the message from the specified [MessageCreateSpec].
  */
 suspend fun Message.reply(
-    template: MessageTemplate
-) = channel.await().sendMessage(template.andThen {
+    spec: MessageCreateSpec
+) = channel.await().sendMessage(spec.and {
     messageReference = this@reply.id
 })
 
 /**
- * Sends a [Message] with an embed as a reply to the receiver, building the embed from the specified [EmbedTemplate].
+ * Sends a [Message] with an embed as a reply to the receiver, building the embed from the specified [EmbedCreateSpec].
  */
 suspend fun Message.reply(
-    template: EmbedTemplate
-) = replyEmbed {
-    template(spec)
+    spec: EmbedCreateSpec
+) = reply {
+    embed(spec)
 }
 
 /**
@@ -86,12 +86,6 @@ suspend fun Message.replyEmbed(
         repliedUser = mention
     }
 }
-
-/**
- * Sends a [Message] with an embed as a reply to the receiver, building the embed from the specified [EmbedTemplate].
- */
-@Deprecated("Use reply", ReplaceWith("reply(template)"))
-suspend fun Message.replyEmbed(template: EmbedTemplate) = reply(template)
 
 val Message.reactionAddEvents: Flow<ReactionAddEvent>
     get() = client.flowOf<ReactionAddEvent>()

@@ -1,10 +1,8 @@
 package io.facet.discord.dsl
 
-import java.util.function.*
+import discord4j.core.spec.*
 
-interface Template<Spec> : Consumer<Spec>, (Spec) -> Unit
+interface SpecBuilder<out S : Spec<*>> {
 
-interface TemplateBuilder<Spec> {
-
-    val spec: Spec
+    fun build(): S
 }

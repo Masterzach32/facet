@@ -1,5 +1,6 @@
 package io.facet.discord.appcommands.extensions
 
+import discord4j.core.spec.*
 import discord4j.discordjson.json.*
 import io.facet.discord.appcommands.*
 import io.facet.discord.dsl.*
@@ -29,6 +30,11 @@ suspend fun SlashCommandContext.createFollowupMessage(content: String) = event
     .await()
 
 @Deprecated("")
-suspend fun SlashCommandContext.createFollowupMessage(template: EmbedTemplate): MessageData {
+suspend fun SlashCommandContext.createFollowupMessage(template: EmbedCreateSpec): MessageData {
     return event.interactionResponse.createFollowupMessage(template.asMultipartRequest()).await()
+}
+
+@Deprecated("")
+suspend fun SlashCommandContext.createFollowupMessage(buildBlock: EmbedBuilder.() -> Unit): MessageData {
+    return event.interactionResponse.createFollowupMessage(embed(buildBlock).asMultipartRequest()).await()
 }

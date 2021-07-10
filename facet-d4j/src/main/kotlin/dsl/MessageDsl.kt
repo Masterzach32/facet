@@ -1,6 +1,8 @@
 package io.facet.discord.dsl
 
+import discord4j.common.annotations.*
 import discord4j.common.util.*
+import discord4j.core.`object`.component.*
 import discord4j.core.spec.*
 import discord4j.rest.util.*
 import java.io.*
@@ -8,52 +10,73 @@ import java.io.*
 /**
  * Creates a new [MessageTemplate] using a [MessageBuilder].
  */
-fun message(block: MessageBuilder.() -> Unit): MessageTemplate = MessageTemplate(block)
+fun message(buildBlock: MessageBuilder.() -> Unit): MessageCreateSpec = MessageBuilder().apply(buildBlock).build()
 
-class MessageTemplate(
-    private val template: MessageBuilder.() -> Unit
-) : Template<MessageCreateSpec> {
+/**
+ * Edit an [EmbedCreateSpec] using an [EmbedBuilder]
+ */
+@Experimental
+@Deprecated("", ReplaceWith("and(buildBlock)"))
+fun MessageCreateSpec.andThen(buildBlock: MessageBuilder.() -> Unit): MessageCreateSpec = and(buildBlock)
 
-    override fun accept(spec: MessageCreateSpec) = MessageBuilder(spec).run(template)
+/**
+ * Edit an [EmbedCreateSpec] using an [EmbedBuilder]
+ */
+@Experimental
+fun MessageCreateSpec.and(buildBlock: MessageBuilder.() -> Unit): MessageCreateSpec =
+    MessageBuilder(this).apply(buildBlock).build()
 
-    override fun invoke(spec: MessageCreateSpec) = accept(spec)
 
-    fun andThen(spec: MessageBuilder.() -> Unit): MessageTemplate = message {
-        template()
-        spec()
+class MessageBuilder internal constructor(
+    private val builder: MessageCreateSpec.Builder = MessageCreateSpec.builder()
+) : SpecBuilder<MessageCreateSpec> {
+
+    internal constructor(spec: MessageCreateSpec) : this(MessageCreateSpec.builder().from(spec))
+
+    var content: String
+        get() = build().content().get()
+        set(value) = builder.content(value).let {}
+
+    var nonce: String
+        get() = build().nonce().get()
+        set(value) = builder.nonce(value).let {}
+
+    var tts: Boolean
+        get() = build().tts().get()
+        set(value) = builder.tts(value).let {}
+
+    var messageReference: Snowflake
+        get() = build().messageReference().get()
+        set(value) = builder.messageReference(value).let {}
+
+    fun component(component: LayoutComponent) {
+        builder.addComponent(component)
     }
-}
 
-class MessageBuilder(
-    override val spec: MessageCreateSpec = MessageCreateSpec()
-) : TemplateBuilder<MessageCreateSpec> {
+    fun actionRow(vararg components: ActionComponent) {
+        builder.addComponent(ActionRow.of(*components))
+    }
 
-    var content: String = ""
-        set(value) = spec.setContent(value).let { field = value }
-
-    var nonce: Snowflake = Snowflake.of(Snowflake.DISCORD_EPOCH)
-        set(value) = spec.setNonce(value).let { field = value }
-
-    var tts: Boolean = false
-        set(value) = spec.setTts(value).let { field = value }
-
-    var messageReference: Snowflake? = null
-        set(value) = spec.setMessageReference(value).let { field = value }
+    fun embed(spec: EmbedCreateSpec) {
+        builder.addEmbed(spec)
+    }
 
     fun embed(dsl: EmbedBuilder.() -> Unit) {
-        spec.addEmbed(io.facet.discord.dsl.embed(dsl))
+        builder.addEmbed(io.facet.discord.dsl.embed(dsl))
     }
 
     fun file(fileName: String, file: InputStream, spoiler: Boolean = false) {
         if (spoiler)
-            spec.addFileSpoiler(fileName, file)
+            builder.addFileSpoiler(MessageCreateFields.FileSpoiler.of(fileName, file))
         else
-            spec.addFile(fileName, file)
+            builder.addFile(MessageCreateFields.File.of(fileName, file))
     }
 
-    inline fun allowedMentions(dsl: AllowedMentionsBuilderDsl.() -> Unit) {
-        spec.setAllowedMentions(AllowedMentionsBuilderDsl(AllowedMentions.builder()).apply(dsl).build())
+    fun allowedMentions(dsl: AllowedMentionsBuilderDsl.() -> Unit) {
+        builder.allowedMentions(AllowedMentionsBuilderDsl(AllowedMentions.builder()).apply(dsl).build())
     }
+
+    override fun build(): MessageCreateSpec = builder.build()
 }
 
 class AllowedMentionsBuilderDsl(private val builder: AllowedMentions.Builder) {

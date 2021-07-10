@@ -1,6 +1,7 @@
 package io.facet.discord.commands.extensions
 
 import discord4j.core.`object`.entity.*
+import discord4j.core.spec.*
 import io.facet.discord.commands.*
 import io.facet.discord.dsl.*
 import io.facet.discord.extensions.*
@@ -23,7 +24,7 @@ suspend fun ChatCommandSource.respondMessage(
  * Sends a message based on the [MessageTemplate] in the channel that the command was invoked in.
  */
 suspend fun ChatCommandSource.respondMessage(
-    template: MessageTemplate
+    template: MessageCreateSpec
 ): Message = getChannel().sendMessage(template)
 
 /**
@@ -37,5 +38,5 @@ suspend fun ChatCommandSource.respondEmbed(
  * Sends an embed based on the [EmbedTemplate] in the channel that the command was invoked in.
  */
 suspend fun ChatCommandSource.respondEmbed(
-    template: EmbedTemplate
+    template: EmbedCreateSpec
 ): Message = getChannel().sendEmbed(template)
