@@ -45,5 +45,8 @@ suspend fun <TConfiguration : Any> GatewayDiscordClient.install(
  */
 inline fun <reified E : Event> GatewayDiscordClient.on(): Flux<E> = on(E::class.java)
 
+/**
+ * Returns a [Flow] of the specified event type.
+ */
 inline fun <reified E : Event> GatewayDiscordClient.flowOf(): Flow<E> = on<E>().asFlow()
 

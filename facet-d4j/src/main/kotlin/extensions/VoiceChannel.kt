@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.reactive.*
 
 /**
- * Gets the members currently connected to this voice channel by requesting the [VoiceState]s of this guild
- * and filtering by this [VoiceChannel]s Snowflake ID.
+ * Gets the members currently connected to this [VoiceChannel] by requesting the [VoiceState]s of this guild
+ * and filtering by this channel's Snowflake ID.
  */
 val VoiceChannel.connectedMembers: Flow<Member>
     get() = voiceStates.asFlow()

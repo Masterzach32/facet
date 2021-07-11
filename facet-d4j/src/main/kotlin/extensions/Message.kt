@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.reactive.*
 
 /**
- * Gets ALL distinct user mentions, including users specifically mentioned as well as users mentioned in roles.
+ * Gets ALL distinct [User] mentions, including users specifically mentioned as well as users mentioned in roles.
  */
 @ExperimentalCoroutinesApi
 @FlowPreview
@@ -24,30 +24,56 @@ val Message.allUserMentions: Flow<User>
             .distinctUntilChanged()
     }
 
+/**
+ * Returns a flow that emits all [members][Member] mentioned on this message.
+ */
 @ExperimentalCoroutinesApi
 @FlowPreview
 val Message.allMemberMentions: Flow<Member>
     get() = allUserMentions.mapNotNull { it as? Member ?: it.asMember(guildId.get()).awaitNullable() }
 
+/**
+ * Returns a set of all reactions that our user as added to this message.
+ */
 val Message.ourReactions: Set<Reaction>
     get() = reactions.filter(Reaction::selfReacted).toSet()
 
-
+/**
+ * Returns a flow that emits all reaction events on this message.
+ */
 val Message.reactionAddEvents: Flow<ReactionAddEvent>
     get() = client.flowOf<ReactionAddEvent>()
         .filter { it.messageId == id }
 
-val Message.buttonEvents: Flow<ButtonInteractEvent>
-    get() = client.flowOf<ButtonInteractEvent>()
+/**
+ * Returns a flow that emits all component interactions on this message.
+ */
+val Message.componentEvents: Flow<ComponentInteractEvent>
+    get() = client.flowOf<ComponentInteractEvent>()
         .filter { it.interaction.message.unwrap()?.id == id }
 
 /**
- * Gets ALL distinct user mentions, including users specifically mentioned as well as users mentioned in roles.
+ * Returns a flow that emits all button interactions on this message.
+ */
+val Message.buttonEvents: Flow<ButtonInteractEvent>
+    get() = componentEvents.filterIsInstance()
+
+/**
+ * Returns a flow that emits all select menu interactions on this message.
+ */
+val Message.selectMenuEvents: Flow<SelectMenuInteractEvent>
+    get() = componentEvents.filterIsInstance()
+
+/**
+ * Gets ALL distinct [User] mentions, including users specifically mentioned as well as users mentioned in roles.
  */
 @ExperimentalCoroutinesApi
 @FlowPreview
 suspend fun Message.getAllUserMentions(): Set<User> = allUserMentions.toSet()
 
+/**
+ * Gets ALL distinct [Member] mentions, including users specifically mentioned as well as users mentioned in roles.
+ */
 @ExperimentalCoroutinesApi
 @FlowPreview
 suspend fun Message.getAllMemberMentions(): Set<Member> = allMemberMentions.toSet()

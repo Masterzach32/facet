@@ -42,6 +42,12 @@ suspend fun <TConfiguration : Any> EventDispatcher.install(
     Features[feature.key] = with(feature) { install(scope, config) }
 }
 
+/**
+ * Helper function to make listening to discord events shorter.
+ */
 inline fun <reified E : Event> EventDispatcher.on(): Flux<E> = on(E::class.java)
 
+/**
+ * Returns a [Flow] of the specified event type.
+ */
 inline fun <reified E : Event> EventDispatcher.flowOf(): Flow<E> = on<E>().asFlow()
