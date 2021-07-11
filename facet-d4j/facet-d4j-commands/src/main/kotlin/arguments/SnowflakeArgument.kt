@@ -6,7 +6,7 @@ import com.mojang.brigadier.arguments.LongArgumentType.*
 import discord4j.common.util.*
 import io.facet.discord.extensions.*
 
-object SnowflakeArgument : ArgumentType<Snowflake> {
+public object SnowflakeArgument : ArgumentType<Snowflake> {
 
     private val longArgType = longArg(0, Long.MAX_VALUE)
 

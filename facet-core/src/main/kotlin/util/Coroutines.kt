@@ -2,7 +2,7 @@ package io.facet.core.util
 
 import kotlinx.coroutines.*
 
-suspend inline fun <T> retry(n: Int, errorDelayMillis: Long, fn: (counter: Int) -> T): T {
+public suspend inline fun <T> retry(n: Int, errorDelayMillis: Long, fn: (counter: Int) -> T): T {
     lateinit var ex: Exception
     repeat(n) { counter ->
         try { return fn(counter) }

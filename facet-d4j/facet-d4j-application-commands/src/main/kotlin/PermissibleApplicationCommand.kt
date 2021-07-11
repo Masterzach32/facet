@@ -14,7 +14,7 @@ import discord4j.core.`object`.entity.*
  * @author Zach Kozar
  * @version 6/6/2021
  */
-interface PermissibleApplicationCommand {
+public interface PermissibleApplicationCommand {
 
-    suspend fun hasPermission(user: User, guild: Guild?): Boolean
+    public suspend fun hasPermission(user: User, guild: Guild?): Boolean
 }

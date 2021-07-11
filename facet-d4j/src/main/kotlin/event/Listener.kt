@@ -14,13 +14,13 @@ import kotlin.coroutines.*
  * Creates and launches a new coroutine, which listens to the specified [Event] type and calls the
  * block function whenever a new event of that type is received by the gateway.
  */
-inline fun <reified E : Event> EventDispatcher.listener(
+public inline fun <reified E : Event> EventDispatcher.listener(
     scope: CoroutineScope,
     context: CoroutineContext = EmptyCoroutineContext,
     capacity: Int = Channel.RENDEZVOUS,
     start: CoroutineStart = CoroutineStart.DEFAULT,
     crossinline block: suspend CoroutineScope.(E) -> Unit
-) = scope.launch(context, start) {
+): Job = scope.launch(context, start) {
     val logger = LoggerFactory.getLogger("EventListener<${E::class.simpleName}>")
     flowOf<E>().filterNotNull().buffer(capacity).collect { event ->
         try {
@@ -37,27 +37,27 @@ inline fun <reified E : Event> EventDispatcher.listener(
  * Creates and launches a new coroutine, which listens to the specified [Event] type and calls the
  * block function whenever a new event of that type is received by the gateway.
  */
-inline fun <reified E : Event> GatewayDiscordClient.listener(
+public inline fun <reified E : Event> GatewayDiscordClient.listener(
     scope: CoroutineScope,
     context: CoroutineContext = EmptyCoroutineContext,
     capacity: Int = Channel.RENDEZVOUS,
     start: CoroutineStart = CoroutineStart.DEFAULT,
     crossinline block: suspend CoroutineScope.(E) -> Unit
-) = eventDispatcher.listener(scope, context, capacity, start, block)
+): Job = eventDispatcher.listener(scope, context, capacity, start, block)
 
 /**
  * Creates and launches a new coroutine, which launches an actor coroutine and forwards gateway events of the
  * specified type to it's [ReceiveChannel].
  */
 @ObsoleteCoroutinesApi
-inline fun <reified E : Event> EventDispatcher.actorListener(
+public inline fun <reified E : Event> EventDispatcher.actorListener(
     scope: CoroutineScope,
     context: CoroutineContext = EmptyCoroutineContext,
     capacity: Int = Channel.RENDEZVOUS,
     start: CoroutineStart = CoroutineStart.DEFAULT,
     noinline onCompletion: CompletionHandler? = null,
     noinline block: suspend ActorScope<E>.() -> Unit
-) = scope.launch(context, start) {
+): Job = scope.launch(context, start) {
     val eventChannel = actor(capacity = capacity, onCompletion = onCompletion, block = block)
     flowOf<E>().filterNotNull().collect { event ->
         eventChannel.send(event)
@@ -69,11 +69,11 @@ inline fun <reified E : Event> EventDispatcher.actorListener(
  * specified type to it's [ReceiveChannel].
  */
 @ObsoleteCoroutinesApi
-inline fun <reified E : Event> GatewayDiscordClient.actorListener(
+public inline fun <reified E : Event> GatewayDiscordClient.actorListener(
     scope: CoroutineScope,
     context: CoroutineContext = EmptyCoroutineContext,
     capacity: Int = Channel.RENDEZVOUS,
     start: CoroutineStart = CoroutineStart.DEFAULT,
     noinline onCompletion: CompletionHandler? = null,
     noinline block: suspend ActorScope<E>.() -> Unit
-) = eventDispatcher.actorListener(scope, context, capacity, start, onCompletion, block)
+): Job = eventDispatcher.actorListener(scope, context, capacity, start, onCompletion, block)

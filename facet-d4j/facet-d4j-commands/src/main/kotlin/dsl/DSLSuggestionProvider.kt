@@ -6,7 +6,7 @@ import kotlinx.coroutines.*
 import java.util.concurrent.*
 
 internal class DSLSuggestionProvider<T>(
-    val onSuggest: SuggestionsBuilder.(context: CommandContext<T>) -> Unit
+    private val onSuggest: SuggestionsBuilder.(context: CommandContext<T>) -> Unit
 ) : SuggestionProvider<T> {
 
     override fun getSuggestions(

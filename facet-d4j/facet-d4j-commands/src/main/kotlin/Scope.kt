@@ -1,6 +1,6 @@
 package io.facet.discord.commands
 
-enum class Scope {
+public enum class Scope {
     ALL,
     GUILD,
     PRIVATE

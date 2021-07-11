@@ -5,14 +5,14 @@ import discord4j.rest.util.*
 import io.facet.discord.commands.dsl.*
 import io.facet.discord.commands.extensions.*
 
-abstract class ChatCommand(
-    val name: String,
-    val aliases: Set<String>,
-    val scope: Scope = Scope.ALL,
-    val category: String = "none",
-    val description: String? = null,
-    val discordPermsRequired: PermissionSet = PermissionSet.none(),
-    val usage: CommandUsage? = null
+public abstract class ChatCommand(
+    public val name: String,
+    public val aliases: Set<String>,
+    public val scope: Scope = Scope.ALL,
+    public val category: String = "none",
+    public val description: String? = null,
+    public val discordPermsRequired: PermissionSet = PermissionSet.none(),
+    public val usage: CommandUsage? = null
 ) {
 
     protected abstract fun DSLCommandNode<ChatCommandSource>.register()

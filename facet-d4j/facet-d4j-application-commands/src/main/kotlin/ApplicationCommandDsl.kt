@@ -19,7 +19,7 @@ import discord4j.rest.util.*
 /**
  * DSL for building [ApplicationCommandRequest]
  */
-fun applicationCommandRequest(
+public fun applicationCommandRequest(
     name: String,
     desc: String,
     block: ApplicationCommandBuilder.() -> Unit = {}
@@ -34,13 +34,13 @@ fun applicationCommandRequest(
     return data.name(name).description(desc).defaultPermission(builder.defaultPermission).build()
 }
 
-open class ApplicationCommandBuilder {
+public open class ApplicationCommandBuilder {
 
-    var defaultPermission: Boolean = true
+    public var defaultPermission: Boolean = true
 
-    val options = mutableListOf<ApplicationCommandOptionData>()
+    internal val options = mutableListOf<ApplicationCommandOptionData>()
 
-    fun addOption(
+    public fun addOption(
         name: String,
         desc: String,
         type: ApplicationCommandOptionType,
@@ -62,34 +62,34 @@ open class ApplicationCommandBuilder {
         options.add(data.name(name).description(desc).type(type.value).build())
     }
 
-    fun addSubCommand(
+    public fun addSubCommand(
         name: String,
         desc: String,
         block: OptionBuilder.() -> Unit = {}
-    ) = addOption(name, desc, ApplicationCommandOptionType.SUB_COMMAND, block = block)
+    ): Unit = addOption(name, desc, ApplicationCommandOptionType.SUB_COMMAND, block = block)
 
-    fun addSubCommandGroup(
+    public fun addSubCommandGroup(
         name: String,
         desc: String,
         block: OptionBuilder.() -> Unit = {}
-    ) = addOption(name, desc, ApplicationCommandOptionType.SUB_COMMAND_GROUP, block = block)
+    ): Unit = addOption(name, desc, ApplicationCommandOptionType.SUB_COMMAND_GROUP, block = block)
 }
 
-class OptionBuilder : ApplicationCommandBuilder() {
+public class OptionBuilder : ApplicationCommandBuilder() {
 
-    val choices = mutableListOf<ApplicationCommandOptionChoiceData>()
+    internal val choices = mutableListOf<ApplicationCommandOptionChoiceData>()
 
-    fun addChoice(name: String, value: String) = choices.add(
+    public fun addChoice(name: String, value: String): Unit = choices.add(
         ApplicationCommandOptionChoiceData.builder()
             .name(name)
             .value(value)
             .build()
-    )
+    ).let {  }
 
-    fun addChoice(name: String, value: Int) = choices.add(
+    public fun addChoice(name: String, value: Int): Unit = choices.add(
         ApplicationCommandOptionChoiceData.builder()
             .name(name)
             .value(value)
             .build()
-    )
+    ).let {  }
 }

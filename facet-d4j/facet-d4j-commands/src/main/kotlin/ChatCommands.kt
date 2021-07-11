@@ -21,7 +21,7 @@ import java.util.concurrent.*
  * Instance of the [ChatCommands] feature.
  */
 @OptIn(ObsoleteCoroutinesApi::class)
-class ChatCommands(config: Config) {
+public class ChatCommands(config: Config) {
 
     private val logger = LoggerFactory.getLogger(ChatCommands::class.java)
 
@@ -31,24 +31,24 @@ class ChatCommands(config: Config) {
     /**
      * Commands that have been registered with this feature.
      */
-    val commands: Set<ChatCommand>
+    public val commands: Set<ChatCommand>
         get() = _commands
 
     /**
      * Lookup map for the command object for a given alias.
      */
-    val commandMap: Map<String, ChatCommand>
+    public val commandMap: Map<String, ChatCommand>
         get() = _commandMap
 
     /**
      * Command dispatcher instance
      */
-    val dispatcher = CommandDispatcher<ChatCommandSource>()
+    public val dispatcher: CommandDispatcher<ChatCommandSource> = CommandDispatcher()
 
     /**
      * Function that gets the command prefix for the specified guild.
      */
-    val commandPrefixFor = config.commandPrefix
+    public val commandPrefixFor: suspend (guildId: Snowflake?) -> String = config.commandPrefix
 
     init {
         if (config.useDefaultHelpCommand)
@@ -59,7 +59,7 @@ class ChatCommands(config: Config) {
 
     private val cache = ConcurrentHashMap<String, ParseResults<ChatCommandSource>>()
 
-    fun registerCommand(command: ChatCommand): Boolean {
+    public fun registerCommand(command: ChatCommand): Boolean {
         val duplicateAlias = commands
             .flatMap { it.aliases }
             .firstOrNull { command.aliases.contains(it) }
@@ -78,32 +78,32 @@ class ChatCommands(config: Config) {
         }
     }
 
-    fun registerCommands(vararg commands: ChatCommand) = commands.map { it to registerCommand(it) }.toMap()
+    public fun registerCommands(vararg commands: ChatCommand): Map<ChatCommand, Boolean> = commands.map { it to registerCommand(it) }.toMap()
 
-    class Config {
+    public class Config {
         internal val commands = mutableSetOf<ChatCommand>()
         internal lateinit var commandPrefix: suspend (guildId: Snowflake?) -> String
 
-        var commandConcurrency: Int = Runtime.getRuntime().availableProcessors().coerceAtLeast(4)
+        public var commandConcurrency: Int = Runtime.getRuntime().availableProcessors().coerceAtLeast(4)
 
-        var useDefaultHelpCommand = false
+        public var useDefaultHelpCommand: Boolean = false
 
-        fun commandPrefix(block: suspend (guildId: Snowflake?) -> String) {
+        public fun commandPrefix(block: suspend (guildId: Snowflake?) -> String) {
             commandPrefix = block
         }
-        
-        fun registerCommand(command: ChatCommand): Boolean {
+
+        public fun registerCommand(command: ChatCommand): Boolean {
             return commands.add(command)
         }
 
-        fun registerCommands(vararg commands: ChatCommand) = commands.forEach { registerCommand(it) }
+        public fun registerCommands(vararg commands: ChatCommand): Unit = commands.forEach { registerCommand(it) }
     }
 
     /**
      * Adds the functionality to the [DiscordClient] to easily listen to and parse user commands. Must be configured
      * with command prefix and commands.
      */
-    companion object : EventDispatcherFeature<Config, ChatCommands>("commands") {
+    public companion object : EventDispatcherFeature<Config, ChatCommands>("commands") {
 
         override suspend fun EventDispatcher.install(scope: CoroutineScope, configuration: Config.() -> Unit): ChatCommands {
             val config = Config().apply(configuration)

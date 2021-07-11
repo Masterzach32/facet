@@ -2,7 +2,7 @@ package io.facet.discord.dsl
 
 import discord4j.core.spec.*
 
-interface SpecBuilder<out S : Spec<*>> {
+public interface SpecBuilder<out S : Spec<*>> {
 
-    fun build(): S
+    public fun build(): S
 }

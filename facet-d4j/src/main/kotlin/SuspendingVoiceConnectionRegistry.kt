@@ -3,18 +3,18 @@ package io.facet.discord
 import discord4j.common.util.*
 import discord4j.voice.*
 
-interface SuspendingVoiceConnectionRegistry {
+public interface SuspendingVoiceConnectionRegistry {
 
-    suspend fun getVoiceConnection(
+    public suspend fun getVoiceConnection(
         guildId: Snowflake
     ): VoiceConnection
 
-    suspend fun registerVoiceConnection(
+    public suspend fun registerVoiceConnection(
         guildId: Snowflake,
         voiceConnection: VoiceConnection
     )
 
-    suspend fun disconnect(
+    public suspend fun disconnect(
         guildId: Snowflake
     )
 }

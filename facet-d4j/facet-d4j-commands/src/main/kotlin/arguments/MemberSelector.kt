@@ -6,7 +6,7 @@ import discord4j.core.*
 import discord4j.core.`object`.entity.*
 import io.facet.discord.extensions.*
 
-class MemberSelector(val selectMultiple: Boolean, val allowRoles: Boolean) : EntitySelector<Member>() {
+public class MemberSelector(private val selectMultiple: Boolean, private val allowRoles: Boolean) : EntitySelector<Member>() {
 
     override fun parse(reader: StringReader) {
         TODO("Not yet implemented")
@@ -19,7 +19,7 @@ class MemberSelector(val selectMultiple: Boolean, val allowRoles: Boolean) : Ent
     override suspend fun getMultiple(client: GatewayDiscordClient, guildId: Snowflake): List<Member> = entities
         .map { client.getMemberById(guildId, it).await() }
 
-    companion object {
+    private companion object {
         val mentionStart = "<@!"
     }
 }

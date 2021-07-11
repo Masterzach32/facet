@@ -5,16 +5,16 @@ import java.util.*
 /**
  * Extension function to convert a nullable type to an optional.
  */
-fun <T : Any> T?.toOptional() = Optional.ofNullable(this)
+public fun <T : Any> T?.toOptional(): Optional<T> = Optional.ofNullable(this)
 
 @Deprecated("Use unwrap()", ReplaceWith("unwrap()"))
-fun <T : Any> Optional<T>.grab(): T? = unwrap()
+public fun <T : Any> Optional<T>.grab(): T? = unwrap()
 
 @Deprecated("Use unwrap()", ReplaceWith("unwrap()"))
-val <T : Any> Optional<T>.value: T?
+public val <T : Any> Optional<T>.value: T?
     get() = unwrap()
 
 /**
  * Unwraps an Optional<T> to a nullable T?.
  */
-fun <T> Optional<T>.unwrap(): T? = orElse(null)
+public fun <T> Optional<T>.unwrap(): T? = orElse(null)

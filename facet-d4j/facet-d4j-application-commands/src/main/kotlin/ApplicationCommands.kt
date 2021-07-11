@@ -28,7 +28,7 @@ import java.util.concurrent.*
  */
 @OptIn(ObsoleteCoroutinesApi::class)
 @Suppress("UNCHECKED_CAST")
-class ApplicationCommands(config: Config, restClient: RestClient) {
+public class ApplicationCommands(config: Config, restClient: RestClient) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val service: ApplicationService = restClient.applicationService
@@ -40,28 +40,28 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
      * Commands that have been registered with this feature.
      */
     @Suppress("UNCHECKED_CAST")
-    val commands: MutableSet<ApplicationCommand<SlashCommandContext>> =
+    public val commands: MutableSet<ApplicationCommand<SlashCommandContext>> =
         config.commands as MutableSet<ApplicationCommand<SlashCommandContext>>
 
     /**
      * Lookup map for the command object given it's unique ID.
      */
-    val commandMap: Map<Snowflake, ApplicationCommand<SlashCommandContext>>
+    public val commandMap: Map<Snowflake, ApplicationCommand<SlashCommandContext>>
         get() = _commandMap
 
     /**
      * All global commands.
      */
-    val globalCommands: List<ApplicationCommand<SlashCommandContext>>
+    public val globalCommands: List<ApplicationCommand<SlashCommandContext>>
         get() = commands.filter { it is GlobalApplicationCommand || it is GlobalGuildApplicationCommand }
 
     /**
      * All guild commands.
      */
-    val guildCommands: List<GuildApplicationCommand>
+    public val guildCommands: List<GuildApplicationCommand>
         get() = commands.filterIsInstance<GuildApplicationCommand>()
 
-    suspend fun updateCommands() {
+    public suspend fun updateCommands() {
         val globalCommandNames = globalCommands.map { it.request.name() }
         val registeredGlobalCommands: List<ApplicationCommandData> =
             service.getGlobalApplicationCommands(applicationId).await()
@@ -107,19 +107,19 @@ class ApplicationCommands(config: Config, restClient: RestClient) {
             request.defaultPermission() == actual.defaultPermission() &&
             request.options() == actual.options())
 
-    class Config {
+    public class Config {
         internal val commands = mutableSetOf<ApplicationCommand<*>>()
 
-        var commandConcurrency: Int = Runtime.getRuntime().availableProcessors().coerceAtLeast(4)
+        public var commandConcurrency: Int = Runtime.getRuntime().availableProcessors().coerceAtLeast(4)
 
-        fun registerCommand(command: ApplicationCommand<*>) {
+        public fun registerCommand(command: ApplicationCommand<*>) {
             commands.add(command)
         }
 
-        fun registerCommand(vararg commands: ApplicationCommand<*>) = commands.forEach { registerCommand(it) }
+        public fun registerCommand(vararg commands: ApplicationCommand<*>): Unit = commands.forEach { registerCommand(it) }
     }
 
-    companion object : GatewayFeature<Config, ApplicationCommands>("applicationCommands") {
+    public companion object : GatewayFeature<Config, ApplicationCommands>("applicationCommands") {
 
         override suspend fun GatewayDiscordClient.install(
             scope: CoroutineScope,

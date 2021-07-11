@@ -16,10 +16,10 @@ import discord4j.common.util.*
  * @author Zach Kozar
  * @version 6/13/2021
  */
-interface GuildApplicationCommand : ApplicationCommand<GuildSlashCommandContext> {
+public interface GuildApplicationCommand : ApplicationCommand<GuildSlashCommandContext> {
 
     /**
-     * The id of the guild that this command is available in.
+     * The [Snowflake] id of the guild that this command is available in.
      */
-    val guildId: Snowflake
+    public val guildId: Snowflake
 }

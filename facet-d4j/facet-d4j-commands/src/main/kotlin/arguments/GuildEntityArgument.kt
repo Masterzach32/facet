@@ -4,7 +4,7 @@ import com.mojang.brigadier.*
 import com.mojang.brigadier.arguments.*
 import discord4j.core.`object`.entity.*
 
-class GuildEntityArgument<E : Entity, T : EntitySelector<E>> internal constructor(
+public class GuildEntityArgument<E : Entity, T : EntitySelector<E>> internal constructor(
     private val selector: T
 ) : ArgumentType<T> {
 
@@ -16,7 +16,7 @@ class GuildEntityArgument<E : Entity, T : EntitySelector<E>> internal constructo
         return Companion.examples.toMutableList()
     }
 
-    companion object {
+    private companion object {
         val examples = listOf("Wumpus", "@Wumpus", "@role", "#text-channel", "\"Games Voice\"", "999999999999999999")
     }
 }

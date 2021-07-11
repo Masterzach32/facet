@@ -8,91 +8,91 @@ import java.time.*
 /**
  * Creates a new [EmbedCreateSpec] using an [EmbedBuilder].
  */
-fun embed(block: EmbedBuilder.() -> Unit): EmbedCreateSpec = EmbedBuilder().apply(block).build()
+public fun embed(block: EmbedBuilder.() -> Unit): EmbedCreateSpec = EmbedBuilder().apply(block).build()
 
 /**
  * Edit an [EmbedCreateSpec] using an [EmbedBuilder]
  */
 @Experimental
 @Deprecated("", ReplaceWith("and(buildBlock)"))
-fun EmbedCreateSpec.andThen(block: EmbedBuilder.() -> Unit): EmbedCreateSpec = and(block)
+public fun EmbedCreateSpec.andThen(block: EmbedBuilder.() -> Unit): EmbedCreateSpec = and(block)
 
 /**
  * Edit an [EmbedCreateSpec] using an [EmbedBuilder]
  */
 @Experimental
-fun EmbedCreateSpec.and(block: EmbedBuilder.() -> Unit): EmbedCreateSpec =
+public fun EmbedCreateSpec.and(block: EmbedBuilder.() -> Unit): EmbedCreateSpec =
     EmbedBuilder(this).apply(block).build()
 
-class EmbedBuilder internal constructor(
+public class EmbedBuilder internal constructor(
     private val builder: EmbedCreateSpec.Builder = EmbedCreateSpec.builder()
 ) : SpecBuilder<EmbedCreateSpec> {
 
     internal constructor(spec: EmbedCreateSpec) : this(EmbedCreateSpec.builder().from(spec))
 
-    var title: String
+    public var title: String
         get() = build().title().get()
         set(value) = builder.title(value).let {}
 
-    var description: String
+    public var description: String
         get() = build().description().get()
         set(value) = builder.description(value).let {}
 
-    var url: String
+    public var url: String
         get() = build().url().get()
         set(value) = builder.url(value).let {}
 
-    var timestamp: Instant
+    public var timestamp: Instant
         get() = build().timestamp().get()
         set(value) = builder.timestamp(value).let {}
 
-    var color: Color
+    public var color: Color
         get() = build().color().get()
         set(value) = builder.color(value).let {}
 
     @Deprecated("Use \"image\"")
-    var imageUrl: String
+    public var imageUrl: String
         get() = image
         set(value) = let { image = value }
 
-    var image: String
+    public var image: String
         get() = build().image().get()
         set(value) = builder.image(value).let {}
 
     @Deprecated("Use \"thumbnail\"")
-    var thumbnailUrl: String
+    public var thumbnailUrl: String
         get() = thumbnail
         set(value) = let { thumbnail = value }
 
-    var thumbnail: String
+    public var thumbnail: String
         get() = build().thumbnail().get()
         set(value) = builder.thumbnail(value).let {}
 
-    fun footer(text: String, icon: String? = null) {
+    public fun footer(text: String, icon: String? = null) {
         builder.footer(EmbedCreateFields.Footer.of(text, icon))
     }
 
-    fun footer(footerSpec: EmbedFooter.() -> Unit) {
+    public fun footer(footerSpec: EmbedFooter.() -> Unit) {
         EmbedFooter().apply(footerSpec).apply {
             footer(text, iconUrl)
         }
     }
 
-    fun author(name: String, url: String? = null, iconUrl: String? = null) {
+    public fun author(name: String, url: String? = null, iconUrl: String? = null) {
         builder.author(EmbedCreateFields.Author.of(name, url, iconUrl))
     }
 
-    fun author(authorSpec: EmbedAuthor.() -> Unit) {
+    public fun author(authorSpec: EmbedAuthor.() -> Unit) {
         EmbedAuthor().apply(authorSpec).apply {
             author(name, url, iconUrl)
         }
     }
 
-    fun field(name: String, value: String, inline: Boolean = false) {
+    public fun field(name: String, value: String, inline: Boolean = false) {
         builder.addField(EmbedCreateFields.Field.of(name, value, inline))
     }
 
-    fun field(fieldSpec: EmbedField.() -> Unit) {
+    public fun field(fieldSpec: EmbedField.() -> Unit) {
         EmbedField().apply(fieldSpec).apply {
             field(name, value, inline)
         }
@@ -100,19 +100,20 @@ class EmbedBuilder internal constructor(
 
     override fun build(): EmbedCreateSpec = builder.build()
 
-    class EmbedAuthor internal constructor() {
-        lateinit var name: String
-        var url: String? = null
-        var iconUrl: String? = null
+    public class EmbedAuthor internal constructor() {
+        public lateinit var name: String
+        public var url: String? = null
+        public var iconUrl: String? = null
     }
 
-    class EmbedFooter internal constructor() {
-        lateinit var text: String
-        var iconUrl: String? = null
+    public class EmbedFooter internal constructor() {
+        public lateinit var text: String
+        public var iconUrl: String? = null
     }
-    class EmbedField internal constructor() {
-        lateinit var name: String
-        lateinit var value: String
-        var inline: Boolean = false
+
+    public class EmbedField internal constructor() {
+        public lateinit var name: String
+        public lateinit var value: String
+        public var inline: Boolean = false
     }
 }

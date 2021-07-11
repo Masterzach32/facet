@@ -5,7 +5,7 @@ import io.facet.discord.extensions.*
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.vendors.*
 
-class SnowflakeColumnType : ColumnType() {
+public class SnowflakeColumnType : ColumnType() {
 
     override fun sqlType(): String = currentDialect.dataTypeProvider.longType()
 
@@ -20,7 +20,7 @@ class SnowflakeColumnType : ColumnType() {
 
     override fun nonNullValueToString(value: Any): String = notNullValueToDB(value).toString()
 
-    companion object {
+    internal companion object {
         internal val INSTANCE = SnowflakeColumnType()
     }
 }
@@ -28,4 +28,4 @@ class SnowflakeColumnType : ColumnType() {
 /**
  * Creates a numeric column, with the specified [name], for storing unsigned 64-bit snowflake IDs.
  */
-fun Table.snowflake(name: String): Column<Snowflake> = registerColumn(name, SnowflakeColumnType())
+public fun Table.snowflake(name: String): Column<Snowflake> = registerColumn(name, SnowflakeColumnType())

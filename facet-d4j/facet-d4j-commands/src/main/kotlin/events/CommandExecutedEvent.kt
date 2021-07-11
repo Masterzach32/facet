@@ -4,10 +4,10 @@ import discord4j.core.*
 import discord4j.gateway.*
 import io.facet.discord.commands.*
 
-class CommandExecutedEvent(
+public class CommandExecutedEvent(
     client: GatewayDiscordClient,
     shardInfo: ShardInfo,
     command: ChatCommand,
     source: ChatCommandSource,
-    val aliasUsed: String
+    public val aliasUsed: String
 ) : CommandEvent(client, shardInfo, command, source)

@@ -9,68 +9,68 @@ import java.io.*
 /**
  * Creates a new [WebhookExecuteSpec] using a [WebhookMessageBuilder].
  */
-fun webhookMessage(block: WebhookMessageBuilder.() -> Unit): WebhookExecuteSpec =
+public fun webhookMessage(block: WebhookMessageBuilder.() -> Unit): WebhookExecuteSpec =
     WebhookMessageBuilder().apply(block).build()
 
 /**
  * Creates a new [WebhookExecuteSpec] using an [EmbedBuilder].
  */
-fun webhookMessageEmbed(block: EmbedBuilder.() -> Unit): WebhookExecuteSpec =
+public fun webhookMessageEmbed(block: EmbedBuilder.() -> Unit): WebhookExecuteSpec =
     WebhookExecuteSpec.create().withEmbeds(EmbedBuilder().apply(block).build())
 
 /**
  * Edit a [WebhookExecuteSpec] using an [WebhookMessageBuilder]
  */
 @Experimental
-fun WebhookExecuteSpec.and(block: WebhookMessageBuilder.() -> Unit): WebhookExecuteSpec =
+public fun WebhookExecuteSpec.and(block: WebhookMessageBuilder.() -> Unit): WebhookExecuteSpec =
     WebhookMessageBuilder(this).apply(block).build()
 
-class WebhookMessageBuilder internal constructor(
+public class WebhookMessageBuilder internal constructor(
     private val builder: WebhookExecuteSpec.Builder = WebhookExecuteSpec.builder()
 ) : SpecBuilder<WebhookExecuteSpec> {
 
     internal constructor(spec: WebhookExecuteSpec) : this(WebhookExecuteSpec.builder().from(spec))
 
-    var content: String
+    public var content: String
         get() = build().content().get()
         set(value) = builder.content(value).let {}
 
-    var username: String
+    public var username: String
         get() = build().username().get()
         set(value) = builder.username(value).let {}
 
-    var avatarUrl: String
+    public var avatarUrl: String
         get() = build().avatarUrl().get()
         set(value) = builder.avatarUrl(value).let {}
 
-    var tts: Boolean
+    public var tts: Boolean
         get() = build().tts()
         set(value) = builder.tts(value).let {}
 
-    fun component(component: LayoutComponent) {
+    public fun component(component: LayoutComponent) {
         builder.addComponent(component)
     }
 
-    fun actionRow(vararg components: ActionComponent) {
+    public fun actionRow(vararg components: ActionComponent) {
         builder.addComponent(ActionRow.of(*components))
     }
 
-    fun embed(spec: EmbedCreateSpec) {
+    public fun embed(spec: EmbedCreateSpec) {
         builder.addEmbed(spec)
     }
 
-    fun embed(dsl: EmbedBuilder.() -> Unit) {
+    public fun embed(dsl: EmbedBuilder.() -> Unit) {
         builder.addEmbed(io.facet.discord.dsl.embed(dsl))
     }
 
-    fun file(fileName: String, file: InputStream, spoiler: Boolean = false) {
+    public fun file(fileName: String, file: InputStream, spoiler: Boolean = false) {
         if (spoiler)
             builder.addFileSpoiler(MessageCreateFields.FileSpoiler.of(fileName, file))
         else
             builder.addFile(MessageCreateFields.File.of(fileName, file))
     }
 
-    fun allowedMentions(dsl: AllowedMentionsBuilderDsl.() -> Unit) {
+    public fun allowedMentions(dsl: AllowedMentionsBuilderDsl.() -> Unit) {
         builder.allowedMentions(AllowedMentionsBuilderDsl(AllowedMentions.builder()).apply(dsl).build())
     }
 

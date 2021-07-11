@@ -1,3 +1,3 @@
 package io.facet.core
 
-object EmptyConfig
+public object EmptyConfig

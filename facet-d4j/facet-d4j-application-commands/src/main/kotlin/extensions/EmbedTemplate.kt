@@ -4,7 +4,7 @@ import discord4j.core.spec.*
 import discord4j.discordjson.json.*
 import discord4j.rest.util.*
 
-fun EmbedCreateSpec.asMultipartRequest(): MultipartRequest<WebhookExecuteRequest> = MultipartRequest.ofRequest(
+public fun EmbedCreateSpec.asMultipartRequest(): MultipartRequest<WebhookExecuteRequest> = MultipartRequest.ofRequest(
     WebhookExecuteRequest.builder()
         .addEmbed(asRequest())
         .build()

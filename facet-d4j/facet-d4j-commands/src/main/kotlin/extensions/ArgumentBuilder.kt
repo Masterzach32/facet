@@ -6,7 +6,7 @@ import io.facet.discord.commands.*
 import kotlinx.coroutines.*
 
 @Deprecated("Use CommandNode DSL")
-fun <S, T : ArgumentBuilder<S, T>> ArgumentBuilder<S, T>.executesSuspend(
+public fun <S, T : ArgumentBuilder<S, T>> ArgumentBuilder<S, T>.executesSuspend(
     command: suspend (context: CommandContext<S>) -> Unit
 ): T {
     return executes(object : SuspendCommand<S> {
@@ -17,7 +17,7 @@ fun <S, T : ArgumentBuilder<S, T>> ArgumentBuilder<S, T>.executesSuspend(
 }
 
 @Deprecated("Use CommandNode DSL")
-fun <S, T : ArgumentBuilder<S, T>> ArgumentBuilder<S, T>.requiresSuspend(
+public fun <S, T : ArgumentBuilder<S, T>> ArgumentBuilder<S, T>.requiresSuspend(
     requirement: suspend (source: S) -> Boolean
 ): T {
     return requires {

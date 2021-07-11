@@ -1,3 +1,3 @@
 package io.facet.core
 
-object Features : LinkedHashMap<AttributeKey<*>, Any>()
+public object Features : LinkedHashMap<AttributeKey<*>, Any>()

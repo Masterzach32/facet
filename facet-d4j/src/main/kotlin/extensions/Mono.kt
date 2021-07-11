@@ -8,7 +8,7 @@ import reactor.core.publisher.*
  * Extension to convert a nullable type of [T] to a [Mono] that emits the supplied
  * element when present, or complete if null.
  */
-fun <T : Any> T?.toMonoOrEmpty(): Mono<T> = Mono.justOrEmpty(this)
+public fun <T : Any> T?.toMonoOrEmpty(): Mono<T> = Mono.justOrEmpty(this)
 
 /**
  * Awaits for the single value from the given [Mono], suspending the current coroutine and resuming when the
@@ -20,7 +20,7 @@ fun <T : Any> T?.toMonoOrEmpty(): Mono<T> = Mono.justOrEmpty(this)
  *
  * @throws NoSuchElementException if mono does not emit any value
  */
-suspend fun <T : Any> Mono<T>.await(): T = awaitFirst()
+public suspend fun <T : Any> Mono<T>.await(): T = awaitFirst()
 
 /**
  * Awaits for the single value from the given [Mono] or `null` value if none is emitted, suspending the current
@@ -31,7 +31,7 @@ suspend fun <T : Any> Mono<T>.await(): T = awaitFirst()
  * If the [Job] of the current coroutine is cancelled or completed while this suspending function is waiting, this
  * function immediately resumes with [CancellationException].
  */
-suspend fun <T : Any> Mono<T>.awaitNullable(): T? = awaitFirstOrNull()
+public suspend fun <T : Any> Mono<T>.awaitNullable(): T? = awaitFirstOrNull()
 
 /**
  * Awaits for the completion signal from the given [Mono], suspending the current coroutine and resuming when the
@@ -41,7 +41,7 @@ suspend fun <T : Any> Mono<T>.awaitNullable(): T? = awaitFirstOrNull()
  * If the [Job] of the current coroutine is cancelled or completed while this suspending function is waiting, this
  * function immediately resumes with [CancellationException].
  */
-suspend fun Mono<*>.awaitComplete(): Unit = awaitNullable().let {}
+public suspend fun Mono<*>.awaitComplete(): Unit = awaitNullable().let {}
 
 /**
  * Awaits for the completion signal from the given [Mono], suspending the current coroutine and resuming when the
@@ -52,5 +52,5 @@ suspend fun Mono<*>.awaitComplete(): Unit = awaitNullable().let {}
  * function immediately resumes with [CancellationException].
  */
 @JvmName("awaitVoid")
-suspend fun Mono<Void>.await(): Unit = awaitComplete()
+public suspend fun Mono<Void>.await(): Unit = awaitComplete()
 

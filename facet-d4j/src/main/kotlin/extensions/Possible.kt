@@ -5,4 +5,4 @@ import discord4j.discordjson.possible.*
 /**
  * Unwraps the D4J [Possible] into a nullable type.
  */
-fun <T> Possible<T>.unwrap(): T? = if (isAbsent) null else get()
+public fun <T> Possible<T>.unwrap(): T? = if (isAbsent) null else get()

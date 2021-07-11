@@ -1,15 +1,18 @@
 package io.facet.discord.commands.arguments
 
-fun snowflake() = SnowflakeArgument
+import com.mojang.brigadier.arguments.*
+import discord4j.common.util.*
 
-fun member() = GuildEntityArgument(MemberSelector(selectMultiple = false, allowRoles = false))
+public fun snowflake(): ArgumentType<Snowflake> = SnowflakeArgument
 
-fun members() = GuildEntityArgument(MemberSelector(selectMultiple = true, allowRoles = true))
+public fun member(): ArgumentType<MemberSelector> = GuildEntityArgument(MemberSelector(selectMultiple = false, allowRoles = false))
 
-fun membersStrict() = GuildEntityArgument(MemberSelector(selectMultiple = true, allowRoles = false))
+public fun members(): ArgumentType<MemberSelector> = GuildEntityArgument(MemberSelector(selectMultiple = true, allowRoles = true))
 
-fun role() = GuildEntityArgument(RoleSelector(false))
+public fun membersStrict(): ArgumentType<MemberSelector> = GuildEntityArgument(MemberSelector(selectMultiple = true, allowRoles = false))
 
-fun roles() = GuildEntityArgument(RoleSelector(true))
+public fun role(): ArgumentType<RoleSelector> = GuildEntityArgument(RoleSelector(false))
 
-fun textChannel() = GuildEntityArgument(TextChannelSelector())
+public fun roles(): ArgumentType<RoleSelector> = GuildEntityArgument(RoleSelector(true))
+
+public fun textChannel(): ArgumentType<TextChannelSelector> = GuildEntityArgument(TextChannelSelector())

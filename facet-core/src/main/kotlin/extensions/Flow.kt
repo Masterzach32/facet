@@ -4,4 +4,4 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
 @ExperimentalCoroutinesApi
-fun <T> Flow<T>.mergeWith(other: Flow<T>): Flow<T> = merge(this, other)
+public fun <T> Flow<T>.mergeWith(other: Flow<T>): Flow<T> = merge(this, other)

@@ -5,7 +5,7 @@ import discord4j.common.util.*
 import discord4j.core.*
 import discord4j.core.`object`.entity.*
 
-class MessageSelector : EntitySelector<Member>() {
+public class MessageSelector : EntitySelector<Member>() {
 
     override fun parse(reader: StringReader) {
         TODO("Not yet implemented")

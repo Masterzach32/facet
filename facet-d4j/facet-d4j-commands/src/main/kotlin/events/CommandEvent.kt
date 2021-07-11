@@ -5,9 +5,9 @@ import discord4j.core.event.domain.*
 import discord4j.gateway.*
 import io.facet.discord.commands.*
 
-abstract class CommandEvent(
+public abstract class CommandEvent(
     client: GatewayDiscordClient,
     shardInfo: ShardInfo,
-    val command: ChatCommand,
-    val source: ChatCommandSource
+    public val command: ChatCommand,
+    public val source: ChatCommandSource
 ) : Event(client, shardInfo)

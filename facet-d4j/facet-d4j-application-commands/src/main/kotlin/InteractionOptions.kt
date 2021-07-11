@@ -21,10 +21,10 @@ import kotlin.reflect.*
  * @version 6/19/2021
  */
 @Experimental
-class InteractionOptions(private val commandInteraction: ApplicationCommandInteraction) {
+public class InteractionOptions(private val commandInteraction: ApplicationCommandInteraction) {
 
     @Suppress("UNCHECKED_CAST")
-    operator fun <T> getValue(thisRef: Any?, property: KProperty<*>): T {
+    public operator fun <T> getValue(thisRef: Any?, property: KProperty<*>): T {
         val option = search(property.name) ?: error("No property by name ${property.name}.")
         val optionValue = option.value.unwrap() ?: error("${property.name} was null.")
 
@@ -39,11 +39,11 @@ class InteractionOptions(private val commandInteraction: ApplicationCommandInter
         }
     }
 
-    fun <T> defaultValue(value: T) = DefaultValueOptionDelegate(value)
+    public fun <T> defaultValue(value: T): DefaultValueOptionDelegate<T> = DefaultValueOptionDelegate(value)
 
-    fun <T> nullable() = NullableOptionDelegate<T>()
+    public fun <T> nullable(): NullableOptionDelegate<T> = NullableOptionDelegate()
 
-    operator fun contains(name: String): Boolean = search(name) != null
+    public operator fun contains(name: String): Boolean = search(name) != null
 
     private fun search(name: String): ApplicationCommandInteractionOption? =
         commandInteraction.options
@@ -59,9 +59,9 @@ class InteractionOptions(private val commandInteraction: ApplicationCommandInter
                 .mapNotNull { search(name, it) }
                 .firstOrNull()
 
-    inner class DefaultValueOptionDelegate<T>(private val value: T) {
+    public inner class DefaultValueOptionDelegate<T>(private val value: T) {
 
-        operator fun getValue(thisRef: Any?, property: KProperty<*>): T {
+        public operator fun getValue(thisRef: Any?, property: KProperty<*>): T {
             return if (property.name in this@InteractionOptions)
                 this@InteractionOptions.getValue(thisRef, property)
             else
@@ -69,9 +69,9 @@ class InteractionOptions(private val commandInteraction: ApplicationCommandInter
         }
     }
 
-    inner class NullableOptionDelegate<T> {
+    public inner class NullableOptionDelegate<T> {
 
-        operator fun getValue(thisRef: Any?, property: KProperty<*>): T? {
+        public operator fun getValue(thisRef: Any?, property: KProperty<*>): T? {
             return if (property.name in this@InteractionOptions)
                 this@InteractionOptions.getValue(thisRef, property)
             else

@@ -19,22 +19,38 @@ import io.facet.discord.extensions.*
  * @version 6/6/2021
  */
 
-suspend fun SlashCommandContext.acknowledge() = event.acknowledge().await()
+public suspend fun SlashCommandContext.acknowledge(): Unit = event.acknowledge().await()
 
-suspend fun SlashCommandContext.acknowledgeEphemeral() = event.acknowledgeEphemeral().await()
+public suspend fun SlashCommandContext.acknowledgeEphemeral(): Unit = event.acknowledgeEphemeral().await()
 
-@Deprecated("")
-suspend fun SlashCommandContext.createFollowupMessage(content: String) = event
+@Deprecated(
+    "Use functions on interactionResponse", ReplaceWith(
+        "event.interactionResponse.createFollowupMessage(content).await()",
+        "io.facet.discord.extensions.await"
+    )
+)
+public suspend fun SlashCommandContext.createFollowupMessage(content: String): MessageData = event
     .interactionResponse
     .createFollowupMessage(content)
     .await()
 
-@Deprecated("")
-suspend fun SlashCommandContext.createFollowupMessage(template: EmbedCreateSpec): MessageData {
+@Deprecated(
+    "", ReplaceWith(
+        "event.interactionResponse.createFollowupMessage(template.asMultipartRequest()).await()",
+        "io.facet.discord.extensions.await"
+    )
+)
+public suspend fun SlashCommandContext.createFollowupMessage(template: EmbedCreateSpec): MessageData {
     return event.interactionResponse.createFollowupMessage(template.asMultipartRequest()).await()
 }
 
-@Deprecated("")
-suspend fun SlashCommandContext.createFollowupMessage(buildBlock: EmbedBuilder.() -> Unit): MessageData {
+@Deprecated(
+    "", ReplaceWith(
+        "event.interactionResponse.createFollowupMessage(embed(buildBlock).asMultipartRequest()).await()",
+        "io.facet.discord.dsl.embed",
+        "io.facet.discord.extensions.await"
+    )
+)
+public suspend fun SlashCommandContext.createFollowupMessage(buildBlock: EmbedBuilder.() -> Unit): MessageData {
     return event.interactionResponse.createFollowupMessage(embed(buildBlock).asMultipartRequest()).await()
 }

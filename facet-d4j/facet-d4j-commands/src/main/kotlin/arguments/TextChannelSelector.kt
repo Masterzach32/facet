@@ -6,7 +6,7 @@ import discord4j.core.*
 import discord4j.core.`object`.entity.channel.*
 import io.facet.discord.extensions.*
 
-class TextChannelSelector : EntitySelector<GuildMessageChannel>() {
+public class TextChannelSelector : EntitySelector<GuildMessageChannel>() {
 
     override fun parse(reader: StringReader) {
         TODO("Not yet implemented")

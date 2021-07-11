@@ -4,7 +4,7 @@ import discord4j.common.util.*
 import discord4j.voice.*
 import io.facet.discord.extensions.*
 
-class LocalSuspendingVoiceConnectionRegistry(
+public class LocalSuspendingVoiceConnectionRegistry(
     private val registry: VoiceConnectionRegistry = LocalVoiceConnectionRegistry()
 ) : SuspendingVoiceConnectionRegistry {
 

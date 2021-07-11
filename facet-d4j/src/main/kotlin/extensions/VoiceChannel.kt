@@ -11,20 +11,20 @@ import kotlinx.coroutines.reactive.*
  * Gets the members currently connected to this [VoiceChannel] by requesting the [VoiceState]s of this guild
  * and filtering by this channel's Snowflake ID.
  */
-val VoiceChannel.connectedMembers: Flow<Member>
+public val VoiceChannel.connectedMembers: Flow<Member>
     get() = voiceStates.asFlow()
         .map { it.member.await() }
 
 /**
  * Gets the members currently connected to this voice channel by requesting the [VoiceState]s of this channel.
  */
-suspend fun VoiceChannel.getConnectedMembers(): Set<Member> = connectedMembers.toSet()
+public suspend fun VoiceChannel.getConnectedMembers(): Set<Member> = connectedMembers.toSet()
 
 /**
  * Gets the [Snowflake] ids of the members currently connected to this voice channel by requesting the [VoiceState]s
  * of this channel.
  */
-suspend fun VoiceChannel.getConnectedMemberIds(): Set<Snowflake> = voiceStates
+public suspend fun VoiceChannel.getConnectedMemberIds(): Set<Snowflake> = voiceStates
     .await()
     .map(VoiceState::getUserId)
     .toSet()

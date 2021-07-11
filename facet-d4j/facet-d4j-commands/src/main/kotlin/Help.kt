@@ -7,7 +7,7 @@ import io.facet.discord.commands.extensions.*
 import io.facet.discord.extensions.*
 import java.util.*
 
-object Help : ChatCommand(
+public object Help : ChatCommand(
     name = "Help",
     aliases = setOf("help", "h"),
     description = "Get a list of available commands, or more information about a specific command.",

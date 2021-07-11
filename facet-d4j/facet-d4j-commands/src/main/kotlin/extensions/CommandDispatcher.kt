@@ -8,13 +8,12 @@ import com.mojang.brigadier.tree.*
 import io.facet.discord.commands.*
 import io.facet.discord.commands.dsl.*
 import kotlinx.coroutines.*
-import java.util.*
 
 /**
  * adds an Literal (non argument/subcommand) node
  * @see LiteralArgumentBuilder
  */
-fun <T> CommandDispatcher<T>.literal(name: String, setup: DSLCommandNode<T>.() -> Unit): CommandNode<T> {
+public fun <T> CommandDispatcher<T>.literal(name: String, setup: DSLCommandNode<T>.() -> Unit): CommandNode<T> {
     val literal = LiteralArgumentBuilder.literal<T>(name)
     val node = DSLCommandNodeImpl<T>(literal, this.root)
     setup.invoke(node)
@@ -23,12 +22,7 @@ fun <T> CommandDispatcher<T>.literal(name: String, setup: DSLCommandNode<T>.() -
     return node.node
 }
 
-//suspend fun CommandDispatcher<ChatCommandSource>.parseSuspend(
-//    command: String,
-//    source: ChatCommandSource
-//): ParseResults<ChatCommandSource> {}
-
-suspend fun CommandDispatcher<ChatCommandSource>.executeSuspend(parseResults: ParseResults<ChatCommandSource>): Int {
+public suspend fun CommandDispatcher<ChatCommandSource>.executeSuspend(parseResults: ParseResults<ChatCommandSource>): Int {
     if (parseResults.getReader().canRead()) {
         if (parseResults.getExceptions().size == 1) {
             throw parseResults.getExceptions().values.iterator().next()

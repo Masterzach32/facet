@@ -3,9 +3,9 @@ package io.facet.core
 /**
  * Key for an object that allows for type-safe code.
  */
-class AttributeKey<T : Any>(val name: String) : Comparable<AttributeKey<T>> {
+public class AttributeKey<T : Any>(public val name: String) : Comparable<AttributeKey<T>> {
 
-    override fun toString() = name
+    override fun toString(): String = name
 
-    override fun compareTo(other: AttributeKey<T>) = name.compareTo(other.name)
+    override fun compareTo(other: AttributeKey<T>): Int = name.compareTo(other.name)
 }

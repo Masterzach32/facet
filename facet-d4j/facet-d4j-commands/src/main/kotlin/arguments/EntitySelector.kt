@@ -5,13 +5,13 @@ import discord4j.common.util.*
 import discord4j.core.*
 import discord4j.core.`object`.entity.*
 
-abstract class EntitySelector<E : Entity> {
+public abstract class EntitySelector<E : Entity> {
 
-    protected val entities = mutableListOf<Snowflake>()
+    protected val entities: MutableList<Snowflake> = mutableListOf()
 
     internal abstract fun parse(reader: StringReader)
 
-    abstract suspend fun get(client: GatewayDiscordClient, guildId: Snowflake): E
+    public abstract suspend fun get(client: GatewayDiscordClient, guildId: Snowflake): E
 
-    abstract suspend fun getMultiple(client: GatewayDiscordClient, guildId: Snowflake): List<E>
+    public abstract suspend fun getMultiple(client: GatewayDiscordClient, guildId: Snowflake): List<E>
 }

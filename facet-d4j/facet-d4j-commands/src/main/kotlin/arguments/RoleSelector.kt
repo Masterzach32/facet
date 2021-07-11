@@ -6,7 +6,7 @@ import discord4j.core.*
 import discord4j.core.`object`.entity.*
 import io.facet.discord.extensions.*
 
-class RoleSelector(val selectMultiple: Boolean) : EntitySelector<Role>() {
+public class RoleSelector(private val selectMultiple: Boolean) : EntitySelector<Role>() {
 
     override fun parse(reader: StringReader) {
         TODO("Not yet implemented")

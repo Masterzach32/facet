@@ -19,13 +19,13 @@ import io.facet.discord.extensions.*
  * @author Zach Kozar
  * @version 6/13/2021
  */
-class GlobalSlashCommandContext(
+public class GlobalSlashCommandContext(
     event: SlashCommandEvent
 ) : SlashCommandContext(event) {
 
-    val guildId: Snowflake? = interaction.guildId.unwrap()
-    val member: Member? = interaction.member.unwrap()
+    public val guildId: Snowflake? = interaction.guildId.unwrap()
+    public val member: Member? = interaction.member.unwrap()
 
-    suspend fun getGuild(): Guild? = interaction.guild.awaitNullable()
-    suspend fun getChannel(): MessageChannel = interaction.channel.await()
+    public suspend fun getGuild(): Guild? = interaction.guild.awaitNullable()
+    public suspend fun getChannel(): MessageChannel = interaction.channel.await()
 }

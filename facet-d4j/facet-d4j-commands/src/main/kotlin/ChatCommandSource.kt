@@ -12,25 +12,25 @@ import kotlinx.coroutines.*
 /**
  * Command source for chat commands. Provides easy access to the message event objects.
  */
-class ChatCommandSource(
-    val event: MessageCreateEvent,
-    val command: String,
-    val prefixUsed: String,
+public class ChatCommandSource(
+    public val event: MessageCreateEvent,
+    public val command: String,
+    public val prefixUsed: String,
     scope: CoroutineScope
 ) : CoroutineScope by scope {
 
-    val client: GatewayDiscordClient = event.client
-    val guildId: Snowflake? = event.guildId.unwrap()
-    val message: Message = event.message
-    val user: User = message.author.get()
+    public val client: GatewayDiscordClient = event.client
+    public val guildId: Snowflake? = event.guildId.unwrap()
+    public val message: Message = event.message
+    public val user: User = message.author.get()
 
-    val member: Member by lazy { event.member.get() }
+    public val member: Member by lazy { event.member.get() }
 
-    suspend fun getGuild(): Guild = event.guild.await()
-    suspend fun getChannel(): MessageChannel = event.message.channel.await()
-    suspend fun getGuildChannel(): GuildMessageChannel = getChannel() as GuildMessageChannel
+    public suspend fun getGuild(): Guild = event.guild.await()
+    public suspend fun getChannel(): MessageChannel = event.message.channel.await()
+    public suspend fun getGuildChannel(): GuildMessageChannel = getChannel() as GuildMessageChannel
 
-    override fun equals(other: Any?) = other is ChatCommandSource &&
+    override fun equals(other: Any?): Boolean = other is ChatCommandSource &&
             command == other.command &&
             message.id == other.message.id
 

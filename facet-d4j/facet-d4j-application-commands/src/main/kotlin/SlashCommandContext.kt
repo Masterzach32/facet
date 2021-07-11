@@ -21,18 +21,18 @@ import discord4j.core.event.domain.interaction.*
  * @author Zach Kozar
  * @version 6/5/2021
  */
-abstract class SlashCommandContext(
+public abstract class SlashCommandContext(
     /**
      * The discord interaction event.
      */
-    val event: SlashCommandEvent
+    public val event: SlashCommandEvent
 ) {
 
-    val client: GatewayDiscordClient = event.client
-    val interaction: Interaction = event.interaction
-    val channelId: Snowflake = interaction.channelId
-    val user: User = interaction.user
+    public val client: GatewayDiscordClient = event.client
+    public val interaction: Interaction = event.interaction
+    public val channelId: Snowflake = interaction.channelId
+    public val user: User = interaction.user
 
     @Experimental
-    val options: InteractionOptions = InteractionOptions(interaction.commandInteraction.get())
+    public val options: InteractionOptions = InteractionOptions(interaction.commandInteraction.get())
 }
