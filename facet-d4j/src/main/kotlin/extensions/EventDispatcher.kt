@@ -32,19 +32,6 @@ fun <TFeature : Any> EventDispatcher.feature(
  * Installs a [Feature] into the [DiscordClient]. The feature is immediately set up, and any event
  * listeners are registered. If applicable, the feature can be configured using the config block.
  */
-@Deprecated("Use install with CoroutineScope parameter.")
-suspend fun <TConfiguration : Any> EventDispatcher.install(
-    feature: EventDispatcherFeature<TConfiguration, *>,
-    config: TConfiguration.() -> Unit = {}
-) {
-    feature.checkRequiredFeatures()
-    Features[feature.key] = with(feature) { install(BotScope, config) }
-}
-
-/**
- * Installs a [Feature] into the [DiscordClient]. The feature is immediately set up, and any event
- * listeners are registered. If applicable, the feature can be configured using the config block.
- */
 @ObsoleteCoroutinesApi
 suspend fun <TConfiguration : Any> EventDispatcher.install(
     scope: CoroutineScope,

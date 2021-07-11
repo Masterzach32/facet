@@ -14,7 +14,6 @@ import discord4j.core.`object`.entity.*
  * @author Zach Kozar
  * @version 6/6/2021
  */
-@Deprecated("Use Discord's permission system for application commands.")
 interface PermissibleApplicationCommand {
 
     suspend fun hasPermission(user: User, guild: Guild?): Boolean

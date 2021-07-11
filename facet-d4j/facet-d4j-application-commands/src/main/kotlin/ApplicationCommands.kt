@@ -26,6 +26,8 @@ import java.util.concurrent.*
  * @author Zach Kozar
  * @version 6/5/2021
  */
+@OptIn(ObsoleteCoroutinesApi::class)
+@Suppress("UNCHECKED_CAST")
 class ApplicationCommands(config: Config, restClient: RestClient) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)

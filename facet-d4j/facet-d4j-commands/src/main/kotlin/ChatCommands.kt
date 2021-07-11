@@ -20,6 +20,7 @@ import java.util.concurrent.*
 /**
  * Instance of the [ChatCommands] feature.
  */
+@OptIn(ObsoleteCoroutinesApi::class)
 class ChatCommands(config: Config) {
 
     private val logger = LoggerFactory.getLogger(ChatCommands::class.java)
@@ -126,7 +127,7 @@ class ChatCommands(config: Config) {
             val logger = LoggerFactory.getLogger("CommandWorker#$index")
             for (event in eventsToProcess) {
                 try {
-                    processEvent(this, logger, feature, event)
+                    processEvent(this, feature, event)
                 } catch (e: Throwable) {
                     logger.warn("Exception thrown while processing command:", e)
                 }
@@ -135,7 +136,6 @@ class ChatCommands(config: Config) {
 
         private suspend fun processEvent(
             scope: CoroutineScope,
-            logger: Logger,
             feature: ChatCommands,
             event: MessageCreateEvent
         ) {

@@ -29,11 +29,19 @@ suspend fun MessageChannel.sendMessage(
  */
 suspend fun MessageChannel.sendEmbed(
     block: EmbedBuilder.() -> Unit
-): Message = createEmbed(embed(block)).await()
+): Message = createMessage(embed(block)).await()
+
+/**
+ * Sends a message with an embed in the specified channel based on the [EmbedCreateSpec].
+ */
+suspend fun MessageChannel.sendMessage(
+    vararg specs: EmbedCreateSpec
+): Message = createMessage(*specs).await()
 
 /**
  * Sends an embed in the specified channel based on the [EmbedCreateSpec].
  */
+@Deprecated("Use sendMessage", ReplaceWith("sendMessage()"))
 suspend fun MessageChannel.sendEmbed(
     spec: EmbedCreateSpec
-): Message = createEmbed(spec).await()
+): Message = createMessage(spec).await()

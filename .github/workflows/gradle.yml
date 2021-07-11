@@ -61,7 +61,7 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 16
-      - name: Publish
+      - name: Publish Artifacts
         run: ./gradlew -x test publish
         env:
           ORG_GRADLE_PROJECT_maven_username: ${{ secrets.maven_username }}

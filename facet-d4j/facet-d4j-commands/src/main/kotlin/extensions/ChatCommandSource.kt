@@ -14,29 +14,37 @@ suspend fun ChatCommandSource.respondMessage(
 ): Message = getChannel().sendMessage(content)
 
 /**
- * Builds a [MessageTemplate] and sends it in the channel that the command was invoked in.
+ * Builds a [MessageCreateSpec] and sends it in the channel that the command was invoked in.
  */
 suspend fun ChatCommandSource.respondMessage(
     builder: MessageBuilder.() -> Unit
 ): Message = getChannel().sendMessage(builder)
 
 /**
- * Sends a message based on the [MessageTemplate] in the channel that the command was invoked in.
+ * Sends a message based on the [MessageCreateSpec] in the channel that the command was invoked in.
  */
 suspend fun ChatCommandSource.respondMessage(
     template: MessageCreateSpec
 ): Message = getChannel().sendMessage(template)
 
 /**
- * Builds an [EmbedTemplate] and sends it in the channel that the command was invoked in.
+ * Builds an [EmbedCreateSpec] and sends it in the channel that the command was invoked in.
  */
 suspend fun ChatCommandSource.respondEmbed(
     builder: EmbedBuilder.() -> Unit
 ): Message = getChannel().sendEmbed(builder)
 
 /**
- * Sends an embed based on the [EmbedTemplate] in the channel that the command was invoked in.
+ * Sends an embed based on the [EmbedCreateSpec] in the channel that the command was invoked in.
  */
+suspend fun ChatCommandSource.respondMessage(
+    vararg specs: EmbedCreateSpec
+): Message = getChannel().sendMessage(*specs)
+
+/**
+ * Sends an embed based on the [EmbedCreateSpec] in the channel that the command was invoked in.
+ */
+@Deprecated("Use respondMessage", ReplaceWith("respondMessage(spec)"))
 suspend fun ChatCommandSource.respondEmbed(
-    template: EmbedCreateSpec
-): Message = getChannel().sendEmbed(template)
+    spec: EmbedCreateSpec
+): Message = respondMessage(spec)

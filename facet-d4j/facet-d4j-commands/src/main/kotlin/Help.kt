@@ -5,6 +5,7 @@ import discord4j.rest.util.*
 import io.facet.discord.commands.dsl.*
 import io.facet.discord.commands.extensions.*
 import io.facet.discord.extensions.*
+import java.util.*
 
 object Help : ChatCommand(
     name = "Help",
@@ -41,7 +42,7 @@ object Help : ChatCommand(
 
         argument("command", StringArgumentType.word()) {
             runs { context ->
-                val cmdAlias = context.getString("command").toLowerCase()
+                val cmdAlias = context.getString("command").lowercase(Locale.getDefault())
                 val feature = client.feature(ChatCommands)
                 val command = feature.commandMap.entries.firstOrNull { (alias, _) -> cmdAlias == alias }?.value
                 val prefix = feature.commandPrefixFor(guildId)

@@ -7,12 +7,15 @@ import discord4j.core.event.domain.message.*
 import discord4j.core.spec.*
 import io.facet.core.extensions.*
 import io.facet.discord.dsl.*
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.reactive.*
 
 /**
  * Gets ALL distinct user mentions, including users specifically mentioned as well as users mentioned in roles.
  */
+@ExperimentalCoroutinesApi
+@FlowPreview
 val Message.allUserMentions: Flow<User>
     get() = when {
         mentionsEveryone() -> guild.asFlow().flatMapConcat { it.members.asFlow() }
@@ -21,6 +24,8 @@ val Message.allUserMentions: Flow<User>
             .distinctUntilChanged()
     }
 
+@ExperimentalCoroutinesApi
+@FlowPreview
 val Message.allMemberMentions: Flow<Member>
     get() = allUserMentions.mapNotNull { it as? Member ?: it.asMember(guildId.get()).awaitNullable() }
 
@@ -39,8 +44,12 @@ val Message.buttonEvents: Flow<ButtonInteractEvent>
 /**
  * Gets ALL distinct user mentions, including users specifically mentioned as well as users mentioned in roles.
  */
+@ExperimentalCoroutinesApi
+@FlowPreview
 suspend fun Message.getAllUserMentions(): Set<User> = allUserMentions.toSet()
 
+@ExperimentalCoroutinesApi
+@FlowPreview
 suspend fun Message.getAllMemberMentions(): Set<Member> = allMemberMentions.toSet()
 
 /**
