@@ -13,17 +13,17 @@ import reactor.core.publisher.*
  * Gets the currently installed [Feature] instance, if present.
  */
 @Suppress("UNCHECKED_CAST")
-fun <TFeature : Any> GatewayDiscordClient.featureOrNull(
-    feature: Feature<*, *, TFeature>
-): TFeature? = Features[feature.key]?.let { it as TFeature }
+fun <F : Any> GatewayDiscordClient.featureOrNull(
+    feature: Feature<*, *, F>
+): F? = Features[feature.key]?.let { it as F }
 
 /**
  * Gets the currently installed [Feature] instance, if present. Throws an IllegalStateException if the
  * requested feature is not installed.
  */
-fun <TFeature : Any> GatewayDiscordClient.feature(
-    feature: Feature<*, *, TFeature>
-): TFeature = featureOrNull(feature)
+fun <F : Any> GatewayDiscordClient.feature(
+    feature: Feature<*, *, F>
+): F = featureOrNull(feature)
     ?: error("Feature with key ${feature.key} has not been installed into this DiscordClient instance!")
 
 /**
@@ -31,10 +31,10 @@ fun <TFeature : Any> GatewayDiscordClient.feature(
  * listeners are registered. If applicable, the feature can be configured using the config block.
  */
 @ObsoleteCoroutinesApi
-suspend fun <TConfiguration : Any> GatewayDiscordClient.install(
+suspend fun <C : Any> GatewayDiscordClient.install(
     scope: CoroutineScope,
-    feature: GatewayFeature<TConfiguration, *>,
-    config: TConfiguration.() -> Unit = {}
+    feature: GatewayFeature<C, *>,
+    config: C.() -> Unit = {}
 ) {
     feature.checkRequiredFeatures()
     Features[feature.key] = with(feature) { install(scope, config) }

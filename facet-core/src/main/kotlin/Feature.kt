@@ -5,12 +5,12 @@ import kotlinx.coroutines.*
 /**
  * A feature is any code that can be installed into an object to improve its functionality.
  */
-abstract class Feature<in TApplication, out TConfiguration : Any, TFeature : Any>(
+abstract class Feature<in A, out C : Any, F : Any>(
     keyName: String,
     val requiredFeatures: List<Feature<*, *, *>> = emptyList()
 ) {
 
-    val key = AttributeKey<TFeature>(keyName)
+    val key = AttributeKey<F>(keyName)
 
     fun checkRequiredFeatures() = requiredFeatures
             .map { it.key }
@@ -24,5 +24,5 @@ abstract class Feature<in TApplication, out TConfiguration : Any, TFeature : Any
     /**
      * Feature installation script
      */
-    abstract suspend fun TApplication.install(scope: CoroutineScope, configuration: TConfiguration.() -> Unit): TFeature
+    abstract suspend fun A.install(scope: CoroutineScope, configuration: C.() -> Unit): F
 }

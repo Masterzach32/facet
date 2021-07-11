@@ -10,21 +10,21 @@ import java.io.*
 /**
  * Creates a new [MessageCreateSpec] using a [MessageBuilder].
  */
-fun message(buildBlock: MessageBuilder.() -> Unit): MessageCreateSpec = MessageBuilder().apply(buildBlock).build()
+fun message(block: MessageBuilder.() -> Unit): MessageCreateSpec = MessageBuilder().apply(block).build()
 
 /**
  * Edit an [MessageCreateSpec] using an [MessageBuilder]
  */
 @Experimental
 @Deprecated("", ReplaceWith("and(buildBlock)"))
-fun MessageCreateSpec.andThen(buildBlock: MessageBuilder.() -> Unit): MessageCreateSpec = and(buildBlock)
+fun MessageCreateSpec.andThen(block: MessageBuilder.() -> Unit): MessageCreateSpec = and(block)
 
 /**
  * Edit an [MessageCreateSpec] using an [MessageBuilder]
  */
 @Experimental
-fun MessageCreateSpec.and(buildBlock: MessageBuilder.() -> Unit): MessageCreateSpec =
-    MessageBuilder(this).apply(buildBlock).build()
+fun MessageCreateSpec.and(block: MessageBuilder.() -> Unit): MessageCreateSpec =
+    MessageBuilder(this).apply(block).build()
 
 
 class MessageBuilder internal constructor(

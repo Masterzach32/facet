@@ -15,17 +15,17 @@ import reactor.core.publisher.*
  * Gets the currently installed [Feature] instance, if present.
  */
 @Suppress("UNCHECKED_CAST")
-fun <TFeature : Any> EventDispatcher.featureOrNull(
-    feature: EventDispatcherFeature<*, TFeature>
-): TFeature? = Features[feature.key]?.let { it as TFeature }
+fun <F : Any> EventDispatcher.featureOrNull(
+    feature: EventDispatcherFeature<*, F>
+): F? = Features[feature.key]?.let { it as F }
 
 /**
  * Gets the currently installed [Feature] instance, if present. Throws an IllegalStateException if the
  * requested feature is not installed.
  */
-fun <TFeature : Any> EventDispatcher.feature(
-    feature: EventDispatcherFeature<*, TFeature>
-): TFeature = featureOrNull(feature)
+fun <F : Any> EventDispatcher.feature(
+    feature: EventDispatcherFeature<*, F>
+): F = featureOrNull(feature)
     ?: error("Feature with key ${feature.key} has not been installed into this DiscordClient instance!")
 
 /**
@@ -33,10 +33,10 @@ fun <TFeature : Any> EventDispatcher.feature(
  * listeners are registered. If applicable, the feature can be configured using the config block.
  */
 @ObsoleteCoroutinesApi
-suspend fun <TConfiguration : Any> EventDispatcher.install(
+suspend fun <C : Any> EventDispatcher.install(
     scope: CoroutineScope,
-    feature: EventDispatcherFeature<TConfiguration, *>,
-    config: TConfiguration.() -> Unit = {}
+    feature: EventDispatcherFeature<C, *>,
+    config: C.() -> Unit = {}
 ) {
     feature.checkRequiredFeatures()
     Features[feature.key] = with(feature) { install(scope, config) }

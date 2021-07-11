@@ -83,10 +83,10 @@ suspend fun Message.getAllMemberMentions(): Set<Member> = allMemberMentions.toSe
  */
 suspend fun Message.reply(
     builder: MessageBuilder.() -> Unit
-) = channel.await().sendMessage(message {
+) = channel.await().sendMessage {
     builder()
     messageReference = this@reply.id
-})
+}
 
 /**
  * Sends a [Message] as a reply to the receiver, building the message from the specified [MessageCreateSpec].

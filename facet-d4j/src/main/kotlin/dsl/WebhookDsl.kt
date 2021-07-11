@@ -9,21 +9,21 @@ import java.io.*
 /**
  * Creates a new [WebhookExecuteSpec] using a [WebhookMessageBuilder].
  */
-fun webhookMessage(buildBlock: WebhookMessageBuilder.() -> Unit): WebhookExecuteSpec =
-    WebhookMessageBuilder().apply(buildBlock).build()
+fun webhookMessage(block: WebhookMessageBuilder.() -> Unit): WebhookExecuteSpec =
+    WebhookMessageBuilder().apply(block).build()
 
 /**
  * Creates a new [WebhookExecuteSpec] using an [EmbedBuilder].
  */
-fun webhookMessageEmbed(buildBlock: EmbedBuilder.() -> Unit): WebhookExecuteSpec =
-    WebhookExecuteSpec.create().withEmbeds(EmbedBuilder().apply(buildBlock).build())
+fun webhookMessageEmbed(block: EmbedBuilder.() -> Unit): WebhookExecuteSpec =
+    WebhookExecuteSpec.create().withEmbeds(EmbedBuilder().apply(block).build())
 
 /**
  * Edit a [WebhookExecuteSpec] using an [WebhookMessageBuilder]
  */
 @Experimental
-fun WebhookExecuteSpec.and(buildBlock: WebhookMessageBuilder.() -> Unit): WebhookExecuteSpec =
-    WebhookMessageBuilder(this).apply(buildBlock).build()
+fun WebhookExecuteSpec.and(block: WebhookMessageBuilder.() -> Unit): WebhookExecuteSpec =
+    WebhookMessageBuilder(this).apply(block).build()
 
 class WebhookMessageBuilder internal constructor(
     private val builder: WebhookExecuteSpec.Builder = WebhookExecuteSpec.builder()

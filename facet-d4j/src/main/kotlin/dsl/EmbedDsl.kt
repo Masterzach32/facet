@@ -8,21 +8,21 @@ import java.time.*
 /**
  * Creates a new [EmbedCreateSpec] using an [EmbedBuilder].
  */
-fun embed(buildBlock: EmbedBuilder.() -> Unit): EmbedCreateSpec = EmbedBuilder().apply(buildBlock).build()
+fun embed(block: EmbedBuilder.() -> Unit): EmbedCreateSpec = EmbedBuilder().apply(block).build()
 
 /**
  * Edit an [EmbedCreateSpec] using an [EmbedBuilder]
  */
 @Experimental
 @Deprecated("", ReplaceWith("and(buildBlock)"))
-fun EmbedCreateSpec.andThen(buildBlock: EmbedBuilder.() -> Unit): EmbedCreateSpec = and(buildBlock)
+fun EmbedCreateSpec.andThen(block: EmbedBuilder.() -> Unit): EmbedCreateSpec = and(block)
 
 /**
  * Edit an [EmbedCreateSpec] using an [EmbedBuilder]
  */
 @Experimental
-fun EmbedCreateSpec.and(buildBlock: EmbedBuilder.() -> Unit): EmbedCreateSpec =
-    EmbedBuilder(this).apply(buildBlock).build()
+fun EmbedCreateSpec.and(block: EmbedBuilder.() -> Unit): EmbedCreateSpec =
+    EmbedBuilder(this).apply(block).build()
 
 class EmbedBuilder internal constructor(
     private val builder: EmbedCreateSpec.Builder = EmbedCreateSpec.builder()
