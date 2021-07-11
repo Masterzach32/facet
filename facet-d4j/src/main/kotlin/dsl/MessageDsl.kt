@@ -8,19 +8,19 @@ import discord4j.rest.util.*
 import java.io.*
 
 /**
- * Creates a new [MessageTemplate] using a [MessageBuilder].
+ * Creates a new [MessageCreateSpec] using a [MessageBuilder].
  */
 fun message(buildBlock: MessageBuilder.() -> Unit): MessageCreateSpec = MessageBuilder().apply(buildBlock).build()
 
 /**
- * Edit an [EmbedCreateSpec] using an [EmbedBuilder]
+ * Edit an [MessageCreateSpec] using an [MessageBuilder]
  */
 @Experimental
 @Deprecated("", ReplaceWith("and(buildBlock)"))
 fun MessageCreateSpec.andThen(buildBlock: MessageBuilder.() -> Unit): MessageCreateSpec = and(buildBlock)
 
 /**
- * Edit an [EmbedCreateSpec] using an [EmbedBuilder]
+ * Edit an [MessageCreateSpec] using an [MessageBuilder]
  */
 @Experimental
 fun MessageCreateSpec.and(buildBlock: MessageBuilder.() -> Unit): MessageCreateSpec =

@@ -2,6 +2,7 @@ package io.facet.discord.extensions
 
 import discord4j.core.`object`.entity.*
 import discord4j.core.`object`.reaction.*
+import discord4j.core.event.domain.interaction.*
 import discord4j.core.event.domain.message.*
 import discord4j.core.spec.*
 import io.facet.core.extensions.*
@@ -25,6 +26,15 @@ val Message.allMemberMentions: Flow<Member>
 
 val Message.ourReactions: Set<Reaction>
     get() = reactions.filter(Reaction::selfReacted).toSet()
+
+
+val Message.reactionAddEvents: Flow<ReactionAddEvent>
+    get() = client.flowOf<ReactionAddEvent>()
+        .filter { it.messageId == id }
+
+val Message.buttonEvents: Flow<ButtonInteractEvent>
+    get() = client.flowOf<ButtonInteractEvent>()
+        .filter { it.interaction.message.unwrap()?.id == id }
 
 /**
  * Gets ALL distinct user mentions, including users specifically mentioned as well as users mentioned in roles.
@@ -86,7 +96,3 @@ suspend fun Message.replyEmbed(
         repliedUser = mention
     }
 }
-
-val Message.reactionAddEvents: Flow<ReactionAddEvent>
-    get() = client.flowOf<ReactionAddEvent>()
-        .filter { it.messageId == id }
