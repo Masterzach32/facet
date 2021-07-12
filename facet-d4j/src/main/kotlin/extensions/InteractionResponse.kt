@@ -21,6 +21,13 @@ import discord4j.rest.interaction.*
 import io.facet.discord.dsl.*
 
 /**
+ * Create and send a new followup message with the provided content.
+ * This uses a webhook tied to the interaction ID and token.
+ */
+public suspend fun InteractionResponse.sendFollowupMessage(content: String): MessageData =
+    createFollowupMessage(content).await()
+
+/**
  * Create and send a new followup message using the provided spec.
  * This uses a webhook tied to the interaction ID and token.
  */
