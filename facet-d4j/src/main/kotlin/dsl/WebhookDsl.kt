@@ -37,7 +37,7 @@ public fun webhookMessageEmbed(block: EmbedBuilder.() -> Unit): WebhookExecuteSp
  * Edit a [WebhookExecuteSpec] using an [WebhookMessageBuilder]
  */
 @Experimental
-public fun WebhookExecuteSpec.and(block: WebhookMessageBuilder.() -> Unit): WebhookExecuteSpec =
+public infix fun WebhookExecuteSpec.and(block: WebhookMessageBuilder.() -> Unit): WebhookExecuteSpec =
     WebhookMessageBuilder(this).apply(block).build()
 
 public class WebhookMessageBuilder internal constructor(

@@ -38,7 +38,7 @@ public fun MessageCreateSpec.andThen(block: MessageBuilder.() -> Unit): MessageC
  * Edit an [MessageCreateSpec] using an [MessageBuilder]
  */
 @Experimental
-public fun MessageCreateSpec.and(block: MessageBuilder.() -> Unit): MessageCreateSpec =
+public infix fun MessageCreateSpec.and(block: MessageBuilder.() -> Unit): MessageCreateSpec =
     MessageBuilder(this).apply(block).build()
 
 

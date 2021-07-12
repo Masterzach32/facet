@@ -36,7 +36,7 @@ public fun EmbedCreateSpec.andThen(block: EmbedBuilder.() -> Unit): EmbedCreateS
  * Edit an [EmbedCreateSpec] using an [EmbedBuilder]
  */
 @Experimental
-public fun EmbedCreateSpec.and(block: EmbedBuilder.() -> Unit): EmbedCreateSpec =
+public infix fun EmbedCreateSpec.and(block: EmbedBuilder.() -> Unit): EmbedCreateSpec =
     EmbedBuilder(this).apply(block).build()
 
 public class EmbedBuilder internal constructor(
