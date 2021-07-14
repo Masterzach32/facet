@@ -28,7 +28,7 @@ public suspend fun InteractionResponse.sendFollowupMessage(content: String): Mes
     createFollowupMessage(content).await()
 
 /**
- * Create and send a new followup message using the provided spec.
+ * Create and send a new followup message using the provided [WebhookExecuteSpec].
  * This uses a webhook tied to the interaction ID and token.
  */
 public suspend fun InteractionResponse.sendFollowupMessage(spec: WebhookExecuteSpec): MessageData =

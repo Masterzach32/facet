@@ -17,6 +17,9 @@ package io.facet.discord.dsl
 
 import discord4j.core.spec.*
 
+/**
+ * Used to build [specs][Spec] in DSL format.
+ */
 public interface SpecBuilder<out S : Spec<*>> {
 
     public fun build(): S

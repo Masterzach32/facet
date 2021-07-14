@@ -26,7 +26,8 @@ public fun Transaction.create(vararg tables: Table) {
 
 public suspend fun <T> sql(
     context: CoroutineContext = Dispatchers.IO,
+    db: Database? = null,
     sqlcode: Transaction.() -> T
 ): T = withContext(context) {
-    transaction(statement = sqlcode)
+    transaction(db, sqlcode)
 }

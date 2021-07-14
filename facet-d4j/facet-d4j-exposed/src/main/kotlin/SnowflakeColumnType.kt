@@ -20,6 +20,9 @@ import io.facet.discord.extensions.*
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.vendors.*
 
+/**
+ * Numeric column for storing 64-bit [Snowflake] IDs
+ */
 public class SnowflakeColumnType : ColumnType() {
 
     override fun sqlType(): String = currentDialect.dataTypeProvider.longType()
