@@ -21,6 +21,7 @@ import discord4j.core.*
 import discord4j.core.`object`.command.*
 import discord4j.core.`object`.entity.*
 import discord4j.core.event.domain.interaction.*
+import io.facet.discord.extensions.*
 
 /*
  * facet - Created on 6/5/2021
@@ -43,11 +44,34 @@ public abstract class SlashCommandContext(
     public val event: SlashCommandEvent
 ) {
 
+    /**
+     * The gateway this event was dispatched from.
+     */
     public val client: GatewayDiscordClient = event.client
+
+    /**
+     * The interaction for this context.
+     */
     public val interaction: Interaction = event.interaction
+
+    /**
+     * The interaction followup handler.
+     */
+    public val interactionResponse: GatewayInteractionResponse = event.gatewayInteractionResponse
+
+    /**
+     * The channel snowflake ID where this interaction occurred.
+     */
     public val channelId: Snowflake = interaction.channelId
+
+    /**
+     * The user that invoked this interaction.
+     */
     public val user: User = interaction.user
 
+    /**
+     * Experimental class for getting application command options through delegation.
+     */
     @Experimental
     public val options: InteractionOptions = InteractionOptions(interaction.commandInteraction.get())
 }

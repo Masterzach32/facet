@@ -22,6 +22,9 @@ import discord4j.core.spec.*
 import discord4j.rest.interaction.*
 import io.facet.discord.dsl.*
 
+/**
+ * A handler for common operations related to an interaction followup response.
+ */
 public class GatewayInteractionResponse(
     event: InteractionCreateEvent
 ) : InteractionResponse by event.interactionResponse {
@@ -29,6 +32,9 @@ public class GatewayInteractionResponse(
     public val gateway: GatewayDiscordClient = event.client
 }
 
+/**
+ * The handler for common operations related to an interaction followup response associated with this event.
+ */
 public val InteractionCreateEvent.gatewayInteractionResponse: GatewayInteractionResponse
     get() = GatewayInteractionResponse(this)
 
