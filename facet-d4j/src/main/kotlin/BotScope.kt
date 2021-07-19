@@ -20,5 +20,5 @@ import kotlinx.coroutines.*
 /**
  * The bot's coroutine scope, used as the root coroutine scope for event listeners.
  */
-@Deprecated("Use withFeatures block on GatewayBootstrap")
+@Deprecated("Use withFeatures block on GatewayBootstrap", level = DeprecationLevel.ERROR)
 public object BotScope : CoroutineScope by CoroutineScope(SupervisorJob())
