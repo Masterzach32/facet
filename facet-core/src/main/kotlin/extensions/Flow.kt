@@ -20,3 +20,19 @@ import kotlinx.coroutines.flow.*
 
 @ExperimentalCoroutinesApi
 public fun <T> Flow<T>.mergeWith(other: Flow<T>): Flow<T> = merge(this, other)
+
+/**
+ * Returns a [Flow] which only emits unique values of type T.
+ */
+public fun <T> Flow<T>.distinct(): Flow<T> = distinctBy { it }
+
+/**
+ * Returns a [Flow] which only emits unique values determined by the given selector function.
+ */
+public fun <T, K> Flow<T>.distinctBy(selector: (T) -> K): Flow<T> = flow {
+    val keySet = mutableSetOf<K>()
+    collect { value ->
+        if (keySet.add(selector(value)))
+            emit(value)
+    }
+}

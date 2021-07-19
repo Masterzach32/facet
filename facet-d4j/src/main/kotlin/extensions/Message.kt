@@ -36,7 +36,7 @@ public val Message.allUserMentions: Flow<User>
         mentionsEveryone() -> guild.asFlow().flatMapConcat { it.members.asFlow() }
         else -> userMentions.asFlow()
             .mergeWith(roleMentions.asFlow().flatMapConcat { it.members })
-            .distinctUntilChanged()
+            .distinctBy { it.id }
     }
 
 /**
