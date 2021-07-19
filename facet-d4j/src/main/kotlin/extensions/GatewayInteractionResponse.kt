@@ -25,32 +25,44 @@ import io.facet.discord.dsl.*
 /**
  * A handler for common operations related to an interaction followup response.
  */
-public class GatewayInteractionResponse(
-    event: InteractionCreateEvent
-) : InteractionResponse by event.interactionResponse {
+public interface GatewayInteractionResponse : InteractionResponse {
 
-    public val gateway: GatewayDiscordClient = event.client
+    /**
+     * The gateway client associated with this interaction.
+     */
+    public val client: GatewayDiscordClient
+
+    /**
+     * Create and send a new followup message with the provided content.
+     * This uses a webhook tied to the interaction ID and token.
+     */
+    public suspend fun sendFollowupMessage(content: String): Message
+
+    /**
+     * Create and send a new followup message using the provided [WebhookExecuteSpec].
+     * This uses a webhook tied to the interaction ID and token.
+     */
+    public suspend fun sendFollowupMessage(spec: WebhookExecuteSpec): Message
+}
+
+private class EventInteractionResponse(
+    event: InteractionCreateEvent
+) : GatewayInteractionResponse, InteractionResponse by event.interactionResponse {
+
+    override val client: GatewayDiscordClient = event.client
+
+    override suspend fun sendFollowupMessage(content: String): Message =
+        Message(client, createFollowupMessage(content).await())
+
+    override suspend fun sendFollowupMessage(spec: WebhookExecuteSpec): Message =
+        Message(client, createFollowupMessage(spec.asRequest()).await())
 }
 
 /**
  * The handler for common operations related to an interaction followup response associated with this event.
  */
 public val InteractionCreateEvent.gatewayInteractionResponse: GatewayInteractionResponse
-    get() = GatewayInteractionResponse(this)
-
-/**
- * Create and send a new followup message with the provided content.
- * This uses a webhook tied to the interaction ID and token.
- */
-public suspend fun GatewayInteractionResponse.sendFollowupMessage(content: String): Message =
-    Message(gateway, createFollowupMessage(content).await())
-
-/**
- * Create and send a new followup message using the provided [WebhookExecuteSpec].
- * This uses a webhook tied to the interaction ID and token.
- */
-public suspend fun GatewayInteractionResponse.sendFollowupMessage(spec: WebhookExecuteSpec): Message =
-    Message(gateway, createFollowupMessage(spec.asRequest()).await())
+    get() = EventInteractionResponse(this)
 
 /**
  * Create and send a new followup message, using the [WebhookMessageBuilder] to build the request.
