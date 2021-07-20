@@ -71,7 +71,7 @@ subprojects {
                         remoteUrl.set(
                             URL(
                                 "https://github.com/masterzach32/facet/blob/master/" +
-                                    "${project.relativePath(rootProject.path)}/src/main/kotlin"
+                                    "${project.projectDir.relativeTo(rootProject.projectDir).path}/src/main/kotlin"
                             )
                         )
                         remoteLineSuffix.set("#L")
@@ -90,7 +90,7 @@ subprojects {
                     )
                     externalLibDocs.addAll(
                         discord4jProjects
-                            .map { "https://javadoc.io/doc/com.discord4j/$it/latest/index.html" }
+                            .map { "https://javadoc.io/doc/com.discord4j/$it/latest/" }
                     )
 
                     externalLibDocs.forEach { url ->
