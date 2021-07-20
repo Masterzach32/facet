@@ -1,4 +1,6 @@
+import org.jetbrains.dokka.gradle.*
 import org.jetbrains.kotlin.gradle.tasks.*
+import java.net.*
 
 val slf4j_version: String by project
 val logback_version: String by project
@@ -6,10 +8,10 @@ val kotlinx_coroutines_version: String by project
 
 plugins {
     kotlin("jvm") version "1.5.10" apply false
-    id("org.jetbrains.dokka") version "1.5.0"
-    id("net.researchgate.release") version "2.8.1"
     `java-library`
     `maven-publish`
+    id("org.jetbrains.dokka") version "1.5.0"
+    id("net.researchgate.release") version "2.8.1"
 }
 
 allprojects {
@@ -58,6 +60,43 @@ subprojects {
             useJUnitPlatform()
             testLogging {
                 events("passed", "skipped", "failed")
+            }
+        }
+
+        withType<DokkaTaskPartial>().configureEach {
+            dokkaSourceSets {
+                configureEach {
+                    sourceLink {
+                        remoteUrl.set(
+                            URL(
+                                "https://github.com/masterzach32/facet/blob/master/" +
+                                    "${project.relativePath(rootProject.path)}/src/main/kotlin"
+                            )
+                        )
+
+                        val externalLibDocs = mutableListOf<String>()
+
+                        val discord4jProjects = listOf(
+                            "discord-json",
+                            "discord4j-command",
+                            "discord4j-common",
+                            "discord4j-core",
+                            "discord4j-gateway",
+                            "discord4j-rest",
+                            "discord4j-voice"
+                        )
+                        externalLibDocs.addAll(
+                            discord4jProjects
+                                .map { "https://javadoc.io/doc/com.discord4j/$it/latest/index.html" }
+                        )
+
+                        externalLibDocs.forEach { url ->
+                            externalDocumentationLink(url)
+                        }
+
+                        remoteLineSuffix.set("#L")
+                    }
+                }
             }
         }
     }
