@@ -67,34 +67,34 @@ subprojects {
             dokkaSourceSets {
                 configureEach {
                     sourceLink {
+                        localDirectory.set(file("src/main/kotlin"))
                         remoteUrl.set(
                             URL(
                                 "https://github.com/masterzach32/facet/blob/master/" +
                                     "${project.relativePath(rootProject.path)}/src/main/kotlin"
                             )
                         )
-
-                        val externalLibDocs = mutableListOf<String>()
-
-                        val discord4jProjects = listOf(
-                            "discord-json",
-                            "discord4j-command",
-                            "discord4j-common",
-                            "discord4j-core",
-                            "discord4j-gateway",
-                            "discord4j-rest",
-                            "discord4j-voice"
-                        )
-                        externalLibDocs.addAll(
-                            discord4jProjects
-                                .map { "https://javadoc.io/doc/com.discord4j/$it/latest/index.html" }
-                        )
-
-                        externalLibDocs.forEach { url ->
-                            externalDocumentationLink(url)
-                        }
-
                         remoteLineSuffix.set("#L")
+                    }
+
+                    val externalLibDocs = mutableListOf<String>()
+
+                    val discord4jProjects = listOf(
+                        "discord-json",
+                        "discord4j-command",
+                        "discord4j-common",
+                        "discord4j-core",
+                        "discord4j-gateway",
+                        "discord4j-rest",
+                        "discord4j-voice"
+                    )
+                    externalLibDocs.addAll(
+                        discord4jProjects
+                            .map { "https://javadoc.io/doc/com.discord4j/$it/latest/index.html" }
+                    )
+
+                    externalLibDocs.forEach { url ->
+                        externalDocumentationLink(url)
                     }
                 }
             }
