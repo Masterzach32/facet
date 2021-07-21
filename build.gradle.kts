@@ -106,12 +106,14 @@ subprojects {
         }
     }
 
-    java {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+    val sourcesJar by tasks.registering(Jar::class) {
+        archiveClassifier.set("sources")
+        from(project.sourceSets["main"].allSource)
+    }
 
-        //withJavadocJar()
-        withSourcesJar()
+    val javadocJar by tasks.registering(Jar::class) {
+        archiveClassifier.set("javadoc")
+        from(tasks["dokkaHtmlPartial"])
     }
 
     publishing {
@@ -120,7 +122,9 @@ subprojects {
                 groupId = "io.facet"
                 artifactId = project.name
                 version = project.version.toString()
-                from(components["java"])
+                from(components["kotlin"])
+                artifact(sourcesJar.get())
+                artifact(javadocJar.get())
                 versionMapping {
                     usage("java-api") {
                         fromResolutionOf("runtimeClasspath")
