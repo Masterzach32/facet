@@ -71,7 +71,7 @@ subprojects {
                         remoteUrl.set(
                             URL(
                                 "https://github.com/masterzach32/facet/blob/master/" +
-                                    "${project.projectDir.relativeTo(rootProject.projectDir).path}/src/main/kotlin"
+                                    "${projectDir.toRelativeString(rootDir)}/src/main/kotlin"
                             )
                         )
                         remoteLineSuffix.set("#L")
