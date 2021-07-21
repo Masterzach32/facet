@@ -8,8 +8,8 @@ val kotlinx_coroutines_version: String by project
 
 plugins {
     kotlin("jvm") version "1.5.10" apply false
-    `java-library`
-    `maven-publish`
+    id("java-library")
+    id("maven-publish")
     id("org.jetbrains.dokka") version "1.5.0"
     id("net.researchgate.release") version "2.8.1"
 }
@@ -34,7 +34,7 @@ subprojects {
     dependencies {
         implementation("org.slf4j:slf4j-api:$slf4j_version")
 
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version")
+        api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version")
 
         testImplementation("ch.qos.logback:logback-classic:$logback_version")
         testImplementation(platform("org.junit:junit-bom:5.7.2"))
@@ -106,27 +106,27 @@ subprojects {
         }
     }
 
-    val sourcesJar by tasks.registering(Jar::class) {
-        archiveClassifier.set("sources")
-        from((project.the<SourceSetContainer>()["main"] as SourceSet).allSource)
+    java {
+        //withJavadocJar()
+        withSourcesJar()
     }
 
     publishing {
         publications {
             create<MavenPublication>("facet") {
+                groupId = "io.facet"
                 artifactId = project.name
                 version = project.version.toString()
-                from(components["kotlin"])
-                artifact(sourcesJar.get())
-//                versionMapping {
-//                    usage("java-api") {
-//                        fromResolutionOf("runtimeClasspath")
-//                    }
-//
-//                    usage("java-runtime") {
-//                        fromResolutionResult()
-//                    }
-//                }
+                from(components["java"])
+                versionMapping {
+                    usage("java-api") {
+                        fromResolutionOf("runtimeClasspath")
+                    }
+
+                    usage("java-runtime") {
+                        fromResolutionResult()
+                    }
+                }
             }
         }
 

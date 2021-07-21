@@ -8,6 +8,6 @@ repositories {
 
 dependencies {
     api(project(":facet-d4j"))
-    implementation("com.sedmelluq:lavaplayer:$lavaplayer_version")
+    api("com.sedmelluq:lavaplayer:$lavaplayer_version")
 }
 

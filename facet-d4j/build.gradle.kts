@@ -11,9 +11,8 @@ allprojects {
     }
 
     dependencies {
-        implementation("com.discord4j:discord4j-core:$discord4j_version")
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$kotlinx_coroutines_version")
-        //implementation("io.projectreactor.kotlin:reactor-kotlin-extensions:$reactor_kotlin_extensions")
+        api("com.discord4j:discord4j-core:$discord4j_version")
+        api("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$kotlinx_coroutines_version")
     }
 }
 
