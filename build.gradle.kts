@@ -77,21 +77,26 @@ subprojects {
                         remoteLineSuffix.set("#L")
                     }
 
-                    val externalLibDocs = mutableListOf<String>()
-
+                    val discord4j_docs_version: String by project
+                    val discord_json_docs_version: String by project
                     val discord4jProjects = listOf(
-                        "discord-json",
-                        "discord4j-common",
-                        "discord4j-core",
-                        "discord4j-gateway",
-                        "discord4j-rest",
-                        "discord4j-voice"
+                        "discord-json" to discord_json_docs_version,
+                        "discord4j-common" to discord4j_docs_version,
+                        "discord4j-core" to discord4j_docs_version,
+                        "discord4j-gateway" to discord4j_docs_version,
+                        "discord4j-rest" to discord4j_docs_version,
+                        "discord4j-voice" to discord4j_docs_version
                     )
-                    externalLibDocs.addAll(
-                        discord4jProjects
-                            .map { "https://javadoc.io/doc/com.discord4j/$it/latest/" }
+                    discord4jProjects
+                        .map { (name, version) -> "https://javadoc.io/static/com.discord4j/$name/$version/" }
+                        .forEach { url ->
+                            externalDocumentationLink(url, "${url}element-list")
+                        }
+
+                    val externalLibDocs = listOf(
+                        "https://projectreactor.io/docs/core/release/api/",
+                        "https://kotlin.github.io/kotlinx.coroutines/"
                     )
-                    externalLibDocs.add("https://projectreactor.io/docs/core/release/api/")
 
                     externalLibDocs.forEach { url ->
                         externalDocumentationLink(url)
