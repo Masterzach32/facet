@@ -81,7 +81,6 @@ subprojects {
 
                     val discord4jProjects = listOf(
                         "discord-json",
-                        "discord4j-command",
                         "discord4j-common",
                         "discord4j-core",
                         "discord4j-gateway",
@@ -92,6 +91,7 @@ subprojects {
                         discord4jProjects
                             .map { "https://javadoc.io/doc/com.discord4j/$it/latest/" }
                     )
+                    externalLibDocs.add("https://projectreactor.io/docs/core/release/api/")
 
                     externalLibDocs.forEach { url ->
                         externalDocumentationLink(url)
