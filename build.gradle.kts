@@ -175,31 +175,31 @@ subprojects {
 
         repositories {
             if (isRelease) {
-                maven {
-                    name = "MavenCentral"
-                    url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2")
-                    val sonatypeUsername: String? by project
-                    val sonatypePassword: String? by project
-                    if (sonatypeUsername != null && sonatypePassword != null) {
-                        credentials {
-                            username = sonatypeUsername
-                            password = sonatypePassword
-                        }
+                val sonatypeUsername: String? by project
+                val sonatypePassword: String? by project
+                if (sonatypeUsername != null && sonatypePassword != null) {
+                    maven {
+                        name = "MavenCentral"
+                        url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2")
+                            credentials {
+                                username = sonatypeUsername
+                                password = sonatypePassword
+                            }
                     }
                 }
             }
 
-            maven {
-                if (isRelease) {
-                    name = "Releases"
-                    url = uri("https://maven.masterzach32.net/artifactory/facet-releases/")
-                } else {
-                    name = "Snapshots"
-                    url = uri("https://maven.masterzach32.net/artifactory/facet-snapshots/")
-                }
-                val mavenUsername: String? by project
-                val mavenPassword: String? by project
-                if (mavenUsername != null && mavenPassword != null) {
+            val mavenUsername: String? by project
+            val mavenPassword: String? by project
+            if (mavenUsername != null && mavenPassword != null) {
+                maven {
+                    if (isRelease) {
+                        name = "Releases"
+                        url = uri("https://maven.masterzach32.net/artifactory/facet-releases/")
+                    } else {
+                        name = "Snapshots"
+                        url = uri("https://maven.masterzach32.net/artifactory/facet-snapshots/")
+                    }
                     credentials {
                         username = mavenUsername
                         password = mavenPassword
