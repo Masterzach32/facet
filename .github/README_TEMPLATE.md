@@ -14,11 +14,11 @@ View the [KDocs](https://masterzach32.github.io/facet)
 Add these to `build.gradle.kts`:
 ```kotlin
 repositories {
-    maven("https://maven.masterzach32.net/artifactory/snapshots")
+    maven("https://maven.masterzach32.net/artifactory/releases")
 }
 
 dependencies {
-    implementation("io.facet:facet-d4j-commands:0.3.0-SNAPSHOT")
+    implementation("io.facet:facet-d4j-commands:$version")
 }
 ```
 

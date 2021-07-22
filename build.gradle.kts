@@ -25,14 +25,14 @@ allprojects {
     }
 }
 
+val isRelease: Boolean by extra
+
 subprojects {
     apply(plugin = "kotlin")
     apply(plugin = "java-library")
     apply(plugin = "maven-publish")
     apply(plugin = "signing")
     apply(plugin = "org.jetbrains.dokka")
-
-    val isRelease: Boolean by extra
 
     dependencies {
         implementation("org.slf4j:slf4j-api:$slf4j_version")
@@ -226,9 +226,28 @@ tasks {
         outputDirectory.set(buildDir.resolve("docs"))
     }
 
-    val docs by creating {
+    create("docs") {
         dependsOn(dokkaHtmlMultiModule)
         group = "documentation"
+    }
+
+    val updateReadme by creating {
+        group = "release"
+        onlyIf {
+            isRelease && version.toString().let { "M" !in it && "RC" !in it }
+        }
+        doLast {
+            copy {
+                from(".github/README_TEMPLATE.md")
+                into(".")
+                rename { "README.md" }
+                expand("version" to version)
+            }
+        }
+    }
+
+    preTagCommit {
+        dependsOn(updateReadme)
     }
 }
 
