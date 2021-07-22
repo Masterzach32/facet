@@ -131,6 +131,8 @@ public class ApplicationCommands(config: Config, restClient: RestClient) {
             commands.add(command)
         }
 
+        public fun registerCommands(vararg commands: ApplicationCommand<*>): Unit = registerCommand(*commands)
+
         public fun registerCommand(vararg commands: ApplicationCommand<*>): Unit = commands.forEach { registerCommand(it) }
     }
 
