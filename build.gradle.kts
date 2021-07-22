@@ -19,6 +19,10 @@ allprojects {
     group = "io.facet"
     description = "A Kotlin-friendly wrapper for Discord4J"
     extra["isRelease"] = !version.toString().endsWith("-SNAPSHOT")
+
+    repositories {
+        mavenCentral()
+    }
 }
 
 subprojects {
@@ -29,10 +33,6 @@ subprojects {
     apply(plugin = "org.jetbrains.dokka")
 
     val isRelease: Boolean by extra
-
-    repositories {
-        mavenCentral()
-    }
 
     dependencies {
         implementation("org.slf4j:slf4j-api:$slf4j_version")
