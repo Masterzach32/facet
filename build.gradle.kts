@@ -116,6 +116,10 @@ subprojects {
         from(tasks["dokkaHtmlPartial"])
     }
 
+    tasks.assemble {
+        dependsOn(sourcesJar, javadocJar)
+    }
+
     publishing {
         publications {
             create<MavenPublication>("facet") {
@@ -123,8 +127,8 @@ subprojects {
                 artifactId = project.name
                 version = project.version.toString()
                 from(components["kotlin"])
-                artifact(sourcesJar.get())
-                artifact(javadocJar.get())
+                artifact(sourcesJar)
+                artifact(javadocJar)
                 versionMapping {
                     usage("java-api") {
                         fromResolutionOf("runtimeClasspath")

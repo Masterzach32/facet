@@ -33,13 +33,13 @@ public interface GatewayInteractionResponse : InteractionResponse {
     public val client: GatewayDiscordClient
 
     /**
-     * Create and send a new followup message with the provided content.
+     * Create and send a new followup message with the provided [content].
      * This uses a webhook tied to the interaction ID and token.
      */
     public suspend fun sendFollowupMessage(content: String): Message
 
     /**
-     * Create and send a new followup message using the provided [WebhookExecuteSpec].
+     * Create and send a new followup message using the provided [spec].
      * This uses a webhook tied to the interaction ID and token.
      */
     public suspend fun sendFollowupMessage(spec: WebhookExecuteSpec): Message
@@ -65,15 +65,22 @@ public val InteractionCreateEvent.gatewayInteractionResponse: GatewayInteraction
     get() = EventInteractionResponse(this)
 
 /**
- * Create and send a new followup message, using the [WebhookMessageBuilder] to build the request.
+ * Create and send a new followup message, using the builder to build the request.
  * This uses a webhook tied to the interaction ID and token.
  */
 public suspend fun GatewayInteractionResponse.sendFollowupMessage(build: WebhookMessageBuilder.() -> Unit): Message =
     sendFollowupMessage(webhookMessage(build))
 
 /**
- * Create and send a new followup message containing an embed from the specified [EmbedCreateSpec].
+ * Create and send a new followup message containing an embed from the specified [spec].
  * This uses a webhook tied to the interaction ID and token.
  */
 public suspend fun GatewayInteractionResponse.sendFollowupMessage(spec: EmbedCreateSpec): Message =
     sendFollowupMessage { embed(spec) }
+
+/**
+ * Create and send a new followup message containing an embed built from the specified builder.
+ * This uses a webhook tied to the interaction ID and token.
+ */
+public suspend fun GatewayInteractionResponse.sendFollowupEmbed(build: EmbedBuilder.() -> Unit): Message =
+    sendFollowupMessage(webhookMessageEmbed(build))
