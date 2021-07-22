@@ -10,26 +10,29 @@ plugins {
     kotlin("jvm") version "1.5.10" apply false
     id("java-library")
     id("maven-publish")
+    id("signing")
     id("org.jetbrains.dokka") version "1.5.0"
     id("net.researchgate.release") version "2.8.1"
 }
 
 allprojects {
     group = "io.facet"
-    description = "Discord bot framework using D4J and Kotlin"
-
-    repositories {
-        mavenCentral()
-    }
+    description = "A Kotlin-friendly wrapper for Discord4J"
+    extra["isRelease"] = !version.toString().endsWith("-SNAPSHOT")
 }
 
 subprojects {
     apply(plugin = "kotlin")
     apply(plugin = "java-library")
     apply(plugin = "maven-publish")
+    apply(plugin = "signing")
     apply(plugin = "org.jetbrains.dokka")
 
-    val isRelease = !version.toString().endsWith("-SNAPSHOT")
+    val isRelease: Boolean by extra
+
+    repositories {
+        mavenCentral()
+    }
 
     dependencies {
         implementation("org.slf4j:slf4j-api:$slf4j_version")
@@ -138,7 +141,7 @@ subprojects {
 
                 pom {
                     name.set("Facet")
-                    description.set("A Kotlin-friendly wrapper for Discord4J")
+                    description.set(project.description)
                     url.set("https://github.com/Masterzach32/facet")
                     organization {
                         name.set("Facet")
@@ -158,7 +161,7 @@ subprojects {
                     scm {
                         url.set("https://github.com/Masterzach32/facet")
                         connection.set("scm:git:git://github.com/Masterzach32/facet.git")
-                        developerConnection.set("scm:git:ssh://github.com/Masterzach32/facet.git")
+                        developerConnection.set("scm:git:ssh://git@github.com:Masterzach32/facet.git")
                     }
                     developers {
                         developer {
@@ -171,6 +174,21 @@ subprojects {
         }
 
         repositories {
+            if (isRelease) {
+                maven {
+                    name = "MavenCentral"
+                    url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2")
+                    val sonatypeUsername: String? by project
+                    val sonatypePassword: String? by project
+                    if (sonatypeUsername != null && sonatypePassword != null) {
+                        credentials {
+                            username = sonatypeUsername
+                            password = sonatypePassword
+                        }
+                    }
+                }
+            }
+
             maven {
                 if (isRelease) {
                     name = "Releases"
@@ -179,8 +197,8 @@ subprojects {
                     name = "Snapshots"
                     url = uri("https://maven.masterzach32.net/artifactory/facet-snapshots/")
                 }
-                val mavenUsername = findProperty("maven_username")?.toString()
-                val mavenPassword = findProperty("maven_password")?.toString()
+                val mavenUsername: String? by project
+                val mavenPassword: String? by project
                 if (mavenUsername != null && mavenPassword != null) {
                     credentials {
                         username = mavenUsername
@@ -189,6 +207,17 @@ subprojects {
                 }
             }
         }
+    }
+
+    signing {
+        val signingKey: String? by project
+        val signingPassword: String? by project
+        useInMemoryPgpKeys(signingKey, signingPassword)
+        sign(publishing.publications["facet"])
+    }
+
+    tasks.withType<Sign>().configureEach {
+        onlyIf { isRelease }
     }
 }
 

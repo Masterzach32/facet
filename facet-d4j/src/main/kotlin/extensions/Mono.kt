@@ -68,4 +68,3 @@ public suspend fun Mono<*>.awaitComplete(): Unit = awaitNullable().let {}
  */
 @JvmName("awaitVoid")
 public suspend fun Mono<Void>.await(): Unit = awaitComplete()
-
