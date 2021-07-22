@@ -64,8 +64,10 @@ jobs:
       - name: Publish Artifacts
         run: ./gradlew -x test publish
         env:
-          ORG_GRADLE_PROJECT_maven_username: ${{ secrets.maven_username }}
-          ORG_GRADLE_PROJECT_maven_password: ${{ secrets.maven_password }}
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.signingKey }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.signingPassword }}
+          ORG_GRADLE_PROJECT_mavenUsername: ${{ secrets.mavenUsername }}
+          ORG_GRADLE_PROJECT_mavenPassword: ${{ secrets.mavenPassword }}
       - name: Generate Docs
         run: ./gradlew docs
       - name: Publish Docs
