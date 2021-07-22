@@ -2,10 +2,6 @@ import org.jetbrains.dokka.gradle.*
 import org.jetbrains.kotlin.gradle.tasks.*
 import java.net.*
 
-val slf4j_version: String by project
-val logback_version: String by project
-val kotlinx_coroutines_version: String by project
-
 plugins {
     kotlin("jvm") version "1.5.10" apply false
     id("java-library")
@@ -18,14 +14,15 @@ plugins {
 allprojects {
     group = "io.facet"
     description = "A Kotlin-friendly wrapper for Discord4J"
-    extra["isRelease"] = !version.toString().endsWith("-SNAPSHOT")
+
+    ext["isRelease"] = !version.toString().endsWith("-SNAPSHOT")
 
     repositories {
         mavenCentral()
     }
 }
 
-val isRelease: Boolean by extra
+val isRelease: Boolean by ext
 
 subprojects {
     apply(plugin = "kotlin")
@@ -35,6 +32,10 @@ subprojects {
     apply(plugin = "org.jetbrains.dokka")
 
     dependencies {
+        val slf4j_version: String by project
+        val logback_version: String by project
+        val kotlinx_coroutines_version: String by project
+
         implementation("org.slf4j:slf4j-api:$slf4j_version")
 
         api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version")
@@ -67,7 +68,7 @@ subprojects {
         }
     }
 
-    val dokkaHtmlPartial by tasks.getting(DokkaTaskPartial::class) {
+    val dokkaHtmlPartial by tasks.existing(DokkaTaskPartial::class) {
         dokkaSourceSets {
             configureEach {
                 sourceLink {
@@ -125,7 +126,7 @@ subprojects {
 
     publishing {
         publications {
-            create<MavenPublication>("facet") {
+            create<MavenPublication>("kotlin") {
                 from(components["kotlin"])
                 artifact(sourcesJar)
                 artifact(javadocJar)
@@ -213,7 +214,7 @@ subprojects {
         val signingKey: String? by project
         val signingPassword: String? by project
         useInMemoryPgpKeys(signingKey, signingPassword)
-        sign(publishing.publications["facet"])
+        sign(publishing.publications["kotlin"])
     }
 
     tasks.withType<Sign>().configureEach {
@@ -226,12 +227,12 @@ tasks {
         outputDirectory.set(buildDir.resolve("docs"))
     }
 
-    create("docs") {
+    register("docs") {
         dependsOn(dokkaHtmlMultiModule)
         group = "documentation"
     }
 
-    val updateReadme by creating {
+    val updateReadme by registering {
         group = "release"
         onlyIf {
             isRelease && version.toString().let { "M" !in it && "RC" !in it }
