@@ -62,45 +62,45 @@ subprojects {
                 events("passed", "skipped", "failed")
             }
         }
+    }
 
-        withType<DokkaTaskPartial>().configureEach {
-            dokkaSourceSets {
-                configureEach {
-                    sourceLink {
-                        localDirectory.set(file("src/main/kotlin"))
-                        remoteUrl.set(
-                            URL(
-                                "https://github.com/masterzach32/facet/blob/master/" +
-                                    "${projectDir.toRelativeString(rootDir)}/src/main/kotlin"
-                            )
+    val dokkaHtmlPartial by tasks.getting(DokkaTaskPartial::class) {
+        dokkaSourceSets {
+            configureEach {
+                sourceLink {
+                    localDirectory.set(file("src/main/kotlin"))
+                    remoteUrl.set(
+                        URL(
+                            "https://github.com/masterzach32/facet/blob/master/" +
+                                "${projectDir.toRelativeString(rootDir)}/src/main/kotlin"
                         )
-                        remoteLineSuffix.set("#L")
+                    )
+                    remoteLineSuffix.set("#L")
+                }
+
+                val discord4j_docs_version: String by project
+                val discord_json_docs_version: String by project
+                val discord4jProjects = listOf(
+                    "discord-json" to discord_json_docs_version,
+                    "discord4j-common" to discord4j_docs_version,
+                    "discord4j-core" to discord4j_docs_version,
+                    "discord4j-gateway" to discord4j_docs_version,
+                    "discord4j-rest" to discord4j_docs_version,
+                    "discord4j-voice" to discord4j_docs_version
+                )
+                discord4jProjects
+                    .map { (name, version) -> "https://javadoc.io/static/com.discord4j/$name/$version/" }
+                    .forEach { url ->
+                        externalDocumentationLink(url, "${url}element-list")
                     }
 
-                    val discord4j_docs_version: String by project
-                    val discord_json_docs_version: String by project
-                    val discord4jProjects = listOf(
-                        "discord-json" to discord_json_docs_version,
-                        "discord4j-common" to discord4j_docs_version,
-                        "discord4j-core" to discord4j_docs_version,
-                        "discord4j-gateway" to discord4j_docs_version,
-                        "discord4j-rest" to discord4j_docs_version,
-                        "discord4j-voice" to discord4j_docs_version
-                    )
-                    discord4jProjects
-                        .map { (name, version) -> "https://javadoc.io/static/com.discord4j/$name/$version/" }
-                        .forEach { url ->
-                            externalDocumentationLink(url, "${url}element-list")
-                        }
+                val externalLibDocs = listOf(
+                    "https://projectreactor.io/docs/core/release/api/",
+                    "https://kotlin.github.io/kotlinx.coroutines/"
+                )
 
-                    val externalLibDocs = listOf(
-                        "https://projectreactor.io/docs/core/release/api/",
-                        "https://kotlin.github.io/kotlinx.coroutines/"
-                    )
-
-                    externalLibDocs.forEach { url ->
-                        externalDocumentationLink(url)
-                    }
+                externalLibDocs.forEach { url ->
+                    externalDocumentationLink(url)
                 }
             }
         }
@@ -113,7 +113,7 @@ subprojects {
 
     val javadocJar by tasks.registering(Jar::class) {
         archiveClassifier.set("javadoc")
-        from(tasks["dokkaHtmlPartial"])
+        from(dokkaHtmlPartial)
     }
 
     tasks.assemble {
@@ -123,9 +123,6 @@ subprojects {
     publishing {
         publications {
             create<MavenPublication>("facet") {
-                groupId = "io.facet"
-                artifactId = project.name
-                version = project.version.toString()
                 from(components["kotlin"])
                 artifact(sourcesJar)
                 artifact(javadocJar)
@@ -136,6 +133,38 @@ subprojects {
 
                     usage("java-runtime") {
                         fromResolutionResult()
+                    }
+                }
+
+                pom {
+                    name.set("Facet")
+                    description.set("A Kotlin-friendly wrapper for Discord4J")
+                    url.set("https://github.com/Masterzach32/facet")
+                    organization {
+                        name.set("Facet")
+                        url.set("https://github.com/Masterzach32/facet")
+                    }
+                    issueManagement {
+                        system.set("GitHub")
+                        url.set("https://github.com/Masterzach32/facet/issues")
+                    }
+                    licenses {
+                        license {
+                            name.set("AGPL-3.0")
+                            url.set("https://github.com/Masterzach32/facet/blob/master/LICENSE")
+                            distribution.set("repo")
+                        }
+                    }
+                    scm {
+                        url.set("https://github.com/Masterzach32/facet")
+                        connection.set("scm:git:git://github.com/Masterzach32/facet.git")
+                        developerConnection.set("scm:git:ssh://github.com/Masterzach32/facet.git")
+                    }
+                    developers {
+                        developer {
+                            name.set("Zach Kozar")
+                            email.set("zachkozar@vt.edu")
+                        }
                     }
                 }
             }
