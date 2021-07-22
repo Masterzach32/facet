@@ -41,7 +41,7 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
       - name: Build Project
-        run: ./gradlew build
+        run: ./gradlew build --no-daemon
   docs:
     name: Publish Artifacts and Docs
     runs-on: ubuntu-latest
@@ -69,7 +69,7 @@ jobs:
           ORG_GRADLE_PROJECT_mavenUsername: ${{ secrets.mavenUsername }}
           ORG_GRADLE_PROJECT_mavenPassword: ${{ secrets.mavenPassword }}
       - name: Generate Docs
-        run: ./gradlew docs
+        run: ./gradlew docs --stop
       - name: Publish Docs
         uses: peaceiris/actions-gh-pages@v3
         with:
