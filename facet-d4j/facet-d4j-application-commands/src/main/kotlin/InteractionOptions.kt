@@ -23,6 +23,21 @@ import kotlin.reflect.*
 
 /**
  * An experimental class for getting command options through property delegation.
+ *
+ * Example:
+ *
+ * ```kotlin
+ * val name: String by options
+ * val count: Int by options
+ * val enabled: Boolean by options
+ * val user: Mono<User> by options
+ * val channel: Mono<Channel> by options
+ * val role: Mono<Role> by options
+ *
+ * // also
+ * val nullableName: String? by options.nullable()
+ * val defaultName: String by options.defaultValue("test")
+ * ```
  */
 @Experimental
 public class InteractionOptions(private val commandInteraction: ApplicationCommandInteraction) {
