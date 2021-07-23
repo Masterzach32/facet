@@ -20,8 +20,8 @@ import discord4j.common.util.*
 import discord4j.core.*
 import discord4j.core.`object`.command.*
 import discord4j.core.`object`.entity.*
+import discord4j.core.`object`.entity.channel.*
 import discord4j.core.event.domain.interaction.*
-import io.facet.core.extensions.*
 import io.facet.discord.extensions.*
 
 /**

@@ -22,7 +22,7 @@ import discord4j.core.event.domain.interaction.*
 import io.facet.discord.extensions.*
 
 /**
- * The context for an interaction with an [ApplicationCommand] that occurred in a server.
+ * The context for an interaction with an [ApplicationCommand] that occurred in a [server][Guild].
  */
 public class GuildSlashCommandContext(
     event: SlashCommandEvent
