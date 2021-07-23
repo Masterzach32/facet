@@ -43,6 +43,10 @@ public interface GatewayInteractionResponse : InteractionResponse {
      * This uses a webhook tied to the interaction ID and token.
      */
     public suspend fun sendFollowupMessage(spec: WebhookExecuteSpec): Message
+
+    public suspend fun sendFollowupMessageEphemeral(content: String): Message
+
+    public suspend fun sendFollowupMessageEphemeral(spec: WebhookExecuteSpec): Message
 }
 
 private class EventInteractionResponse(
@@ -56,6 +60,12 @@ private class EventInteractionResponse(
 
     override suspend fun sendFollowupMessage(spec: WebhookExecuteSpec): Message =
         Message(client, createFollowupMessage(spec.asRequest()).await())
+
+    override suspend fun sendFollowupMessageEphemeral(content: String): Message =
+        Message(client, createFollowupMessageEphemeral(content).await())
+
+    override suspend fun sendFollowupMessageEphemeral(spec: WebhookExecuteSpec): Message =
+        Message(client, createFollowupMessageEphemeral(spec.asRequest()).await())
 }
 
 /**
@@ -84,3 +94,24 @@ public suspend fun GatewayInteractionResponse.sendFollowupMessage(spec: EmbedCre
  */
 public suspend fun GatewayInteractionResponse.sendFollowupEmbed(build: EmbedBuilder.() -> Unit): Message =
     sendFollowupMessage(webhookMessageEmbed(build))
+
+/**
+ * Create and send a new ephemeral followup message, using the builder to build the request.
+ * This uses a webhook tied to the interaction ID and token.
+ */
+public suspend fun GatewayInteractionResponse.sendFollowupMessageEphemeral(build: WebhookMessageBuilder.() -> Unit): Message =
+    sendFollowupMessageEphemeral(webhookMessage(build))
+
+/**
+ * Create and send a new ephemeral followup message containing an embed from the specified [spec].
+ * This uses a webhook tied to the interaction ID and token.
+ */
+public suspend fun GatewayInteractionResponse.sendFollowupMessageEphemeral(spec: EmbedCreateSpec): Message =
+    sendFollowupMessageEphemeral { embed(spec) }
+
+/**
+ * Create and send a new ephemeral followup message containing an embed built from the specified builder.
+ * This uses a webhook tied to the interaction ID and token.
+ */
+public suspend fun GatewayInteractionResponse.sendFollowupEmbedEphemeral(build: EmbedBuilder.() -> Unit): Message =
+    sendFollowupMessageEphemeral(webhookMessageEmbed(build))
