@@ -18,23 +18,18 @@ package io.facet.discord.appcommands.extensions
 import io.facet.discord.appcommands.*
 import io.facet.discord.extensions.*
 
-/*
- * facet - Created on 6/6/2021
- * Author: Zach Kozar
- * 
- * This code is licensed under the GNU GPL v3
- * You can find more info in the LICENSE file at the project root.
- */
-
 /**
- * @author Zach Kozar
- * @version 6/6/2021
+ * Acknowledges the interaction indicating a response will be edited later. The user sees a loading state,
+ * visible to all participants in the invoking channel. For a "only you can see this" response, set [ephemeral] to
+ * `true`, or use acknowledgeEphemeral().
  */
-
 public suspend fun SlashCommandContext.acknowledge(ephemeral: Boolean = false): Unit =
     if (ephemeral)
         event.acknowledgeEphemeral().await()
     else
         event.acknowledge().await()
 
+/**
+ * Acknowledges the interaction indicating a response will be edited later. Only the invoking user sees a loading state.
+ */
 public suspend fun SlashCommandContext.acknowledgeEphemeral(): Unit = event.acknowledgeEphemeral().await()

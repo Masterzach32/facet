@@ -18,19 +18,6 @@ package io.facet.discord.appcommands
 import discord4j.discordjson.json.*
 import discord4j.rest.util.*
 
-/*
- * facet - Created on 6/15/2021
- * Author: Zach Kozar
- * 
- * This code is licensed under the GNU GPL v3
- * You can find more info in the LICENSE file at the project root.
- */
-
-/**
- * @author Zach Kozar
- * @version 6/15/2021
- */
-
 /**
  * DSL for building [ApplicationCommandRequest]
  */

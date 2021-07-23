@@ -21,17 +21,8 @@ import discord4j.core.`object`.entity.channel.*
 import discord4j.core.event.domain.interaction.*
 import io.facet.discord.extensions.*
 
-/*
- * facet - Created on 6/13/2021
- * Author: Zach Kozar
- * 
- * This code is licensed under the GNU GPL v3
- * You can find more info in the LICENSE file at the project root.
- */
-
 /**
- * @author Zach Kozar
- * @version 6/13/2021
+ * The context for an interaction with an [ApplicationCommand] that occurred in a server.
  */
 public class GuildSlashCommandContext(
     event: SlashCommandEvent

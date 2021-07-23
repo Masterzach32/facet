@@ -29,17 +29,8 @@ import kotlinx.coroutines.channels.*
 import org.slf4j.*
 import java.util.concurrent.*
 
-/*
- * facet - Created on 6/5/2021
- * Author: Zach Kozar
- * 
- * This code is licensed under the GNU GPL v3
- * You can find more info in the LICENSE file at the project root.
- */
-
 /**
- * @author Zach Kozar
- * @version 6/5/2021
+ * Plugin for using "slash" commands
  */
 @OptIn(ObsoleteCoroutinesApi::class)
 @Suppress("UNCHECKED_CAST")

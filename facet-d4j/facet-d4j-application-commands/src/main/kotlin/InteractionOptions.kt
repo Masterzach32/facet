@@ -21,19 +21,8 @@ import discord4j.rest.util.*
 import io.facet.core.extensions.*
 import kotlin.reflect.*
 
-/*
- * facet - Created on 6/19/2021
- * Author: Zach Kozar
- * 
- * This code is licensed under the GNU AGPL v3
- * You can find more info in the LICENSE file at the project root.
- */
-
 /**
  * An experimental class for getting command options through property delegation.
- *
- * @author Zach Kozar
- * @version 6/19/2021
  */
 @Experimental
 public class InteractionOptions(private val commandInteraction: ApplicationCommandInteraction) {
