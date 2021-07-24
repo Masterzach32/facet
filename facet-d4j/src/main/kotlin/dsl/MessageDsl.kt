@@ -64,6 +64,22 @@ public class MessageBuilder internal constructor(
         get() = build().messageReference().get()
         set(value) = builder.messageReference(value).let {}
 
+    public fun content(content: String) {
+        builder.content(content)
+    }
+
+    public fun nonce(nonce: String) {
+        builder.nonce(nonce)
+    }
+
+    public fun tts(tts: Boolean) {
+        builder.tts(tts)
+    }
+
+    public fun messageReference(messageReference: Snowflake) {
+        builder.messageReference(messageReference)
+    }
+
     public fun component(component: LayoutComponent) {
         builder.addComponent(component)
     }

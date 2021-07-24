@@ -62,6 +62,22 @@ public class WebhookMessageBuilder internal constructor(
         get() = build().tts()
         set(value) = builder.tts(value).let {}
 
+    public fun content(content: String) {
+        builder.content(content)
+    }
+
+    public fun username(username: String) {
+        builder.username(username)
+    }
+
+    public fun avatarUrl(avatarUrl: String) {
+        builder.avatarUrl(avatarUrl)
+    }
+
+    public fun tts(tts: Boolean) {
+        builder.tts(tts)
+    }
+
     public fun component(component: LayoutComponent) {
         builder.addComponent(component)
     }

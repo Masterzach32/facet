@@ -83,6 +83,34 @@ public class EmbedBuilder internal constructor(
         get() = build().thumbnail().get()
         set(value) = builder.thumbnail(value).let {}
 
+    public fun title(title: String) {
+        builder.title(title)
+    }
+
+    public fun description(description: String) {
+        builder.description(description)
+    }
+
+    public fun url(url: String) {
+        builder.url(url)
+    }
+
+    public fun timestamp(timestamp: Instant) {
+        builder.timestamp(timestamp)
+    }
+
+    public fun color(color: Color) {
+        builder.color(color)
+    }
+
+    public fun image(url: String) {
+        builder.image(url)
+    }
+
+    public fun thumbnail(url: String) {
+        builder.thumbnail(url)
+    }
+
     public fun footer(text: String, icon: String? = null) {
         builder.footer(EmbedCreateFields.Footer.of(text, icon))
     }
@@ -119,16 +147,48 @@ public class EmbedBuilder internal constructor(
         public lateinit var name: String
         public var url: String? = null
         public var iconUrl: String? = null
+
+        public fun name(name: String) {
+            this.name = name
+        }
+
+        public fun url(url: String) {
+            this.url = url
+        }
+
+        public fun iconUrl(iconUrl: String) {
+            this.iconUrl = iconUrl
+        }
     }
 
     public class EmbedFooter internal constructor() {
         public lateinit var text: String
         public var iconUrl: String? = null
+
+        public fun text(text: String) {
+            this.text = text
+        }
+
+        public fun iconUrl(iconUrl: String) {
+            this.iconUrl = iconUrl
+        }
     }
 
     public class EmbedField internal constructor() {
         public lateinit var name: String
         public lateinit var value: String
         public var inline: Boolean = false
+
+        public fun name(name: String) {
+            this.name = name
+        }
+
+        public fun value(value: String) {
+            this.value = value
+        }
+
+        public fun inline(inline: Boolean = true) {
+            this.inline = inline
+        }
     }
 }
