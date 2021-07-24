@@ -22,5 +22,8 @@ import discord4j.core.spec.*
  */
 public interface SpecBuilder<out S : Spec<*>> {
 
+    /**
+     * Create the spec from this builder.
+     */
     public fun build(): S
 }
