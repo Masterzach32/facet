@@ -82,18 +82,16 @@ subprojects {
                     remoteLineSuffix.set("#L")
                 }
 
-                val discord4j_docs_version: String by project
-                val discord_json_docs_version: String by project
                 val discord4jProjects = listOf(
-                    "discord-json" to discord_json_docs_version,
-                    "discord4j-common" to discord4j_docs_version,
-                    "discord4j-core" to discord4j_docs_version,
-                    "discord4j-gateway" to discord4j_docs_version,
-                    "discord4j-rest" to discord4j_docs_version,
-                    "discord4j-voice" to discord4j_docs_version
+                    "discord-json",
+                    "discord4j-common",
+                    "discord4j-core",
+                    "discord4j-gateway",
+                    "discord4j-rest",
+                    "discord4j-voice"
                 )
                 discord4jProjects
-                    .map { (name, version) -> "https://javadoc.io/static/com.discord4j/$name/$version/" }
+                    .map { name -> "https://javadoc.io/doc/com.discord4j/$name/latest/" }
                     .forEach { url ->
                         externalDocumentationLink(url, "${url}element-list")
                     }
