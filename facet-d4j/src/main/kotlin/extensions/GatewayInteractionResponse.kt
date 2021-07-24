@@ -36,15 +36,13 @@ public interface GatewayInteractionResponse : InteractionResponse {
      * Create and send a new followup message with the provided [content].
      * This uses a webhook tied to the interaction ID and token.
      */
-    public suspend fun sendFollowupMessage(content: String): Message
+    public suspend fun sendFollowupMessage(content: String, ephemeral: Boolean = false): Message
 
     /**
      * Create and send a new followup message using the provided [spec].
      * This uses a webhook tied to the interaction ID and token.
      */
     public suspend fun sendFollowupMessage(spec: WebhookExecuteSpec): Message
-
-    public suspend fun sendFollowupMessageEphemeral(content: String): Message
 
     public suspend fun sendFollowupMessageEphemeral(spec: WebhookExecuteSpec): Message
 }
@@ -55,14 +53,14 @@ private class EventInteractionResponse(
 
     override val client: GatewayDiscordClient = event.client
 
-    override suspend fun sendFollowupMessage(content: String): Message =
-        Message(client, createFollowupMessage(content).await())
+    override suspend fun sendFollowupMessage(content: String, ephemeral: Boolean): Message =
+        Message(
+            client,
+            (if (ephemeral) createFollowupMessageEphemeral(content) else createFollowupMessage(content)).await()
+        )
 
     override suspend fun sendFollowupMessage(spec: WebhookExecuteSpec): Message =
         Message(client, createFollowupMessage(spec.asRequest()).await())
-
-    override suspend fun sendFollowupMessageEphemeral(content: String): Message =
-        Message(client, createFollowupMessageEphemeral(content).await())
 
     override suspend fun sendFollowupMessageEphemeral(spec: WebhookExecuteSpec): Message =
         Message(client, createFollowupMessageEphemeral(spec.asRequest()).await())
