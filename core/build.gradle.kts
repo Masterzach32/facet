@@ -17,5 +17,5 @@ allprojects {
 }
 
 dependencies {
-    api(project(":facet-core"))
+    api(common)
 }

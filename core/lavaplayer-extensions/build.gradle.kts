@@ -6,7 +6,7 @@ repositories {
 dependencies {
     val lavaplayer_version: String by project
 
-    api(project(":facet-d4j"))
+    api(core)
     api("com.sedmelluq:lavaplayer:$lavaplayer_version")
 }
 

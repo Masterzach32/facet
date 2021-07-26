@@ -1,5 +1,7 @@
 # Facet
 
+[![GitHub workflow status](https://img.shields.io/github/workflow/status/Masterzach32/facet/Java%20CI/master?style=for-the-badge)]()
+
 Facet is a library to make writing Discord bots easier. Features include:
 * Full coroutines support.
 * A feature system, with inspiration taken from [Ktor](https://ktor.io/) to manage code organization.

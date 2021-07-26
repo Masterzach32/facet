@@ -15,14 +15,14 @@ allprojects {
     group = "io.facet"
     description = "A Kotlin-friendly wrapper for Discord4J"
 
-    ext["isRelease"] = !version.toString().endsWith("-SNAPSHOT")
+    //ext["isRelease"] = !version.toString().endsWith("-SNAPSHOT")
 
     repositories {
         mavenCentral()
     }
 }
 
-val isRelease: Boolean by ext
+//val isRelease: Boolean by ext
 
 subprojects {
     apply(plugin = "kotlin")
@@ -52,7 +52,7 @@ subprojects {
         compileKotlin {
             kotlinOptions {
                 jvmTarget = "1.8"
-                freeCompilerArgs = listOf("-Xopt-in=kotlin.RequiresOptIn", "-Xexplicit-api=strict")
+                freeCompilerArgs = listOf(CompilerArguments.explicitApi, CompilerArguments.optIn)
             }
         }
 
