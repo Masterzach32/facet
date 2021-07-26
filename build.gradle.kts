@@ -15,14 +15,14 @@ allprojects {
     group = "io.facet"
     description = "A Kotlin-friendly wrapper for Discord4J"
 
-    //ext["isRelease"] = !version.toString().endsWith("-SNAPSHOT")
+    ext["isRelease"] = !version.toString().endsWith("-SNAPSHOT")
 
     repositories {
         mavenCentral()
     }
 }
 
-//val isRelease: Boolean by ext
+val isRelease: Boolean by ext
 
 subprojects {
     apply(plugin = "kotlin")
@@ -113,13 +113,13 @@ subprojects {
         from(project.sourceSets["main"].allSource)
     }
 
-    val javadocJar by tasks.registering(Jar::class) {
+    val dokkaJar by tasks.registering(Jar::class) {
         archiveClassifier.set("javadoc")
         from(dokkaHtmlPartial)
     }
 
     tasks.assemble {
-        dependsOn(sourcesJar, javadocJar)
+        dependsOn(sourcesJar, dokkaJar)
     }
 
     publishing {
@@ -127,7 +127,7 @@ subprojects {
             create<MavenPublication>("kotlin") {
                 from(components["kotlin"])
                 artifact(sourcesJar)
-                artifact(javadocJar)
+                artifact(dokkaJar)
                 versionMapping {
                     usage("java-api") {
                         fromResolutionOf("runtimeClasspath")
