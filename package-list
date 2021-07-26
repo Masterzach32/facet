@@ -8,12 +8,10 @@ io.facet.core.util
 module:core
 io.facet.discord
 io.facet.discord.dsl
-io.facet.discord.event
 io.facet.discord.extensions
 module:application-commands
 io.facet.discord.appcommands
-io.facet.discord.appcommands.extensions
-module:commands
+module:chat-commands
 io.facet.discord.commands
 io.facet.discord.commands.arguments
 io.facet.discord.commands.dsl
