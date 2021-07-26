@@ -15,10 +15,57 @@
 
 package io.facet.discord
 
+import discord4j.core.*
 import discord4j.core.event.*
+import discord4j.core.shard.*
+import discord4j.gateway.*
 import io.facet.core.*
+import kotlinx.coroutines.*
+import kotlinx.coroutines.reactor.*
 
 public abstract class EventDispatcherFeature<out TConfig : Any, TFeature : Any>(
     keyName: String,
     requiredFeatures: List<Feature<*, *, *>> = emptyList()
 ) : Feature<EventDispatcher, TConfig, TFeature>(keyName, requiredFeatures)
+
+/**
+ * Gets the currently installed [Feature] instance, if present.
+ */
+@Suppress("UNCHECKED_CAST")
+public fun <F : Any> EventDispatcher.featureOrNull(
+    feature: EventDispatcherFeature<*, F>
+): F? = Features[feature.key]?.let { it as F }
+
+/**
+ * Gets the currently installed [Feature] instance, if present. Throws an IllegalStateException if the
+ * requested feature is not installed.
+ */
+public fun <F : Any> EventDispatcher.feature(
+    feature: EventDispatcherFeature<*, F>
+): F = featureOrNull(feature)
+    ?: error("Feature with key ${feature.key} has not been installed into this DiscordClient instance!")
+
+/**
+ * Installs a [Feature] into the [DiscordClient]. The feature is immediately set up, and any event
+ * listeners are registered. If applicable, the feature can be configured using the config block.
+ */
+@ObsoleteCoroutinesApi
+public suspend fun <C : Any> EventDispatcher.install(
+    scope: CoroutineScope,
+    feature: EventDispatcherFeature<C, *>,
+    config: C.() -> Unit = {}
+) {
+    feature.checkRequiredFeatures()
+    Features[feature.key] = with(feature) { install(scope, config) }
+}
+
+/**
+ * Configures the event dispatcher before any events can be received.
+ */
+public fun GatewayBootstrap<GatewayOptions>.withPlugins(
+    configureBlock: suspend EventDispatcher.(CoroutineScope) -> Unit
+): GatewayBootstrap<GatewayOptions> = withEventDispatcher { dispatcher ->
+    mono {
+        configureBlock(dispatcher, this)
+    }
+}

@@ -80,3 +80,19 @@ public abstract class SlashCommandContext(
     @Experimental
     public val options: InteractionOptions = InteractionOptions(interaction.commandInteraction.get())
 }
+
+/**
+ * Acknowledges the interaction indicating a response will be edited later. The user sees a loading state,
+ * visible to all participants in the invoking channel. For a "only you can see this" response, set [ephemeral] to
+ * `true`, or use acknowledgeEphemeral().
+ */
+public suspend fun SlashCommandContext.acknowledge(ephemeral: Boolean = false): Unit =
+    if (ephemeral)
+        event.acknowledgeEphemeral().await()
+    else
+        event.acknowledge().await()
+
+/**
+ * Acknowledges the interaction indicating a response will be edited later. Only the invoking user sees a loading state.
+ */
+public suspend fun SlashCommandContext.acknowledgeEphemeral(): Unit = event.acknowledgeEphemeral().await()

@@ -21,6 +21,7 @@ import discord4j.core.event.domain.interaction.*
 import discord4j.core.event.domain.message.*
 import discord4j.core.spec.*
 import io.facet.core.extensions.*
+import io.facet.discord.*
 import io.facet.discord.dsl.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*

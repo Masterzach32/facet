@@ -13,17 +13,38 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.facet.discord.event
+package io.facet.discord
 
 import discord4j.core.*
 import discord4j.core.event.*
 import discord4j.core.event.domain.*
-import io.facet.discord.extensions.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.reactive.*
 import org.slf4j.*
+import reactor.core.publisher.*
 import kotlin.coroutines.*
+
+/**
+ * Helper function to make listening to discord events shorter.
+ */
+public inline fun <reified E : Event> EventDispatcher.on(): Flux<E> = on(E::class.java)
+
+/**
+ * Returns a [Flow] of the specified event type.
+ */
+public inline fun <reified E : Event> EventDispatcher.flowOf(): Flow<E> = on<E>().asFlow()
+
+/**
+ * Helper function to make listening to discord events shorter.
+ */
+public inline fun <reified E : Event> GatewayDiscordClient.on(): Flux<E> = on(E::class.java)
+
+/**
+ * Returns a [Flow] of the specified event type.
+ */
+public inline fun <reified E : Event> GatewayDiscordClient.flowOf(): Flow<E> = on<E>().asFlow()
 
 /**
  * Creates and launches a new coroutine, which listens to the specified [Event] type and calls the
@@ -37,7 +58,7 @@ public inline fun <reified E : Event> EventDispatcher.listener(
     crossinline block: suspend CoroutineScope.(E) -> Unit
 ): Job = scope.launch(context, start) {
     val logger = LoggerFactory.getLogger("EventListener<${E::class.simpleName}>")
-    flowOf<E>().filterNotNull().buffer(capacity).collect { event ->
+    kotlinx.coroutines.flow.flowOf<E>().filterNotNull().buffer(capacity).collect { event ->
         try {
             block(event)
         } catch (e: CancellationException) {
@@ -74,7 +95,7 @@ public inline fun <reified E : Event> EventDispatcher.actorListener(
     noinline block: suspend ActorScope<E>.() -> Unit
 ): Job = scope.launch(context, start) {
     val eventChannel = actor(capacity = capacity, onCompletion = onCompletion, block = block)
-    flowOf<E>().filterNotNull().collect { event ->
+    kotlinx.coroutines.flow.flowOf<E>().filterNotNull().collect { event ->
         eventChannel.send(event)
     }
 }
@@ -92,3 +113,4 @@ public inline fun <reified E : Event> GatewayDiscordClient.actorListener(
     noinline onCompletion: CompletionHandler? = null,
     noinline block: suspend ActorScope<E>.() -> Unit
 ): Job = eventDispatcher.actorListener(scope, context, capacity, start, onCompletion, block)
+

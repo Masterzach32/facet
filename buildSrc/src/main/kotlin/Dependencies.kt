@@ -13,14 +13,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.facet.discord.appcommands.extensions
+import org.gradle.kotlin.dsl.*
 
-import discord4j.core.spec.*
-import discord4j.discordjson.json.*
-import discord4j.rest.util.*
-
-public fun EmbedCreateSpec.asMultipartRequest(): MultipartRequest<WebhookExecuteRequest> = MultipartRequest.ofRequest(
-    WebhookExecuteRequest.builder()
-        .addEmbed(asRequest())
-        .build()
-)
+val DependencyHandlerScope.`kotlinx-coroutines`: String
+    get() = "org.jetbrains.kotlinx:kotlinx-coroutines-core:"

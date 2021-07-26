@@ -1,10 +1,10 @@
 # Facet
 
-[![GitHub workflow status](https://img.shields.io/github/workflow/status/Masterzach32/facet/Java%20CI/master?style=for-the-badge)]()
+[![GitHub workflow status](https://img.shields.io/github/workflow/status/Masterzach32/facet/Java%20CI?style=for-the-badge)]()
 
 Facet is a library to make writing Discord bots easier. Features include:
 * Full coroutines support.
-* A feature system, with inspiration taken from [Ktor](https://ktor.io/) to manage code organization.
+* A plugin system, with inspiration taken from [Ktor](https://ktor.io/) to manage code organization.
 * DSL syntax for commands, messages, and bot setup.
 * Many useful extension functions for Discord4J objects.
 
@@ -20,8 +20,8 @@ repositories {
 }
 
 dependencies {
-    implementation("io.facet:facet-d4j-commands:$version") // if using chat commands
-    implementation("io.facet:facet-d4j-application-commands:$version") // if using "slash" commands
+    implementation("io.facet:chat-commands:$version") // if using chat commands
+    implementation("io.facet:application-commands:$version") // if using "slash" commands
     // you can use both at the same time!
 }
 ```
