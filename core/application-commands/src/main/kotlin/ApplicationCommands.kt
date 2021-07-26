@@ -22,7 +22,6 @@ import discord4j.discordjson.json.*
 import discord4j.rest.*
 import discord4j.rest.service.*
 import io.facet.discord.*
-import io.facet.discord.event.*
 import io.facet.discord.extensions.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*

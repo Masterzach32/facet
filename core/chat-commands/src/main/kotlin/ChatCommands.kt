@@ -25,7 +25,6 @@ import io.facet.core.extensions.*
 import io.facet.discord.*
 import io.facet.discord.commands.events.*
 import io.facet.discord.commands.extensions.*
-import io.facet.discord.event.*
 import io.facet.discord.extensions.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*

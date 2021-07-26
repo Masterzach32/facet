@@ -17,6 +17,7 @@ package io.facet.discord.commands
 
 import com.mojang.brigadier.arguments.*
 import discord4j.rest.util.*
+import io.facet.discord.*
 import io.facet.discord.commands.dsl.*
 import io.facet.discord.commands.extensions.*
 import io.facet.discord.extensions.*
