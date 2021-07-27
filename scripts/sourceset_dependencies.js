@@ -1,1 +1,1 @@
-sourceset_dependencies = '{":core:dokkaHtmlPartial/main":[],":core:lavaplayer-extensions:dokkaHtmlPartial/main":[],":common:dokkaHtmlPartial/main":[],":core:application-commands:dokkaHtmlPartial/main":[],":core:exposed:dokkaHtmlPartial/main":[],":core:chat-commands:dokkaHtmlPartial/main":[]}'
+sourceset_dependencies = '{":core:dokkaHtmlPartial/main":[],":lavaplayer-extensions:dokkaHtmlPartial/main":[],":common:dokkaHtmlPartial/main":[],":application-commands:dokkaHtmlPartial/main":[],":exposed:dokkaHtmlPartial/main":[],":chat-commands:dokkaHtmlPartial/main":[]}'
