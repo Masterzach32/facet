@@ -13,12 +13,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.facet.core
+package io.facet.common
 
-import kotlinx.coroutines.*
+import discord4j.core.`object`.*
+import discord4j.core.`object`.entity.*
+import discord4j.core.`object`.entity.channel.*
 
 /**
- * The bot's coroutine scope, used as the root coroutine scope for event listeners.
+ * Gets the [VoiceChannel] that the member is currently connected to, if present.
  */
-@Deprecated("Use withFeatures block on GatewayBootstrap")
-public object BotScope : CoroutineScope by CoroutineScope(SupervisorJob())
+public suspend fun Member.getConnectedVoiceChannel(): VoiceChannel? = voiceState
+    .flatMap(VoiceState::getChannel)
+    .awaitNullable()

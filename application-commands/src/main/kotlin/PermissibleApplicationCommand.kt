@@ -13,12 +13,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.facet.core
+package io.facet.commands
 
-import kotlinx.coroutines.*
+import discord4j.core.`object`.entity.*
 
 /**
- * The bot's coroutine scope, used as the root coroutine scope for event listeners.
+ * A command that is restricted using the implemented [hasPermission] function.
  */
-@Deprecated("Use withFeatures block on GatewayBootstrap")
-public object BotScope : CoroutineScope by CoroutineScope(SupervisorJob())
+public interface PermissibleApplicationCommand {
+
+    public suspend fun hasPermission(user: User, guild: Guild?): Boolean
+}

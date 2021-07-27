@@ -13,12 +13,22 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.facet.core
+package io.facet.commands
 
-import kotlinx.coroutines.*
+import discord4j.discordjson.json.*
 
 /**
- * The bot's coroutine scope, used as the root coroutine scope for event listeners.
+ * A discord application "slash" command.
  */
-@Deprecated("Use withFeatures block on GatewayBootstrap")
-public object BotScope : CoroutineScope by CoroutineScope(SupervisorJob())
+public sealed interface ApplicationCommand<in C : SlashCommandContext> {
+
+    /**
+     * The discord-json request body to be sent to the Discord API
+     */
+    public val request: ApplicationCommandRequest
+
+    /**
+     * Called when this command is used in an interaction
+     */
+    public suspend fun C.execute()
+}

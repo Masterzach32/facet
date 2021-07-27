@@ -16,13 +16,5 @@
 import org.gradle.api.*
 import org.gradle.kotlin.dsl.*
 
-val DependencyHandlerScope.common get() = project(":common")
-val DependencyHandlerScope.core get() = project(":core")
-val DependencyHandlerScope.`chat-commands` get() = project(":core:chat-commands")
-val DependencyHandlerScope.`application-commands` get() = project(":core:application-commands")
-val DependencyHandlerScope.exposed get() = project(":core:exposed")
-val DependencyHandlerScope.`lavaplayer-extensions` get() = project(":core:lavaplayer-extensions")
-
-
 val Project.isSnapshot: Boolean get() = version.toString().endsWith("-SNAPSHOT")
 val Project.isRelease: Boolean get() = !isSnapshot

@@ -13,26 +13,24 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.facet.core
+package io.facet.chatcommands.arguments
 
+import com.mojang.brigadier.*
 import discord4j.common.util.*
-import discord4j.voice.*
+import discord4j.core.*
+import discord4j.core.`object`.entity.channel.*
 import io.facet.common.*
 
-public class LocalSuspendingVoiceConnectionRegistry(
-    private val registry: VoiceConnectionRegistry = LocalVoiceConnectionRegistry()
-) : SuspendingVoiceConnectionRegistry {
+public class TextChannelSelector : EntitySelector<GuildMessageChannel>() {
 
-    override suspend fun getVoiceConnection(
-        guildId: Snowflake
-    ): VoiceConnection = registry.getVoiceConnection(guildId).await()
+    override fun parse(reader: StringReader) {
+        TODO("Not yet implemented")
+    }
 
-    override suspend fun registerVoiceConnection(
-        guildId: Snowflake,
-        voiceConnection: VoiceConnection
-    ): Unit = registry.registerVoiceConnection(guildId, voiceConnection).await()
+    override suspend fun get(client: GatewayDiscordClient, guildId: Snowflake): GuildMessageChannel = entities
+        .first()
+        .let { client.getChannelById(it).await() as GuildMessageChannel }
 
-    override suspend fun disconnect(
-        guildId: Snowflake
-    ): Unit = registry.disconnect(guildId).await()
+    override suspend fun getMultiple(client: GatewayDiscordClient, guildId: Snowflake): List<GuildMessageChannel> = entities
+        .map { client.getChannelById(it).await() as GuildMessageChannel }
 }

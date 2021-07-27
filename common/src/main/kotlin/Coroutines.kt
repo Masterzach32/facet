@@ -13,12 +13,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.facet.core
+package io.facet.common
 
 import kotlinx.coroutines.*
 
-/**
- * The bot's coroutine scope, used as the root coroutine scope for event listeners.
- */
-@Deprecated("Use withFeatures block on GatewayBootstrap")
-public object BotScope : CoroutineScope by CoroutineScope(SupervisorJob())
+public suspend inline fun <T> retry(n: Int, errorDelayMillis: Long, fn: (counter: Int) -> T): T {
+    lateinit var ex: Exception
+    repeat(n) { counter ->
+        try { return fn(counter) }
+        catch (e: Exception) {
+            if (counter < n-1)
+                delay((counter+1)*errorDelayMillis)
+            ex = e
+        }
+    }
+    throw ex
+}

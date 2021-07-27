@@ -13,12 +13,25 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.facet.core
+package io.facet.chatcommands.arguments
 
-import kotlinx.coroutines.*
+import com.mojang.brigadier.*
+import com.mojang.brigadier.arguments.*
+import discord4j.core.`object`.entity.*
 
-/**
- * The bot's coroutine scope, used as the root coroutine scope for event listeners.
- */
-@Deprecated("Use withFeatures block on GatewayBootstrap")
-public object BotScope : CoroutineScope by CoroutineScope(SupervisorJob())
+public class GuildEntityArgument<E : Entity, T : EntitySelector<E>> internal constructor(
+    private val selector: T
+) : ArgumentType<T> {
+
+    override fun parse(reader: StringReader): T {
+        return selector.apply { parse(reader) }
+    }
+
+    override fun getExamples(): MutableCollection<String> {
+        return Companion.examples.toMutableList()
+    }
+
+    private companion object {
+        val examples = listOf("Wumpus", "@Wumpus", "@role", "#text-channel", "\"Games Voice\"", "999999999999999999")
+    }
+}

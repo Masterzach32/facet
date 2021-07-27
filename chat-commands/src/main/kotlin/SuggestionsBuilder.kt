@@ -13,12 +13,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.facet.core
+package io.facet.chatcommands
 
-import kotlinx.coroutines.*
+import com.mojang.brigadier.suggestion.*
 
-/**
- * The bot's coroutine scope, used as the root coroutine scope for event listeners.
- */
-@Deprecated("Use withFeatures block on GatewayBootstrap")
-public object BotScope : CoroutineScope by CoroutineScope(SupervisorJob())
+public operator fun SuggestionsBuilder.plus(suggestion: String): SuggestionsBuilder = suggest(suggestion)
+
+public operator fun SuggestionsBuilder.plus(suggestion: Int): SuggestionsBuilder = suggest(suggestion)

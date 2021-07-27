@@ -13,12 +13,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.facet.core
+package io.facet.common
 
-import kotlinx.coroutines.*
+import discord4j.discordjson.possible.*
 
 /**
- * The bot's coroutine scope, used as the root coroutine scope for event listeners.
+ * Unwraps the D4J [Possible] into a nullable type.
  */
-@Deprecated("Use withFeatures block on GatewayBootstrap")
-public object BotScope : CoroutineScope by CoroutineScope(SupervisorJob())
+public fun <T> Possible<T>.unwrap(): T? = if (isAbsent) null else get()

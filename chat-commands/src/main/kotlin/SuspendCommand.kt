@@ -13,12 +13,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.facet.core
+package io.facet.chatcommands
 
-import kotlinx.coroutines.*
+import com.mojang.brigadier.*
+import com.mojang.brigadier.context.*
 
-/**
- * The bot's coroutine scope, used as the root coroutine scope for event listeners.
- */
-@Deprecated("Use withFeatures block on GatewayBootstrap")
-public object BotScope : CoroutineScope by CoroutineScope(SupervisorJob())
+public interface SuspendCommand<S> : Command<S> {
+
+    public suspend fun runSuspend(context: CommandContext<S>): Int
+
+    override fun run(context: CommandContext<S>): Int {
+        return 0
+    }
+}

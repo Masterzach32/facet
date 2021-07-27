@@ -13,12 +13,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.facet.core
+package io.facet.common
 
-import kotlinx.coroutines.*
+import java.util.*
 
 /**
- * The bot's coroutine scope, used as the root coroutine scope for event listeners.
+ * Extension function to convert a nullable type to an optional.
  */
-@Deprecated("Use withFeatures block on GatewayBootstrap")
-public object BotScope : CoroutineScope by CoroutineScope(SupervisorJob())
+public fun <T : Any> T?.toOptional(): Optional<T> = Optional.ofNullable(this)
+
+@Deprecated("Use unwrap()", ReplaceWith("unwrap()"), level = DeprecationLevel.ERROR)
+public fun <T : Any> Optional<T>.grab(): T? = unwrap()
+
+@Deprecated("Use unwrap()", ReplaceWith("unwrap()"), level = DeprecationLevel.ERROR)
+public val <T : Any> Optional<T>.value: T?
+    get() = unwrap()
+
+/**
+ * Unwraps an Optional<T> to a nullable T?.
+ */
+public fun <T> Optional<T>.unwrap(): T? = orElse(null)

@@ -13,12 +13,29 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.facet.core
+package io.facet.common
 
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 
 /**
- * The bot's coroutine scope, used as the root coroutine scope for event listeners.
+ * Merge two flows together.
  */
-@Deprecated("Use withFeatures block on GatewayBootstrap")
-public object BotScope : CoroutineScope by CoroutineScope(SupervisorJob())
+@ExperimentalCoroutinesApi
+public fun <T> Flow<T>.mergeWith(other: Flow<T>): Flow<T> = merge(this, other)
+
+/**
+ * Returns a flow which only emits unique values of type T.
+ */
+public fun <T> Flow<T>.distinct(): Flow<T> = distinctBy { it }
+
+/**
+ * Returns a flow which only emits unique values determined by the given selector function.
+ */
+public fun <T, K> Flow<T>.distinctBy(selector: (T) -> K): Flow<T> = flow {
+    val keySet = mutableSetOf<K>()
+    collect { value ->
+        if (keySet.add(selector(value)))
+            emit(value)
+    }
+}

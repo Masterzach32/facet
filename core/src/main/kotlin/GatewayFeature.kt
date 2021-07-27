@@ -13,12 +13,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.facet.discord
+package io.facet.core
 
 import discord4j.core.*
 import discord4j.core.shard.*
 import discord4j.gateway.*
-import io.facet.core.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.reactor.*
 import reactor.core.publisher.*

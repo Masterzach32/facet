@@ -13,12 +13,24 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.facet.core
+package io.facet.chatcommands
 
+import com.mojang.brigadier.context.*
+import com.mojang.brigadier.suggestion.*
 import kotlinx.coroutines.*
+import java.util.concurrent.*
 
-/**
- * The bot's coroutine scope, used as the root coroutine scope for event listeners.
- */
-@Deprecated("Use withFeatures block on GatewayBootstrap")
-public object BotScope : CoroutineScope by CoroutineScope(SupervisorJob())
+internal class DSLSuggestionProvider<T>(
+    private val onSuggest: SuggestionsBuilder.(context: CommandContext<T>) -> Unit
+) : SuggestionProvider<T> {
+
+    override fun getSuggestions(
+        context: CommandContext<T>,
+        builder: SuggestionsBuilder
+    ): CompletableFuture<Suggestions> {
+        runBlocking {
+            onSuggest.invoke(builder, context)
+        }
+        return builder.buildFuture()
+    }
+}

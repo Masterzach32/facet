@@ -13,12 +13,24 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.facet.core
+package io.facet.common
 
+import discord4j.core.`object`.entity.*
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.reactive.*
 
 /**
- * The bot's coroutine scope, used as the root coroutine scope for event listeners.
+ * Gets the [members][Member] with this role by requesting the members of this guild and filtering by this role's [Snowflake] ID.
  */
-@Deprecated("Use withFeatures block on GatewayBootstrap")
-public object BotScope : CoroutineScope by CoroutineScope(SupervisorJob())
+@FlowPreview
+public val Role.members: Flow<Member>
+    get() = guild.asFlow()
+        .flatMapConcat { it.members.asFlow() }
+        .filter { it.roleIds.contains(id) }
+
+/**
+ * Gets the [members][Member] with this role by requesting the members of this guild and filtering by this role's [Snowflake] ID.
+ */
+@FlowPreview
+public suspend fun Role.getMembers(): List<Member> = members.toList()

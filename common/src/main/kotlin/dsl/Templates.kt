@@ -13,12 +13,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.facet.core
+package io.facet.common.dsl
 
-import kotlinx.coroutines.*
+import discord4j.core.spec.*
 
 /**
- * The bot's coroutine scope, used as the root coroutine scope for event listeners.
+ * Used to build [specs][Spec] in DSL format.
  */
-@Deprecated("Use withFeatures block on GatewayBootstrap")
-public object BotScope : CoroutineScope by CoroutineScope(SupervisorJob())
+public interface SpecBuilder<out S : Spec<*>> {
+
+    /**
+     * Create the spec from this builder.
+     */
+    public fun build(): S
+}

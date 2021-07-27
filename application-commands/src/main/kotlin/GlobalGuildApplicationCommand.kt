@@ -13,12 +13,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.facet.core
-
-import kotlinx.coroutines.*
+package io.facet.commands
 
 /**
- * The bot's coroutine scope, used as the root coroutine scope for event listeners.
+ * An application command that is available globally, but can only be used from within a guild.
  */
-@Deprecated("Use withFeatures block on GatewayBootstrap")
-public object BotScope : CoroutineScope by CoroutineScope(SupervisorJob())
+public interface GlobalGuildApplicationCommand : ApplicationCommand<GuildSlashCommandContext>

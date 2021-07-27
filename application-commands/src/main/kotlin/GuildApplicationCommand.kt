@@ -13,26 +13,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.facet.core
+package io.facet.commands
 
 import discord4j.common.util.*
-import discord4j.voice.*
-import io.facet.common.*
 
-public class LocalSuspendingVoiceConnectionRegistry(
-    private val registry: VoiceConnectionRegistry = LocalVoiceConnectionRegistry()
-) : SuspendingVoiceConnectionRegistry {
+/**
+ * An application command that is only available within a specific guild.
+ */
+public interface GuildApplicationCommand : ApplicationCommand<GuildSlashCommandContext> {
 
-    override suspend fun getVoiceConnection(
-        guildId: Snowflake
-    ): VoiceConnection = registry.getVoiceConnection(guildId).await()
-
-    override suspend fun registerVoiceConnection(
-        guildId: Snowflake,
-        voiceConnection: VoiceConnection
-    ): Unit = registry.registerVoiceConnection(guildId, voiceConnection).await()
-
-    override suspend fun disconnect(
-        guildId: Snowflake
-    ): Unit = registry.disconnect(guildId).await()
+    /**
+     * The [Snowflake] id of the guild that this command is available in.
+     */
+    public val guildId: Snowflake
 }

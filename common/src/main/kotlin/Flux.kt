@@ -13,12 +13,19 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.facet.core
+package io.facet.common
 
-import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.reactive.*
+import reactor.core.publisher.*
 
 /**
- * The bot's coroutine scope, used as the root coroutine scope for event listeners.
+ * Suspends the current coroutine, and returns all elements emitted by the [Flux] in a [List].
  */
-@Deprecated("Use withFeatures block on GatewayBootstrap")
-public object BotScope : CoroutineScope by CoroutineScope(SupervisorJob())
+public suspend fun <T : Any> Flux<T>.await(): List<T> = asFlow().toList()
+
+/**
+ * Suspends the current coroutine, and returns when the [Flux] completes.
+ */
+@JvmName("awaitVoid")
+public suspend fun Flux<Void>.await(): Unit = asFlow().collect()

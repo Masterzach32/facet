@@ -13,12 +13,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.facet.core
+package io.facet.chatcommands.events
 
-import kotlinx.coroutines.*
+import discord4j.core.*
+import discord4j.core.event.domain.*
+import discord4j.gateway.*
+import io.facet.chatcommands.*
 
-/**
- * The bot's coroutine scope, used as the root coroutine scope for event listeners.
- */
-@Deprecated("Use withFeatures block on GatewayBootstrap")
-public object BotScope : CoroutineScope by CoroutineScope(SupervisorJob())
+public abstract class CommandEvent(
+    client: GatewayDiscordClient,
+    shardInfo: ShardInfo,
+    public val command: ChatCommand,
+    public val source: ChatCommandSource
+) : Event(client, shardInfo)

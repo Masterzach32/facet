@@ -13,26 +13,24 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.facet.core
+package io.facet.chatcommands.arguments
 
+import com.mojang.brigadier.*
 import discord4j.common.util.*
-import discord4j.voice.*
-import io.facet.common.*
+import discord4j.core.*
+import discord4j.core.`object`.entity.*
 
-public class LocalSuspendingVoiceConnectionRegistry(
-    private val registry: VoiceConnectionRegistry = LocalVoiceConnectionRegistry()
-) : SuspendingVoiceConnectionRegistry {
+public class MessageSelector : EntitySelector<Member>() {
 
-    override suspend fun getVoiceConnection(
-        guildId: Snowflake
-    ): VoiceConnection = registry.getVoiceConnection(guildId).await()
+    override fun parse(reader: StringReader) {
+        TODO("Not yet implemented")
+    }
 
-    override suspend fun registerVoiceConnection(
-        guildId: Snowflake,
-        voiceConnection: VoiceConnection
-    ): Unit = registry.registerVoiceConnection(guildId, voiceConnection).await()
+    override suspend fun get(client: GatewayDiscordClient, guildId: Snowflake): Member {
+        TODO("Not yet implemented")
+    }
 
-    override suspend fun disconnect(
-        guildId: Snowflake
-    ): Unit = registry.disconnect(guildId).await()
+    override suspend fun getMultiple(client: GatewayDiscordClient, guildId: Snowflake): List<Member> {
+        TODO("Not yet implemented")
+    }
 }

@@ -13,12 +13,21 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.facet.core
+package io.facet.exposed
 
 import kotlinx.coroutines.*
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.transactions.*
+import kotlin.coroutines.*
 
-/**
- * The bot's coroutine scope, used as the root coroutine scope for event listeners.
- */
-@Deprecated("Use withFeatures block on GatewayBootstrap")
-public object BotScope : CoroutineScope by CoroutineScope(SupervisorJob())
+public fun Transaction.create(vararg tables: Table) {
+    SchemaUtils.create(*tables)
+}
+
+public suspend fun <T> sql(
+    context: CoroutineContext = Dispatchers.IO,
+    db: Database? = null,
+    sqlcode: Transaction.() -> T
+): T = withContext(context) {
+    transaction(db, sqlcode)
+}

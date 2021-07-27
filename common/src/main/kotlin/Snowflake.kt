@@ -13,12 +13,21 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.facet.core
+package io.facet.common
 
-import kotlinx.coroutines.*
+import discord4j.common.util.*
+import discord4j.discordjson.*
 
 /**
- * The bot's coroutine scope, used as the root coroutine scope for event listeners.
+ * Extension function to turn a [Long] into a [Snowflake]
  */
-@Deprecated("Use withFeatures block on GatewayBootstrap")
-public object BotScope : CoroutineScope by CoroutineScope(SupervisorJob())
+public fun Long.toSnowflake(): Snowflake = Snowflake.of(this)
+
+/**
+ * Extension function to turn [String] into a [Snowflake]
+ */
+public fun String.toSnowflake(): Snowflake = Snowflake.of(this)
+
+public fun Id.toSnowflake(): Snowflake = asLong().toSnowflake()
+
+public fun Snowflake.asULong(): ULong = asLong().toULong()

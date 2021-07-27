@@ -13,26 +13,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.facet.core
+package io.facet.chatcommands.arguments
 
+import com.mojang.brigadier.*
+import com.mojang.brigadier.arguments.*
+import com.mojang.brigadier.arguments.LongArgumentType.*
 import discord4j.common.util.*
-import discord4j.voice.*
 import io.facet.common.*
 
-public class LocalSuspendingVoiceConnectionRegistry(
-    private val registry: VoiceConnectionRegistry = LocalVoiceConnectionRegistry()
-) : SuspendingVoiceConnectionRegistry {
+public object SnowflakeArgument : ArgumentType<Snowflake> {
 
-    override suspend fun getVoiceConnection(
-        guildId: Snowflake
-    ): VoiceConnection = registry.getVoiceConnection(guildId).await()
+    private val longArgType = longArg(0, Long.MAX_VALUE)
 
-    override suspend fun registerVoiceConnection(
-        guildId: Snowflake,
-        voiceConnection: VoiceConnection
-    ): Unit = registry.registerVoiceConnection(guildId, voiceConnection).await()
-
-    override suspend fun disconnect(
-        guildId: Snowflake
-    ): Unit = registry.disconnect(guildId).await()
+    override fun parse(reader: StringReader): Snowflake = longArgType.parse(reader).toSnowflake()
 }

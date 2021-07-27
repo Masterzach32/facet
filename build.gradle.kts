@@ -15,14 +15,10 @@ allprojects {
     group = "io.facet"
     description = "A Kotlin-friendly wrapper for Discord4J"
 
-    ext["isRelease"] = !version.toString().endsWith("-SNAPSHOT")
-
     repositories {
         mavenCentral()
     }
 }
-
-val isRelease: Boolean by ext
 
 subprojects {
     apply(plugin = "kotlin")
@@ -31,16 +27,14 @@ subprojects {
     apply(plugin = "signing")
     apply(plugin = "org.jetbrains.dokka")
 
+    repositories {
+        maven("https://libraries.minecraft.net")
+        maven("https://m2.dv8tion.net/releases")
+        maven("https://oss.sonatype.org/content/repositories/snapshots")
+        maven("https://repo.spring.io/milestone")
+    }
+
     dependencies {
-        val slf4j_version: String by project
-        val logback_version: String by project
-        val kotlinx_coroutines_version: String by project
-
-        implementation("org.slf4j:slf4j-api:$slf4j_version")
-
-        api("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version")
-
-        testImplementation("ch.qos.logback:logback-classic:$logback_version")
         testImplementation(platform("org.junit:junit-bom:5.7.2"))
         testImplementation("org.junit.jupiter:junit-jupiter")
     }

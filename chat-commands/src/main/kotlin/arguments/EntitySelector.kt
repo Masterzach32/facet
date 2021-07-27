@@ -13,26 +13,20 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.facet.core
+package io.facet.chatcommands.arguments
 
+import com.mojang.brigadier.*
 import discord4j.common.util.*
-import discord4j.voice.*
-import io.facet.common.*
+import discord4j.core.*
+import discord4j.core.`object`.entity.*
 
-public class LocalSuspendingVoiceConnectionRegistry(
-    private val registry: VoiceConnectionRegistry = LocalVoiceConnectionRegistry()
-) : SuspendingVoiceConnectionRegistry {
+public abstract class EntitySelector<E : Entity> {
 
-    override suspend fun getVoiceConnection(
-        guildId: Snowflake
-    ): VoiceConnection = registry.getVoiceConnection(guildId).await()
+    protected val entities: MutableList<Snowflake> = mutableListOf()
 
-    override suspend fun registerVoiceConnection(
-        guildId: Snowflake,
-        voiceConnection: VoiceConnection
-    ): Unit = registry.registerVoiceConnection(guildId, voiceConnection).await()
+    internal abstract fun parse(reader: StringReader)
 
-    override suspend fun disconnect(
-        guildId: Snowflake
-    ): Unit = registry.disconnect(guildId).await()
+    public abstract suspend fun get(client: GatewayDiscordClient, guildId: Snowflake): E
+
+    public abstract suspend fun getMultiple(client: GatewayDiscordClient, guildId: Snowflake): List<E>
 }

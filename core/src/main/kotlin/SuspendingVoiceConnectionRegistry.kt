@@ -13,7 +13,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.facet.discord
+package io.facet.core
 
 import discord4j.common.util.*
 import discord4j.voice.*

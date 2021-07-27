@@ -13,12 +13,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.facet.core
+package io.facet.exposed
 
-import kotlinx.coroutines.*
+import discord4j.common.util.*
+import org.jetbrains.exposed.sql.*
 
-/**
- * The bot's coroutine scope, used as the root coroutine scope for event listeners.
- */
-@Deprecated("Use withFeatures block on GatewayBootstrap")
-public object BotScope : CoroutineScope by CoroutineScope(SupervisorJob())
+/** Returns the specified [snowflake] as a [Snowflake] literal. */
+public fun snowflakeLiteral(snowflake: Snowflake): LiteralOp<Snowflake> = LiteralOp(SnowflakeColumnType.INSTANCE, snowflake)
