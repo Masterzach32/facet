@@ -13,7 +13,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package io.facet.discord.lavaplayer
+package io.facet.lavaplayer
 
 import com.sedmelluq.discord.lavaplayer.player.event.*
 import kotlinx.coroutines.flow.*
