@@ -20,13 +20,11 @@ repositories {
 }
 
 dependencies {
-    implementation("io.facet:chat-commands:$version") // if using chat commands
-    implementation("io.facet:application-commands:$version") // if using "slash" commands
-    // you can use both at the same time!
+    implementation("io.facet:core:$version")
 }
 ```
 
-Creating a new bot is easy:
+Creating a bot is easy:
 ```kotlin
 fun main() {
     val client = DiscordClient.builder("<bot token>")
@@ -46,7 +44,7 @@ suspend fun GatewayDiscordClient.configure(scope: CoroutineScope) {
     // simple custom feature that manages a database table with guildIds and their prefixes
     install(scope, GuildStorage)
 
-    // this is a pre-written command dispatcher that can be found in the facet-discord4j-commands module
+    // this is a pre-written command dispatcher that can be found in the core module
     install(scope, ChatCommands) {
         useDefaultHelpCommand = true
 
@@ -60,7 +58,7 @@ suspend fun GatewayDiscordClient.configure(scope: CoroutineScope) {
         )
     }
 
-    // this is a pre-written command dispatcher that can be found in the facet-discord4j-application-commands module
+    // this is a pre-written command dispatcher that can be found in the core module
     install(scope, ApplicationCommands) {
         // how many commands can be executing at once
         commandConcurrency = 4
