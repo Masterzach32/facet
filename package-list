@@ -16,4 +16,4 @@ io.facet.core.features
 module:exposed
 io.facet.exposed
 module:lavaplayer-extensions
-io.facet.discord.lavaplayer
+io.facet.lavaplayer
