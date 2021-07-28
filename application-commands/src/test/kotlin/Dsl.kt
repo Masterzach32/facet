@@ -35,9 +35,9 @@ class Dsl {
 
         val fromDsl = applicationCommandRequest(name, desc) {
             defaultPermission = true
-            addSubCommand(subCommandName, subCommandDesc) {
-                addOption(optionName, optionDesc, optionType, optionRequired) {
-                    addChoice(choiceName, choiceValue)
+            subCommand(subCommandName, subCommandDesc) {
+                option(optionName, optionDesc, optionType, optionRequired) {
+                    choice(choiceName, choiceValue)
                 }
             }
         }

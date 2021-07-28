@@ -42,7 +42,7 @@ public open class ApplicationCommandBuilder {
 
     internal val options = mutableListOf<ApplicationCommandOptionData>()
 
-    public fun addOption(
+    public fun option(
         name: String,
         desc: String,
         type: ApplicationCommandOptionType,
@@ -64,31 +64,52 @@ public open class ApplicationCommandBuilder {
         options.add(data.name(name).description(desc).type(type.value).build())
     }
 
-    public fun addSubCommand(
+    public fun subCommand(
         name: String,
         desc: String,
         block: OptionBuilder.() -> Unit = {}
-    ): Unit = addOption(name, desc, ApplicationCommandOptionType.SUB_COMMAND, block = block)
+    ): Unit = option(name, desc, ApplicationCommandOptionType.SUB_COMMAND, block = block)
 
-    public fun addSubCommandGroup(
+    public fun group(
         name: String,
         desc: String,
         block: OptionBuilder.() -> Unit = {}
-    ): Unit = addOption(name, desc, ApplicationCommandOptionType.SUB_COMMAND_GROUP, block = block)
+    ): Unit = option(name, desc, ApplicationCommandOptionType.SUB_COMMAND_GROUP, block = block)
+
+    public fun string(name: String, desc: String, required: Boolean = false): Unit =
+        option(name, desc, ApplicationCommandOptionType.STRING, required)
+
+    public fun int(name: String, desc: String, required: Boolean = false): Unit =
+        option(name, desc, ApplicationCommandOptionType.INTEGER, required)
+
+    public fun boolean(name: String, desc: String, required: Boolean = false): Unit =
+        option(name, desc, ApplicationCommandOptionType.BOOLEAN, required)
+
+    public fun user(name: String, desc: String, required: Boolean = false): Unit =
+        option(name, desc, ApplicationCommandOptionType.USER, required)
+
+    public fun channel(name: String, desc: String, required: Boolean = false): Unit =
+        option(name, desc, ApplicationCommandOptionType.CHANNEL, required)
+
+    public fun role(name: String, desc: String, required: Boolean = false): Unit =
+        option(name, desc, ApplicationCommandOptionType.ROLE, required)
+
+    public fun mentionable(name: String, desc: String, required: Boolean = false): Unit =
+        option(name, desc, ApplicationCommandOptionType.MENTIONABLE, required)
 }
 
 public class OptionBuilder : ApplicationCommandBuilder() {
 
     internal val choices = mutableListOf<ApplicationCommandOptionChoiceData>()
 
-    public fun addChoice(name: String, value: String): Unit = choices.add(
+    public fun choice(name: String, value: String): Unit = choices.add(
         ApplicationCommandOptionChoiceData.builder()
             .name(name)
             .value(value)
             .build()
     ).let {  }
 
-    public fun addChoice(name: String, value: Int): Unit = choices.add(
+    public fun choice(name: String, value: Int): Unit = choices.add(
         ApplicationCommandOptionChoiceData.builder()
             .name(name)
             .value(value)
