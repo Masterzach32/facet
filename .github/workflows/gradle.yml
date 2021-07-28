@@ -20,7 +20,7 @@ on:
 
 jobs:
   build:
-    name: Build for JVM ${{ matrix.java }}
+    name: Build with JDK ${{ matrix.java }}
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' || github.event.pull_request.head.repo.full_name != 'Masterzach32/facet' }}
     strategy:
@@ -56,7 +56,7 @@ jobs:
             ~/.gradle/wrapper
           key: ${{ runner.os }}-jdk16-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
-            ${{ runner.os }}-gradle-
+            ${{ runner.os }}-jdk16-gradle-
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
