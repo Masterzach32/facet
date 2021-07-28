@@ -19,6 +19,7 @@ import discord4j.common.annotations.*
 import discord4j.core.`object`.command.*
 import discord4j.rest.util.*
 import io.facet.common.*
+import kotlin.properties.*
 import kotlin.reflect.*
 
 /**
@@ -78,9 +79,9 @@ public class InteractionOptions(private val commandInteraction: ApplicationComma
                 .mapNotNull { search(name, it) }
                 .firstOrNull()
 
-    public inner class DefaultValueOptionDelegate<T>(private val value: T) {
+    public inner class DefaultValueOptionDelegate<T>(private val value: T) : ReadOnlyProperty<Any?, T> {
 
-        public operator fun getValue(thisRef: Any?, property: KProperty<*>): T {
+        public override operator fun getValue(thisRef: Any?, property: KProperty<*>): T {
             return if (property.name in this@InteractionOptions)
                 this@InteractionOptions.getValue(thisRef, property)
             else
@@ -88,9 +89,9 @@ public class InteractionOptions(private val commandInteraction: ApplicationComma
         }
     }
 
-    public inner class NullableOptionDelegate<T> {
+    public inner class NullableOptionDelegate<T> : ReadOnlyProperty<Any?, T?> {
 
-        public operator fun getValue(thisRef: Any?, property: KProperty<*>): T? {
+        public override operator fun getValue(thisRef: Any?, property: KProperty<*>): T? {
             return if (property.name in this@InteractionOptions)
                 this@InteractionOptions.getValue(thisRef, property)
             else

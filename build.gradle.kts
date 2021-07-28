@@ -222,10 +222,12 @@ tasks {
     register("docs") {
         dependsOn(dokkaHtmlMultiModule)
         group = "documentation"
+        description = "Generate the KDocs for this project."
     }
 
     val updateReadme by registering {
         group = "release"
+        description = "Update the version number in the README.md at the root of the project."
         onlyIf {
             isRelease && version.toString().let { "M" !in it && "RC" !in it }
         }
