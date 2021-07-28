@@ -20,13 +20,15 @@ import discord4j.core.`object`.entity.*
 import discord4j.core.`object`.entity.channel.*
 import discord4j.core.event.domain.interaction.*
 import io.facet.common.*
+import kotlinx.coroutines.*
 
 /**
  * The context for an interaction with an [ApplicationCommand] that could have been used in a DM.
  */
 public class GlobalSlashCommandContext(
-    event: SlashCommandEvent
-) : SlashCommandContext(event) {
+    event: SlashCommandEvent,
+    scope: CoroutineScope
+) : SlashCommandContext(event, scope) {
 
     /**
      * The ID of the [server][Guild] that this command was used in. Is null if the command was used in a DM.

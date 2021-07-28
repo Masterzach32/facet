@@ -180,11 +180,11 @@ public class ApplicationCommands(config: Config, restClient: RestClient) {
                         .await()
 
                 val context: SlashCommandContext = when (command) {
-                    is GlobalApplicationCommand -> GlobalSlashCommandContext(event)
-                    is GuildApplicationCommand -> GuildSlashCommandContext(event)
+                    is GlobalApplicationCommand -> GlobalSlashCommandContext(event, BotScope)
+                    is GuildApplicationCommand -> GuildSlashCommandContext(event, BotScope)
                     is GlobalGuildApplicationCommand -> {
                         if (event.interaction.guildId.isPresent)
-                            GuildSlashCommandContext(event)
+                            GuildSlashCommandContext(event, BotScope)
                         else
                             return event.reply("This command is not usable within DMs.").withEphemeral(true).await()
                     }

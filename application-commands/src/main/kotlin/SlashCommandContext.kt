@@ -23,6 +23,7 @@ import discord4j.core.`object`.entity.*
 import discord4j.core.`object`.entity.channel.*
 import discord4j.core.event.domain.interaction.*
 import io.facet.common.*
+import kotlinx.coroutines.*
 
 /**
  * The context for an interaction with an application command.
@@ -31,8 +32,9 @@ public abstract class SlashCommandContext(
     /**
      * The discord interaction event.
      */
-    public val event: SlashCommandEvent
-) {
+    public val event: SlashCommandEvent,
+    scope: CoroutineScope
+) : CoroutineScope by scope {
 
     /**
      * The gateway this event was dispatched from.

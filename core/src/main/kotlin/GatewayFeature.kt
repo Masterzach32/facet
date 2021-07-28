@@ -18,6 +18,7 @@ package io.facet.core
 import discord4j.core.*
 import discord4j.core.shard.*
 import discord4j.gateway.*
+import io.facet.common.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.reactor.*
 import reactor.core.publisher.*
@@ -67,4 +68,12 @@ public fun GatewayBootstrap<GatewayOptions>.withPlugins(
     mono {
         configureBlock(gateway, this)
     }
+}
+
+/**
+ * Logs out of the gateway and cancels all running coroutines.
+ */
+public suspend fun GatewayDiscordClient.shutdown() {
+    logout().await()
+    BotScope.cancel()
 }
