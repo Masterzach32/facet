@@ -15,6 +15,7 @@
 
 package io.facet.commands
 
+import discord4j.common.util.*
 import discord4j.discordjson.json.*
 
 /**
@@ -31,4 +32,25 @@ public sealed interface ApplicationCommand<in C : SlashCommandContext> {
      * Called when this command is used in an interaction
      */
     public suspend fun C.execute()
+}
+
+/**
+ * An application command that is available globally.
+ */
+public interface GlobalApplicationCommand : ApplicationCommand<GlobalSlashCommandContext>
+
+/**
+ * An application command that is available globally, but can only be used from within a guild.
+ */
+public interface GlobalGuildApplicationCommand : ApplicationCommand<GuildSlashCommandContext>
+
+/**
+ * An application command that is only available within a specific guild.
+ */
+public interface GuildApplicationCommand : ApplicationCommand<GuildSlashCommandContext> {
+
+    /**
+     * The [Snowflake] id of the guild that this command is available in.
+     */
+    public val guildId: Snowflake
 }

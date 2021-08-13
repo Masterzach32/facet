@@ -3,13 +3,15 @@ import org.jetbrains.kotlin.gradle.tasks.*
 import java.net.*
 
 plugins {
-    kotlin("jvm") version "1.5.10" apply false
+    kotlin("jvm") version "1.5.21" apply false
     id("java-library")
     id("maven-publish")
     id("signing")
-    id("org.jetbrains.dokka") version "1.5.0"
+    id("org.jetbrains.dokka") version "1.5.+"
     id("net.researchgate.release") version "2.8.1"
 }
+
+val isRelease = !version.toString().endsWith("-SNAPSHOT")
 
 allprojects {
     group = "io.facet"
@@ -46,7 +48,7 @@ subprojects {
         compileKotlin {
             kotlinOptions {
                 jvmTarget = "1.8"
-                freeCompilerArgs = listOf(CompilerArguments.explicitApi, CompilerArguments.optIn)
+                freeCompilerArgs = listOf("-Xexplicit-api=strict", "-Xopt-in=kotlin.RequiresOptIn")
             }
         }
 

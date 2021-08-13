@@ -161,6 +161,7 @@ public class ApplicationCommands(config: Config, restClient: RestClient) {
                     logger.error("Exception thrown while processing command:", e)
                 }
             }
+            TimestampFormat.RELATIVE_TIME
         }
 
         private suspend fun processInteraction(
