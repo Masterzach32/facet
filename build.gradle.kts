@@ -7,8 +7,8 @@ plugins {
     id("java-library")
     id("maven-publish")
     id("signing")
-    id("org.jetbrains.dokka") version "1.5.+"
-    id("net.researchgate.release") version "2.8.1"
+    alias(libs.plugins.dokka)
+    alias(libs.plugins.release)
 }
 
 val isRelease = !version.toString().endsWith("-SNAPSHOT")
@@ -227,20 +227,14 @@ tasks {
         description = "Generate the KDocs for this project."
     }
 
-    val updateReadme by registering {
+    val updateReadme by registering(Copy::class) {
         group = "release"
         description = "Update the version number in the README.md at the root of the project."
-        onlyIf {
-            isRelease && version.toString().let { "M" !in it && "RC" !in it }
-        }
-        doLast {
-            copy {
-                from(".github/README_TEMPLATE.md")
-                into(".")
-                rename { "README.md" }
-                expand("version" to version)
-            }
-        }
+        onlyIf { isRelease && version.toString().let { "M" !in it && "RC" !in it } }
+        from(".github/README_TEMPLATE.md")
+        into(".")
+        rename { "README.md" }
+        expand("version" to version)
     }
 
     preTagCommit {
