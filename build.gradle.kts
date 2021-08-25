@@ -217,6 +217,10 @@ subprojects {
 }
 
 tasks {
+    beforeReleaseBuild {
+        dependsOn(subprojects.map { it.tasks.build })
+    }
+
     dokkaHtmlMultiModule {
         outputDirectory.set(buildDir.resolve("docs"))
     }
