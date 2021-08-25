@@ -58,7 +58,7 @@ public inline fun <reified E : Event> EventDispatcher.listener(
     crossinline block: suspend CoroutineScope.(E) -> Unit
 ): Job = scope.launch(context, start) {
     val logger = LoggerFactory.getLogger("EventListener<${E::class.simpleName}>")
-    kotlinx.coroutines.flow.flowOf<E>().filterNotNull().buffer(capacity).collect { event ->
+    this@listener.flowOf<E>().filterNotNull().buffer(capacity).collect { event ->
         try {
             block(event)
         } catch (e: CancellationException) {
@@ -95,7 +95,7 @@ public inline fun <reified E : Event> EventDispatcher.actorListener(
     noinline block: suspend ActorScope<E>.() -> Unit
 ): Job = scope.launch(context, start) {
     val eventChannel = actor(capacity = capacity, onCompletion = onCompletion, block = block)
-    kotlinx.coroutines.flow.flowOf<E>().filterNotNull().collect { event ->
+    this@actorListener.flowOf<E>().filterNotNull().collect { event ->
         eventChannel.send(event)
     }
 }

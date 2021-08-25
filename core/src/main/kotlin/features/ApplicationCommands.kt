@@ -81,8 +81,6 @@ public class ApplicationCommands(config: Config, restClient: RestClient) {
         // create, update, or leave commands in use
         globalCommands.forEach { command ->
             val registeredCommand = registeredGlobalCommands.firstOrNull { it.name() == command.request.name() }
-            logger.debug(command.request.toString())
-            logger.debug(registeredCommand.toString())
 
             val commandId: String = when {
                 // upsert command
