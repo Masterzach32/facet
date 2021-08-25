@@ -1,5 +1,7 @@
 # Facet
 
+[![Published maven version](https://img.shields.io/maven-metadata/v?label=release&metadataUrl=https%3A%2F%2Fmaven.masterzach32.net%2Fartifactory%2Ffacet-releases%2Fio%2Ffacet%2Fcore%2Fmaven-metadata.xml&style=for-the-badge)](https://maven.masterzach32.net/ui/repos/tree/General/facet-releases%2Fio%2Ffacet)
+[![Published maven version](https://img.shields.io/maven-metadata/v?label=snapshot&metadataUrl=https%3A%2F%2Fmaven.masterzach32.net%2Fartifactory%2Ffacet-snapshots%2Fio%2Ffacet%2Fcore%2Fmaven-metadata.xml&style=for-the-badge)](https://maven.masterzach32.net/ui/repos/tree/General/facet-snapshots%2Fio%2Ffacet)
 [![GitHub workflow status](https://img.shields.io/github/workflow/status/Masterzach32/facet/Java%20CI?style=for-the-badge)]()
 
 Facet is a library to make writing Discord bots easier. Features include:
