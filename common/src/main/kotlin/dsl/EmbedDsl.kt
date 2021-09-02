@@ -15,10 +15,11 @@
 
 package io.facet.common.dsl
 
-import discord4j.common.annotations.*
-import discord4j.core.spec.*
-import discord4j.rest.util.*
-import java.time.*
+import discord4j.common.annotations.Experimental
+import discord4j.core.spec.EmbedCreateFields
+import discord4j.core.spec.EmbedCreateSpec
+import discord4j.rest.util.Color
+import java.time.Instant
 
 /**
  * Creates a new [EmbedCreateSpec] using an [EmbedBuilder].

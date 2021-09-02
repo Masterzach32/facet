@@ -15,7 +15,8 @@
 
 package io.facet.commands
 
-import discord4j.core.`object`.entity.*
+import discord4j.core.`object`.entity.Guild
+import discord4j.core.`object`.entity.User
 
 /**
  * A command that is restricted using the implemented [hasPermission] function.

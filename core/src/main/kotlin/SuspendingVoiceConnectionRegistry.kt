@@ -15,8 +15,8 @@
 
 package io.facet.core
 
-import discord4j.common.util.*
-import discord4j.voice.*
+import discord4j.common.util.Snowflake
+import discord4j.voice.VoiceConnection
 
 public interface SuspendingVoiceConnectionRegistry {
 

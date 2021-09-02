@@ -15,11 +15,11 @@
 
 package io.facet.core.features
 
-import com.mojang.brigadier.arguments.*
-import discord4j.rest.util.*
+import com.mojang.brigadier.arguments.StringArgumentType
+import discord4j.rest.util.Color
 import io.facet.chatcommands.*
-import io.facet.common.*
-import io.facet.core.*
+import io.facet.common.sendMessage
+import io.facet.core.feature
 import java.util.*
 
 public object Help : ChatCommand(

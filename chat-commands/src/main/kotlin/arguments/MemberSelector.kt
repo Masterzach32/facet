@@ -15,13 +15,14 @@
 
 package io.facet.chatcommands.arguments
 
-import com.mojang.brigadier.*
-import discord4j.common.util.*
-import discord4j.core.*
-import discord4j.core.`object`.entity.*
-import io.facet.common.*
+import com.mojang.brigadier.StringReader
+import discord4j.common.util.Snowflake
+import discord4j.core.GatewayDiscordClient
+import discord4j.core.`object`.entity.Member
+import io.facet.common.await
 
-public class MemberSelector(private val selectMultiple: Boolean, private val allowRoles: Boolean) : EntitySelector<Member>() {
+public class MemberSelector(private val selectMultiple: Boolean, private val allowRoles: Boolean) :
+    EntitySelector<Member>() {
 
     override fun parse(reader: StringReader) {
         TODO("Not yet implemented")

@@ -15,9 +15,11 @@
 
 package io.facet.chatcommands
 
-import com.mojang.brigadier.context.*
-import discord4j.common.util.*
-import io.facet.chatcommands.arguments.*
+import com.mojang.brigadier.context.CommandContext
+import discord4j.common.util.Snowflake
+import io.facet.chatcommands.arguments.MemberSelector
+import io.facet.chatcommands.arguments.RoleSelector
+import io.facet.chatcommands.arguments.TextChannelSelector
 
 /**
  * Get the name of the command alias used.

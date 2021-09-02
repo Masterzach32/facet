@@ -15,9 +15,9 @@
 
 package io.facet.chatcommands
 
-import com.mojang.brigadier.builder.*
-import com.mojang.brigadier.context.*
-import kotlinx.coroutines.*
+import com.mojang.brigadier.builder.ArgumentBuilder
+import com.mojang.brigadier.context.CommandContext
+import kotlinx.coroutines.runBlocking
 
 @Deprecated("Use CommandNode DSL")
 public fun <S, T : ArgumentBuilder<S, T>> ArgumentBuilder<S, T>.executesSuspend(

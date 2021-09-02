@@ -1,8 +1,11 @@
 package io.facet.discord.appcommands
 
-import discord4j.discordjson.json.*
-import discord4j.rest.util.*
-import org.junit.jupiter.api.*
+import discord4j.discordjson.json.ApplicationCommandData
+import discord4j.discordjson.json.ApplicationCommandOptionChoiceData
+import discord4j.discordjson.json.ApplicationCommandOptionData
+import discord4j.discordjson.json.ApplicationCommandRequest
+import discord4j.rest.util.ApplicationCommandOptionType
+import org.junit.jupiter.api.Test
 
 class ApplicationCommandFeature {
 

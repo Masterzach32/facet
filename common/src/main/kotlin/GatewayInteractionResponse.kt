@@ -15,12 +15,16 @@
 
 package io.facet.common
 
-import discord4j.core.*
-import discord4j.core.`object`.entity.*
-import discord4j.core.event.domain.interaction.*
-import discord4j.core.spec.*
-import discord4j.rest.interaction.*
-import io.facet.common.dsl.*
+import discord4j.core.GatewayDiscordClient
+import discord4j.core.`object`.entity.Message
+import discord4j.core.event.domain.interaction.InteractionCreateEvent
+import discord4j.core.spec.EmbedCreateSpec
+import discord4j.core.spec.WebhookExecuteSpec
+import discord4j.rest.interaction.InteractionResponse
+import io.facet.common.dsl.EmbedBuilder
+import io.facet.common.dsl.WebhookMessageBuilder
+import io.facet.common.dsl.webhookMessage
+import io.facet.common.dsl.webhookMessageEmbed
 
 /**
  * A handler for common operations related to an interaction followup response.

@@ -15,12 +15,13 @@
 
 package io.facet.core
 
-import discord4j.core.*
-import discord4j.core.event.*
-import discord4j.core.shard.*
-import discord4j.gateway.*
-import kotlinx.coroutines.*
-import kotlinx.coroutines.reactor.*
+import discord4j.core.DiscordClient
+import discord4j.core.event.EventDispatcher
+import discord4j.core.shard.GatewayBootstrap
+import discord4j.gateway.GatewayOptions
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.reactor.mono
 
 public abstract class EventDispatcherFeature<out TConfig : Any, TFeature : Any>(
     keyName: String,

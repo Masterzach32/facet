@@ -40,4 +40,5 @@ public class CommandUsageBuilder {
 /**
  * **Note:** this DSL is experimental and subject to change.
  */
-public fun commandUsage(block: CommandUsageBuilder.() -> Unit): CommandUsage = CommandUsage(CommandUsageBuilder().apply(block).usageMap)
+public fun commandUsage(block: CommandUsageBuilder.() -> Unit): CommandUsage =
+    CommandUsage(CommandUsageBuilder().apply(block).usageMap)

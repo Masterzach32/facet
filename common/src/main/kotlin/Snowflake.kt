@@ -15,8 +15,8 @@
 
 package io.facet.common
 
-import discord4j.common.util.*
-import discord4j.discordjson.*
+import discord4j.common.util.Snowflake
+import discord4j.discordjson.Id
 
 /**
  * Extension function to turn a [Long] into a [Snowflake]

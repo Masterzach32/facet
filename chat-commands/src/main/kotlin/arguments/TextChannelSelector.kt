@@ -15,11 +15,11 @@
 
 package io.facet.chatcommands.arguments
 
-import com.mojang.brigadier.*
-import discord4j.common.util.*
-import discord4j.core.*
-import discord4j.core.`object`.entity.channel.*
-import io.facet.common.*
+import com.mojang.brigadier.StringReader
+import discord4j.common.util.Snowflake
+import discord4j.core.GatewayDiscordClient
+import discord4j.core.`object`.entity.channel.GuildMessageChannel
+import io.facet.common.await
 
 public class TextChannelSelector : EntitySelector<GuildMessageChannel>() {
 
@@ -31,6 +31,7 @@ public class TextChannelSelector : EntitySelector<GuildMessageChannel>() {
         .first()
         .let { client.getChannelById(it).await() as GuildMessageChannel }
 
-    override suspend fun getMultiple(client: GatewayDiscordClient, guildId: Snowflake): List<GuildMessageChannel> = entities
-        .map { client.getChannelById(it).await() as GuildMessageChannel }
+    override suspend fun getMultiple(client: GatewayDiscordClient, guildId: Snowflake): List<GuildMessageChannel> =
+        entities
+            .map { client.getChannelById(it).await() as GuildMessageChannel }
 }

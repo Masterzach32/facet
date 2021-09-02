@@ -15,10 +15,12 @@
 
 package io.facet.chatcommands
 
-import com.mojang.brigadier.context.*
-import com.mojang.brigadier.suggestion.*
-import kotlinx.coroutines.*
-import java.util.concurrent.*
+import com.mojang.brigadier.context.CommandContext
+import com.mojang.brigadier.suggestion.SuggestionProvider
+import com.mojang.brigadier.suggestion.Suggestions
+import com.mojang.brigadier.suggestion.SuggestionsBuilder
+import kotlinx.coroutines.runBlocking
+import java.util.concurrent.CompletableFuture
 
 internal class DSLSuggestionProvider<T>(
     private val onSuggest: SuggestionsBuilder.(context: CommandContext<T>) -> Unit

@@ -15,11 +15,11 @@
 
 package io.facet.common
 
-import discord4j.core.`object`.*
-import discord4j.core.`object`.entity.*
-import discord4j.core.`object`.entity.channel.*
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.reactive.*
+import discord4j.core.`object`.VoiceState
+import discord4j.core.`object`.entity.Guild
+import discord4j.core.`object`.entity.channel.VoiceChannel
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.reactive.asFlow
 
 /**
  * Gets the [VoiceState] of our user in this [Guild].

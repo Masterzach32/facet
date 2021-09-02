@@ -15,10 +15,12 @@
 
 package io.facet.exposed
 
-import discord4j.common.util.*
-import io.facet.common.*
-import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.vendors.*
+import discord4j.common.util.Snowflake
+import io.facet.common.toSnowflake
+import org.jetbrains.exposed.sql.Column
+import org.jetbrains.exposed.sql.ColumnType
+import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.vendors.currentDialect
 
 /**
  * Numeric column for storing 64-bit [Snowflake] IDs

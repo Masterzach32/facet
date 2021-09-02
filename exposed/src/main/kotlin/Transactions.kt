@@ -15,10 +15,14 @@
 
 package io.facet.exposed
 
-import kotlinx.coroutines.*
-import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.transactions.*
-import kotlin.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.Transaction
+import org.jetbrains.exposed.sql.transactions.transaction
+import kotlin.coroutines.CoroutineContext
 
 public fun Transaction.create(vararg tables: Table) {
     SchemaUtils.create(*tables)

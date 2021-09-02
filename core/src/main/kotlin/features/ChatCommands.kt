@@ -15,20 +15,41 @@
 
 package io.facet.core.features
 
-import com.mojang.brigadier.*
-import discord4j.common.util.*
-import discord4j.core.*
-import discord4j.core.`object`.entity.channel.*
-import discord4j.core.event.*
-import discord4j.core.event.domain.message.*
-import io.facet.chatcommands.*
-import io.facet.chatcommands.events.*
-import io.facet.common.*
-import io.facet.core.*
-import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.*
-import org.slf4j.*
-import java.util.concurrent.*
+import com.mojang.brigadier.CommandDispatcher
+import com.mojang.brigadier.ParseResults
+import discord4j.common.util.Snowflake
+import discord4j.core.DiscordClient
+import discord4j.core.`object`.entity.channel.GuildMessageChannel
+import discord4j.core.event.EventDispatcher
+import discord4j.core.event.domain.message.MessageCreateEvent
+import io.facet.chatcommands.ChatCommand
+import io.facet.chatcommands.ChatCommandSource
+import io.facet.chatcommands.Scope
+import io.facet.chatcommands.events.CommandExecutedEvent
+import io.facet.chatcommands.executeSuspend
+import io.facet.common.actorListener
+import io.facet.common.await
+import io.facet.common.unwrap
+import io.facet.core.EventDispatcherFeature
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.launch
+import org.slf4j.LoggerFactory
+import java.util.concurrent.ConcurrentHashMap
+import kotlin.collections.Map
+import kotlin.collections.Set
+import kotlin.collections.first
+import kotlin.collections.firstOrNull
+import kotlin.collections.flatMap
+import kotlin.collections.forEach
+import kotlin.collections.isNotEmpty
+import kotlin.collections.map
+import kotlin.collections.mutableMapOf
+import kotlin.collections.mutableSetOf
+import kotlin.collections.set
+import kotlin.collections.toMap
 
 /**
  * Instance of the [ChatCommands] feature.
@@ -91,7 +112,8 @@ public class ChatCommands(config: Config) {
         }
     }
 
-    public fun registerCommands(vararg commands: ChatCommand): Map<ChatCommand, Boolean> = commands.map { it to registerCommand(it) }.toMap()
+    public fun registerCommands(vararg commands: ChatCommand): Map<ChatCommand, Boolean> =
+        commands.map { it to registerCommand(it) }.toMap()
 
     public class Config {
         internal val commands = mutableSetOf<ChatCommand>()
@@ -118,7 +140,10 @@ public class ChatCommands(config: Config) {
      */
     public companion object : EventDispatcherFeature<Config, ChatCommands>("commands") {
 
-        override suspend fun EventDispatcher.install(scope: CoroutineScope, configuration: Config.() -> Unit): ChatCommands {
+        override suspend fun EventDispatcher.install(
+            scope: CoroutineScope,
+            configuration: Config.() -> Unit
+        ): ChatCommands {
             val config = Config().apply(configuration)
             return ChatCommands(config).also { feature ->
                 actorListener<MessageCreateEvent>(scope) {
@@ -181,7 +206,8 @@ public class ChatCommands(config: Config) {
                 val userEffectivePerms = channel.getEffectivePermissions(event.member.unwrap()!!.id).await()
 
                 if (!ourEffectivePerms.containsAll(commandUsed.discordPermsRequired) ||
-                    !userEffectivePerms.containsAll(commandUsed.discordPermsRequired))
+                    !userEffectivePerms.containsAll(commandUsed.discordPermsRequired)
+                )
                     return // we or the user do not have the discord permissions to use this command
             }
 

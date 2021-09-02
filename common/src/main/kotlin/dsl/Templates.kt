@@ -15,7 +15,7 @@
 
 package io.facet.common.dsl
 
-import discord4j.core.spec.*
+import discord4j.core.spec.Spec
 
 /**
  * Used to build [specs][Spec] in DSL format.

@@ -15,15 +15,24 @@
 
 package io.facet.chatcommands
 
-import discord4j.common.util.*
-import discord4j.core.*
-import discord4j.core.`object`.entity.*
-import discord4j.core.`object`.entity.channel.*
-import discord4j.core.event.domain.message.*
-import discord4j.core.spec.*
-import io.facet.common.*
-import io.facet.common.dsl.*
-import kotlinx.coroutines.*
+import discord4j.common.util.Snowflake
+import discord4j.core.GatewayDiscordClient
+import discord4j.core.`object`.entity.Guild
+import discord4j.core.`object`.entity.Member
+import discord4j.core.`object`.entity.Message
+import discord4j.core.`object`.entity.User
+import discord4j.core.`object`.entity.channel.GuildMessageChannel
+import discord4j.core.`object`.entity.channel.MessageChannel
+import discord4j.core.event.domain.message.MessageCreateEvent
+import discord4j.core.spec.EmbedCreateSpec
+import discord4j.core.spec.MessageCreateSpec
+import io.facet.common.await
+import io.facet.common.dsl.EmbedBuilder
+import io.facet.common.dsl.MessageBuilder
+import io.facet.common.sendEmbed
+import io.facet.common.sendMessage
+import io.facet.common.unwrap
+import kotlinx.coroutines.CoroutineScope
 
 /**
  * Command source for chat commands. Provides easy access to the message event objects.
@@ -47,8 +56,8 @@ public class ChatCommandSource(
     public suspend fun getGuildChannel(): GuildMessageChannel = getChannel() as GuildMessageChannel
 
     override fun equals(other: Any?): Boolean = other is ChatCommandSource &&
-            command == other.command &&
-            message.id == other.message.id
+        command == other.command &&
+        message.id == other.message.id
 
     override fun hashCode(): Int {
         var result = command.hashCode()

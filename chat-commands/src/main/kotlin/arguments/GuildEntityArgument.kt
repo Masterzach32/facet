@@ -15,9 +15,9 @@
 
 package io.facet.chatcommands.arguments
 
-import com.mojang.brigadier.*
-import com.mojang.brigadier.arguments.*
-import discord4j.core.`object`.entity.*
+import com.mojang.brigadier.StringReader
+import com.mojang.brigadier.arguments.ArgumentType
+import discord4j.core.`object`.entity.Entity
 
 public class GuildEntityArgument<E : Entity, T : EntitySelector<E>> internal constructor(
     private val selector: T

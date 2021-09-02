@@ -15,9 +15,9 @@
 
 package io.facet.common
 
-import discord4j.core.`object`.*
-import discord4j.core.`object`.entity.*
-import discord4j.core.`object`.entity.channel.*
+import discord4j.core.`object`.VoiceState
+import discord4j.core.`object`.entity.Member
+import discord4j.core.`object`.entity.channel.VoiceChannel
 
 /**
  * Gets the [VoiceChannel] that the member is currently connected to, if present.

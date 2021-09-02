@@ -15,15 +15,17 @@
 
 package io.facet.commands
 
-import discord4j.common.annotations.*
-import discord4j.common.util.*
-import discord4j.core.*
-import discord4j.core.`object`.command.*
-import discord4j.core.`object`.entity.*
-import discord4j.core.`object`.entity.channel.*
-import discord4j.core.event.domain.interaction.*
-import io.facet.common.*
-import kotlinx.coroutines.*
+import discord4j.common.annotations.Experimental
+import discord4j.common.util.Snowflake
+import discord4j.core.GatewayDiscordClient
+import discord4j.core.`object`.command.Interaction
+import discord4j.core.`object`.entity.User
+import discord4j.core.`object`.entity.channel.MessageChannel
+import discord4j.core.event.domain.interaction.SlashCommandEvent
+import io.facet.common.GatewayInteractionResponse
+import io.facet.common.await
+import io.facet.common.gatewayInteractionResponse
+import kotlinx.coroutines.CoroutineScope
 
 /**
  * The context for an interaction with an application command.

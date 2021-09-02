@@ -15,12 +15,14 @@
 
 package io.facet.common
 
-import discord4j.common.util.*
-import discord4j.core.`object`.*
-import discord4j.core.`object`.entity.*
-import discord4j.core.`object`.entity.channel.*
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.reactive.*
+import discord4j.common.util.Snowflake
+import discord4j.core.`object`.VoiceState
+import discord4j.core.`object`.entity.Member
+import discord4j.core.`object`.entity.channel.VoiceChannel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.toSet
+import kotlinx.coroutines.reactive.asFlow
 
 /**
  * Gets the members currently connected to this [VoiceChannel] by requesting the [VoiceState]s of this guild

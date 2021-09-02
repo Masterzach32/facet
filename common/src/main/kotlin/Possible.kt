@@ -15,7 +15,7 @@
 
 package io.facet.common
 
-import discord4j.discordjson.possible.*
+import discord4j.discordjson.possible.Possible
 
 /**
  * Unwraps the D4J [Possible] into a nullable type.

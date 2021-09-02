@@ -15,8 +15,8 @@
 
 package io.facet.commands
 
-import discord4j.common.util.*
-import discord4j.discordjson.json.*
+import discord4j.common.util.Snowflake
+import discord4j.discordjson.json.ApplicationCommandRequest
 
 /**
  * A discord application "slash" command.

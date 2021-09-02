@@ -15,13 +15,15 @@
 
 package io.facet.chatcommands
 
-import com.mojang.brigadier.arguments.*
-import com.mojang.brigadier.builder.*
-import com.mojang.brigadier.context.*
-import com.mojang.brigadier.suggestion.*
-import com.mojang.brigadier.tree.*
-import io.facet.chatcommands.*
-import kotlinx.coroutines.*
+import com.mojang.brigadier.arguments.ArgumentType
+import com.mojang.brigadier.builder.ArgumentBuilder
+import com.mojang.brigadier.builder.LiteralArgumentBuilder
+import com.mojang.brigadier.builder.RequiredArgumentBuilder
+import com.mojang.brigadier.context.CommandContext
+import com.mojang.brigadier.suggestion.SuggestionProvider
+import com.mojang.brigadier.suggestion.SuggestionsBuilder
+import com.mojang.brigadier.tree.CommandNode
+import kotlinx.coroutines.runBlocking
 
 internal class DSLCommandNodeImpl<S>(
     override val builder: ArgumentBuilder<S, *>,

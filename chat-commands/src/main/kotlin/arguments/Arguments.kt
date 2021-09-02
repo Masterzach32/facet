@@ -15,16 +15,19 @@
 
 package io.facet.chatcommands.arguments
 
-import com.mojang.brigadier.arguments.*
-import discord4j.common.util.*
+import com.mojang.brigadier.arguments.ArgumentType
+import discord4j.common.util.Snowflake
 
 public fun snowflake(): ArgumentType<Snowflake> = SnowflakeArgument
 
-public fun member(): ArgumentType<MemberSelector> = GuildEntityArgument(MemberSelector(selectMultiple = false, allowRoles = false))
+public fun member(): ArgumentType<MemberSelector> =
+    GuildEntityArgument(MemberSelector(selectMultiple = false, allowRoles = false))
 
-public fun members(): ArgumentType<MemberSelector> = GuildEntityArgument(MemberSelector(selectMultiple = true, allowRoles = true))
+public fun members(): ArgumentType<MemberSelector> =
+    GuildEntityArgument(MemberSelector(selectMultiple = true, allowRoles = true))
 
-public fun membersStrict(): ArgumentType<MemberSelector> = GuildEntityArgument(MemberSelector(selectMultiple = true, allowRoles = false))
+public fun membersStrict(): ArgumentType<MemberSelector> =
+    GuildEntityArgument(MemberSelector(selectMultiple = true, allowRoles = false))
 
 public fun role(): ArgumentType<RoleSelector> = GuildEntityArgument(RoleSelector(false))
 

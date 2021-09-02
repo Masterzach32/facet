@@ -15,12 +15,13 @@
 
 package io.facet.commands
 
-import discord4j.common.annotations.*
-import discord4j.core.`object`.command.*
-import discord4j.rest.util.*
-import io.facet.common.*
-import kotlin.properties.*
-import kotlin.reflect.*
+import discord4j.common.annotations.Experimental
+import discord4j.core.`object`.command.ApplicationCommandInteraction
+import discord4j.core.`object`.command.ApplicationCommandInteractionOption
+import discord4j.rest.util.ApplicationCommandOptionType
+import io.facet.common.unwrap
+import kotlin.properties.ReadOnlyProperty
+import kotlin.reflect.KProperty
 
 /**
  * An experimental class for getting command options through property delegation.

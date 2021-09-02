@@ -15,10 +15,12 @@
 
 package io.facet.common
 
-import discord4j.core.spec.*
-import discord4j.discordjson.json.*
-import discord4j.rest.interaction.*
-import io.facet.common.dsl.*
+import discord4j.core.spec.EmbedCreateSpec
+import discord4j.core.spec.WebhookExecuteSpec
+import discord4j.discordjson.json.MessageData
+import discord4j.rest.interaction.InteractionResponse
+import io.facet.common.dsl.WebhookMessageBuilder
+import io.facet.common.dsl.webhookMessage
 
 /**
  * Create and send a new followup message with the provided content.

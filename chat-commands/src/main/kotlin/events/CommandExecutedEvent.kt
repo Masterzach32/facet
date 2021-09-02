@@ -15,9 +15,10 @@
 
 package io.facet.chatcommands.events
 
-import discord4j.core.*
-import discord4j.gateway.*
-import io.facet.chatcommands.*
+import discord4j.core.GatewayDiscordClient
+import discord4j.gateway.ShardInfo
+import io.facet.chatcommands.ChatCommand
+import io.facet.chatcommands.ChatCommandSource
 
 public class CommandExecutedEvent(
     client: GatewayDiscordClient,

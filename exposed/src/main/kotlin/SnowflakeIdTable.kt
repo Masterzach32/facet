@@ -15,9 +15,10 @@
 
 package io.facet.exposed
 
-import discord4j.common.util.*
-import org.jetbrains.exposed.dao.id.*
-import org.jetbrains.exposed.sql.*
+import discord4j.common.util.Snowflake
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.dao.id.IdTable
+import org.jetbrains.exposed.sql.Column
 
 public open class SnowflakeIdTable(name: String = "", columnName: String = "id") : IdTable<Snowflake>(name) {
 

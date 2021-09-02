@@ -15,10 +15,10 @@
 
 package io.facet.chatcommands.arguments
 
-import com.mojang.brigadier.*
-import discord4j.common.util.*
-import discord4j.core.*
-import discord4j.core.`object`.entity.*
+import com.mojang.brigadier.StringReader
+import discord4j.common.util.Snowflake
+import discord4j.core.GatewayDiscordClient
+import discord4j.core.`object`.entity.Member
 
 public class MessageSelector : EntitySelector<Member>() {
 

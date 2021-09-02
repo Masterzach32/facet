@@ -15,7 +15,8 @@
 
 package io.facet.lavaplayer
 
-import com.sedmelluq.discord.lavaplayer.player.event.*
+import com.sedmelluq.discord.lavaplayer.player.event.AudioEvent
+import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter
 import kotlinx.coroutines.flow.*
 
 public class FlowEventAdapter : AudioEventAdapter() {

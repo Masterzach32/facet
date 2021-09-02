@@ -15,11 +15,11 @@
 
 package io.facet.chatcommands.arguments
 
-import com.mojang.brigadier.*
-import com.mojang.brigadier.arguments.*
-import com.mojang.brigadier.arguments.LongArgumentType.*
-import discord4j.common.util.*
-import io.facet.common.*
+import com.mojang.brigadier.StringReader
+import com.mojang.brigadier.arguments.ArgumentType
+import com.mojang.brigadier.arguments.LongArgumentType.longArg
+import discord4j.common.util.Snowflake
+import io.facet.common.toSnowflake
 
 public object SnowflakeArgument : ArgumentType<Snowflake> {
 

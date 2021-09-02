@@ -15,13 +15,16 @@
 
 package io.facet.core
 
-import discord4j.core.*
-import discord4j.core.shard.*
-import discord4j.gateway.*
-import io.facet.common.*
-import kotlinx.coroutines.*
-import kotlinx.coroutines.reactor.*
-import reactor.core.publisher.*
+import discord4j.core.DiscordClient
+import discord4j.core.GatewayDiscordClient
+import discord4j.core.shard.GatewayBootstrap
+import discord4j.gateway.GatewayOptions
+import io.facet.common.await
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.reactor.mono
+import reactor.core.publisher.Mono
 
 public abstract class GatewayFeature<out TConfig : Any, TFeature : Any>(
     keyName: String,

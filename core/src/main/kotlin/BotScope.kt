@@ -15,7 +15,8 @@
 
 package io.facet.core
 
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 
 /**
  * The bot's coroutine scope, used as the root coroutine scope for event listeners.

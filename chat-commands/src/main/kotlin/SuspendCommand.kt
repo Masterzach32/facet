@@ -15,8 +15,8 @@
 
 package io.facet.chatcommands
 
-import com.mojang.brigadier.*
-import com.mojang.brigadier.context.*
+import com.mojang.brigadier.Command
+import com.mojang.brigadier.context.CommandContext
 
 public interface SuspendCommand<S> : Command<S> {
 

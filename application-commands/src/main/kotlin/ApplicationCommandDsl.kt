@@ -15,8 +15,10 @@
 
 package io.facet.commands
 
-import discord4j.discordjson.json.*
-import discord4j.rest.util.*
+import discord4j.discordjson.json.ApplicationCommandOptionChoiceData
+import discord4j.discordjson.json.ApplicationCommandOptionData
+import discord4j.discordjson.json.ApplicationCommandRequest
+import discord4j.rest.util.ApplicationCommandOptionType
 
 /**
  * DSL for building [ApplicationCommandRequest]
@@ -107,12 +109,12 @@ public class OptionBuilder : ApplicationCommandBuilder() {
             .name(name)
             .value(value)
             .build()
-    ).let {  }
+    ).let { }
 
     public fun choice(name: String, value: Int): Unit = choices.add(
         ApplicationCommandOptionChoiceData.builder()
             .name(name)
             .value(value)
             .build()
-    ).let {  }
+    ).let { }
 }

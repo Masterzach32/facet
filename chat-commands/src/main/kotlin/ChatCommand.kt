@@ -15,8 +15,8 @@
 
 package io.facet.chatcommands
 
-import com.mojang.brigadier.*
-import discord4j.rest.util.*
+import com.mojang.brigadier.CommandDispatcher
+import discord4j.rest.util.PermissionSet
 
 public abstract class ChatCommand(
     public val name: String,

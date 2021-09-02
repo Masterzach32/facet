@@ -15,9 +15,11 @@
 
 package io.facet.core
 
-import discord4j.common.util.*
-import discord4j.voice.*
-import io.facet.common.*
+import discord4j.common.util.Snowflake
+import discord4j.voice.LocalVoiceConnectionRegistry
+import discord4j.voice.VoiceConnection
+import discord4j.voice.VoiceConnectionRegistry
+import io.facet.common.await
 
 public class LocalSuspendingVoiceConnectionRegistry(
     private val registry: VoiceConnectionRegistry = LocalVoiceConnectionRegistry()

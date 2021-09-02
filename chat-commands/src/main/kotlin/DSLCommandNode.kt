@@ -15,11 +15,12 @@
 
 package io.facet.chatcommands
 
-import com.mojang.brigadier.arguments.*
-import com.mojang.brigadier.builder.*
-import com.mojang.brigadier.context.*
-import com.mojang.brigadier.suggestion.*
-import com.mojang.brigadier.tree.*
+import com.mojang.brigadier.arguments.ArgumentType
+import com.mojang.brigadier.builder.ArgumentBuilder
+import com.mojang.brigadier.builder.LiteralArgumentBuilder
+import com.mojang.brigadier.context.CommandContext
+import com.mojang.brigadier.suggestion.SuggestionsBuilder
+import com.mojang.brigadier.tree.CommandNode
 
 public interface DSLCommandNode<S> {
 

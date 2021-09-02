@@ -15,10 +15,14 @@
 
 package io.facet.common
 
-import discord4j.core.`object`.entity.*
-import discord4j.core.`object`.entity.channel.*
-import discord4j.core.spec.*
-import io.facet.common.dsl.*
+import discord4j.core.`object`.entity.Message
+import discord4j.core.`object`.entity.channel.MessageChannel
+import discord4j.core.spec.EmbedCreateSpec
+import discord4j.core.spec.MessageCreateSpec
+import io.facet.common.dsl.EmbedBuilder
+import io.facet.common.dsl.MessageBuilder
+import io.facet.common.dsl.embed
+import io.facet.common.dsl.message
 
 /**
  * Builds a message spec with only content and sends it in the specified channel.

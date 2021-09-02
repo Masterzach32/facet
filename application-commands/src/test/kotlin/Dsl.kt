@@ -1,10 +1,12 @@
 package io.facet.discord.appcommands
 
-import discord4j.discordjson.json.*
-import discord4j.rest.util.*
-import io.facet.commands.*
-import org.junit.jupiter.api.*
-import org.junit.jupiter.api.Assertions.*
+import discord4j.discordjson.json.ApplicationCommandOptionChoiceData
+import discord4j.discordjson.json.ApplicationCommandOptionData
+import discord4j.discordjson.json.ApplicationCommandRequest
+import discord4j.rest.util.ApplicationCommandOptionType
+import io.facet.commands.applicationCommandRequest
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 
 /*
  * facet - Created on 6/15/2021

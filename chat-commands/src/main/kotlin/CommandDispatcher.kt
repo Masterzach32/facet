@@ -15,12 +15,15 @@
 
 package io.facet.chatcommands
 
-import com.mojang.brigadier.*
-import com.mojang.brigadier.builder.*
-import com.mojang.brigadier.context.*
-import com.mojang.brigadier.exceptions.*
-import com.mojang.brigadier.tree.*
-import kotlinx.coroutines.*
+import com.mojang.brigadier.CommandDispatcher
+import com.mojang.brigadier.ParseResults
+import com.mojang.brigadier.RedirectModifier
+import com.mojang.brigadier.builder.LiteralArgumentBuilder
+import com.mojang.brigadier.context.CommandContext
+import com.mojang.brigadier.exceptions.CommandSyntaxException
+import com.mojang.brigadier.tree.CommandNode
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /**
  * adds an Literal (non argument/subcommand) node
@@ -36,15 +39,15 @@ public fun <T> CommandDispatcher<T>.literal(name: String, setup: DSLCommandNode<
 }
 
 public suspend fun CommandDispatcher<ChatCommandSource>.executeSuspend(parseResults: ParseResults<ChatCommandSource>): Int {
-    if (parseResults.getReader().canRead()) {
-        if (parseResults.getExceptions().size == 1) {
-            throw parseResults.getExceptions().values.iterator().next()
-        } else if (parseResults.getContext().getRange().isEmpty()) {
+    if (parseResults.reader.canRead()) {
+        if (parseResults.exceptions.size == 1) {
+            throw parseResults.exceptions.values.iterator().next()
+        } else if (parseResults.context.range.isEmpty) {
             throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherUnknownCommand()
-                .createWithContext(parseResults.getReader())
+                .createWithContext(parseResults.reader)
         } else {
             throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherUnknownArgument()
-                .createWithContext(parseResults.getReader())
+                .createWithContext(parseResults.reader)
         }
     }
 
@@ -52,8 +55,8 @@ public suspend fun CommandDispatcher<ChatCommandSource>.executeSuspend(parseResu
     var successfulForks = 0
     var forked = false
     var foundCommand = false
-    val command: String = parseResults.getReader().getString()
-    val original: CommandContext<ChatCommandSource> = parseResults.getContext().build(command)
+    val command: String = parseResults.reader.string
+    val original: CommandContext<ChatCommandSource> = parseResults.context.build(command)
     var contexts: List<CommandContext<ChatCommandSource>>? = listOf(original)
     var next: ArrayList<CommandContext<ChatCommandSource>>? = null
 
@@ -61,17 +64,17 @@ public suspend fun CommandDispatcher<ChatCommandSource>.executeSuspend(parseResu
         val size = contexts.size
         for (i in 0 until size) {
             val context: CommandContext<ChatCommandSource> = contexts[i]
-            val child: CommandContext<ChatCommandSource>? = context.getChild()
+            val child: CommandContext<ChatCommandSource>? = context.child
             if (child != null) {
-                forked = forked or context.isForked()
+                forked = forked or context.isForked
                 if (child.hasNodes()) {
                     foundCommand = true
-                    val modifier: RedirectModifier<ChatCommandSource>? = context.getRedirectModifier()
+                    val modifier: RedirectModifier<ChatCommandSource>? = context.redirectModifier
                     if (modifier == null) {
                         if (next == null) {
                             next = ArrayList<CommandContext<ChatCommandSource>>(1)
                         }
-                        next.add(child.copyFor(context.getSource()))
+                        next.add(child.copyFor(context.source))
                     } else {
                         try {
                             val results: Collection<ChatCommandSource> = modifier.apply(context)
@@ -91,7 +94,7 @@ public suspend fun CommandDispatcher<ChatCommandSource>.executeSuspend(parseResu
                         }
                     }
                 }
-            } else if (context.getCommand() != null) {
+            } else if (context.command != null) {
                 foundCommand = true
                 try {
                     val value = withContext(Dispatchers.Default) {
@@ -115,7 +118,8 @@ public suspend fun CommandDispatcher<ChatCommandSource>.executeSuspend(parseResu
 
     if (!foundCommand) {
         //consumer.onCommandComplete(original, false, 0)
-        throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherUnknownCommand().createWithContext(parseResults.getReader())
+        throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherUnknownCommand()
+            .createWithContext(parseResults.reader)
     }
 
     return if (forked) successfulForks else result

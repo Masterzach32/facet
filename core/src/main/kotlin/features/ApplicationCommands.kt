@@ -15,19 +15,29 @@
 
 package io.facet.core.features
 
-import discord4j.common.util.*
-import discord4j.core.*
-import discord4j.core.event.domain.interaction.*
-import discord4j.discordjson.json.*
-import discord4j.rest.*
-import discord4j.rest.service.*
+import discord4j.common.util.Snowflake
+import discord4j.common.util.TimestampFormat
+import discord4j.core.GatewayDiscordClient
+import discord4j.core.event.domain.interaction.SlashCommandEvent
+import discord4j.discordjson.json.ApplicationCommandData
+import discord4j.discordjson.json.ApplicationCommandRequest
+import discord4j.rest.RestClient
+import discord4j.rest.service.ApplicationService
 import io.facet.commands.*
-import io.facet.common.*
-import io.facet.core.*
-import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.*
-import org.slf4j.*
-import java.util.concurrent.*
+import io.facet.common.actorListener
+import io.facet.common.await
+import io.facet.common.awaitNullable
+import io.facet.common.toSnowflake
+import io.facet.core.BotScope
+import io.facet.core.GatewayFeature
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.launch
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * Plugin for using "slash" commands
@@ -122,7 +132,8 @@ public class ApplicationCommands(config: Config, restClient: RestClient) {
 
         public fun registerCommands(vararg commands: ApplicationCommand<*>): Unit = registerCommand(*commands)
 
-        public fun registerCommand(vararg commands: ApplicationCommand<*>): Unit = commands.forEach { registerCommand(it) }
+        public fun registerCommand(vararg commands: ApplicationCommand<*>): Unit =
+            commands.forEach { registerCommand(it) }
     }
 
     public companion object : GatewayFeature<Config, ApplicationCommands>("applicationCommands") {

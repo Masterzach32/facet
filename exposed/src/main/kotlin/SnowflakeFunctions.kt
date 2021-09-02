@@ -15,8 +15,9 @@
 
 package io.facet.exposed
 
-import discord4j.common.util.*
-import org.jetbrains.exposed.sql.*
+import discord4j.common.util.Snowflake
+import org.jetbrains.exposed.sql.LiteralOp
 
 /** Returns the specified [snowflake] as a [Snowflake] literal. */
-public fun snowflakeLiteral(snowflake: Snowflake): LiteralOp<Snowflake> = LiteralOp(SnowflakeColumnType.INSTANCE, snowflake)
+public fun snowflakeLiteral(snowflake: Snowflake): LiteralOp<Snowflake> =
+    LiteralOp(SnowflakeColumnType.INSTANCE, snowflake)

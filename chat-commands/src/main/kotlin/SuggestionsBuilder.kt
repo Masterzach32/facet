@@ -15,7 +15,7 @@
 
 package io.facet.chatcommands
 
-import com.mojang.brigadier.suggestion.*
+import com.mojang.brigadier.suggestion.SuggestionsBuilder
 
 public operator fun SuggestionsBuilder.plus(suggestion: String): SuggestionsBuilder = suggest(suggestion)
 
