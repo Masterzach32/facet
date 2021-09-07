@@ -3,10 +3,10 @@ import org.jetbrains.kotlin.gradle.tasks.*
 import java.net.*
 
 plugins {
-    kotlin("jvm") version "1.5.21" apply false
-    id("java-library")
-    id("maven-publish")
-    id("signing")
+    kotlin("jvm") version "1.5.30" apply false
+    `java-library`
+    `maven-publish`
+    signing
     alias(libs.plugins.dokka)
     alias(libs.plugins.release)
 }
@@ -28,6 +28,8 @@ subprojects {
     apply(plugin = "maven-publish")
     apply(plugin = "signing")
     apply(plugin = "org.jetbrains.dokka")
+
+    java.toolchain.languageVersion.set(JavaLanguageVersion.of(8))
 
     repositories {
         maven("https://libraries.minecraft.net")
