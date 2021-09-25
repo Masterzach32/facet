@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.*
 import java.net.*
 
 plugins {
-    kotlin("jvm") version "1.5.30" apply false
+    kotlin("jvm") version "1.5.31" apply false
     `java-library`
     `maven-publish`
     signing
@@ -36,6 +36,10 @@ subprojects {
         maven("https://m2.dv8tion.net/releases")
         maven("https://oss.sonatype.org/content/repositories/snapshots")
         maven("https://repo.spring.io/milestone")
+    }
+
+    configurations.all {
+        resolutionStrategy.eachDependency {  }
     }
 
     dependencies {
