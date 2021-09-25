@@ -39,7 +39,10 @@ subprojects {
     }
 
     configurations.all {
-        resolutionStrategy.eachDependency {  }
+        resolutionStrategy.eachDependency {
+            if (requested.name == "kotlin-reflect")
+                useVersion(libs.versions.kotlin.get())
+        }
     }
 
     dependencies {
