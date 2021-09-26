@@ -1,9 +1,9 @@
 package io.facet.discord.appcommands
 
+import discord4j.core.`object`.command.ApplicationCommandOption
 import discord4j.discordjson.json.ApplicationCommandOptionChoiceData
 import discord4j.discordjson.json.ApplicationCommandOptionData
 import discord4j.discordjson.json.ApplicationCommandRequest
-import discord4j.rest.util.ApplicationCommandOptionType
 import io.facet.commands.applicationCommandRequest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -30,7 +30,7 @@ class Dsl {
         val subCommandDesc = "A sub command"
         val optionName = "option1"
         val optionDesc = "Option 1"
-        val optionType = ApplicationCommandOptionType.STRING
+        val optionType = ApplicationCommandOption.Type.STRING
         val optionRequired = true
         val choiceName = "Choice 1"
         val choiceValue = "choice1"
@@ -51,7 +51,7 @@ class Dsl {
                 ApplicationCommandOptionData.builder()
                     .name(subCommandName)
                     .description(subCommandDesc)
-                    .type(ApplicationCommandOptionType.SUB_COMMAND.value)
+                    .type(ApplicationCommandOption.Type.SUB_COMMAND.value)
                     .addOption(
                         ApplicationCommandOptionData.builder()
                             .name(optionName)

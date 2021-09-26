@@ -1,67 +1,13 @@
-/*
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published
- * by the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
-
 package io.facet.commands
 
-import discord4j.common.annotations.Experimental
-import discord4j.common.util.Snowflake
-import discord4j.core.GatewayDiscordClient
-import discord4j.core.`object`.command.Interaction
-import discord4j.core.`object`.entity.User
-import discord4j.core.`object`.entity.channel.MessageChannel
-import discord4j.core.event.domain.interaction.SlashCommandEvent
-import io.facet.common.GatewayInteractionResponse
-import io.facet.common.await
-import io.facet.common.gatewayInteractionResponse
+import discord4j.core.`object`.entity.Guild
+import discord4j.core.event.domain.interaction.ChatInputInteractionEvent
 import kotlinx.coroutines.CoroutineScope
 
-/**
- * The context for an interaction with an application command.
- */
-public abstract class SlashCommandContext(
-    /**
-     * The discord interaction event.
-     */
-    public val event: SlashCommandEvent,
+public sealed class SlashCommandContext(
+    event: ChatInputInteractionEvent,
     scope: CoroutineScope
-) : CoroutineScope by scope {
-
-    /**
-     * The gateway this event was dispatched from.
-     */
-    public val client: GatewayDiscordClient = event.client
-
-    /**
-     * The discord interaction for this command context.
-     */
-    public val interaction: Interaction = event.interaction
-
-    /**
-     * The ID of the [channel][MessageChannel] where this command was used.
-     */
-    public val channelId: Snowflake = interaction.channelId
-
-    /**
-     * The user that invoked this command.
-     */
-    public val user: User = interaction.user
-
-    /**
-     * The interaction followup handler.
-     */
-    public val interactionResponse: GatewayInteractionResponse = event.gatewayInteractionResponse
+) : ApplicationCommandContext<ChatInputInteractionEvent>(event, scope) {
 
     /**
      * Experimental class for getting application command options through delegation.
@@ -81,22 +27,24 @@ public abstract class SlashCommandContext(
      * val defaultName: String by options.defaultValue("test")
      * ```
      */
-    @Experimental
+    @ExperimentalStdlibApi
     public val options: InteractionOptions = InteractionOptions(interaction.commandInteraction.get())
 }
 
 /**
- * Acknowledges the interaction indicating a response will be edited later. The user sees a loading state,
- * visible to all participants in the invoking channel. For a "only you can see this" response, set [ephemeral] to
- * `true`, or use acknowledgeEphemeral().
+ * The context for an interaction with an [ApplicationCommand] that could have been used in a DM.
  */
-public suspend fun SlashCommandContext.acknowledge(ephemeral: Boolean = false): Unit =
-    if (ephemeral)
-        event.acknowledgeEphemeral().await()
-    else
-        event.acknowledge().await()
+public class GlobalSlashCommandContext(
+    event: ChatInputInteractionEvent,
+    scope: CoroutineScope
+) : SlashCommandContext(event, scope),
+    GlobalCommandContext by GlobalCommandContextImpl(event.interaction)
 
 /**
- * Acknowledges the interaction indicating a response will be edited later. Only the invoking user sees a loading state.
+ * The context for an interaction with an [ApplicationCommand] that occurred in a [server][Guild].
  */
-public suspend fun SlashCommandContext.acknowledgeEphemeral(): Unit = event.acknowledgeEphemeral().await()
+public class GuildSlashCommandContext(
+    event: ChatInputInteractionEvent,
+    scope: CoroutineScope
+) : SlashCommandContext(event, scope),
+    GuildCommandContext by GuildCommandContextImpl(event.interaction)

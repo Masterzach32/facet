@@ -18,16 +18,16 @@ package io.facet.core.features
 import discord4j.common.util.Snowflake
 import discord4j.common.util.TimestampFormat
 import discord4j.core.GatewayDiscordClient
-import discord4j.core.event.domain.interaction.SlashCommandEvent
+import discord4j.core.event.domain.interaction.ApplicationCommandInteractionEvent
+import discord4j.core.event.domain.interaction.ChatInputInteractionEvent
+import discord4j.core.event.domain.interaction.MessageInteractionEvent
+import discord4j.core.event.domain.interaction.UserInteractionEvent
 import discord4j.discordjson.json.ApplicationCommandData
 import discord4j.discordjson.json.ApplicationCommandRequest
 import discord4j.rest.RestClient
 import discord4j.rest.service.ApplicationService
 import io.facet.commands.*
-import io.facet.common.actorListener
-import io.facet.common.await
-import io.facet.common.awaitNullable
-import io.facet.common.toSnowflake
+import io.facet.common.*
 import io.facet.core.BotScope
 import io.facet.core.GatewayFeature
 import kotlinx.coroutines.CoroutineScope
@@ -50,32 +50,32 @@ public class ApplicationCommands(config: Config, restClient: RestClient) {
     private val service: ApplicationService = restClient.applicationService
     private val applicationId: Long = restClient.applicationId.block()!!
 
-    private val _commandMap = ConcurrentHashMap<Snowflake, ApplicationCommand<SlashCommandContext>>()
+    private val _commandMap = ConcurrentHashMap<Snowflake, ApplicationCommand<ApplicationCommandContext<*>>>()
 
     /**
      * Commands that have been registered with this feature.
      */
     @Suppress("UNCHECKED_CAST")
-    public val commands: MutableSet<ApplicationCommand<SlashCommandContext>> =
-        config.commands as MutableSet<ApplicationCommand<SlashCommandContext>>
+    public val commands: MutableSet<ApplicationCommand<ApplicationCommandContext<*>>> =
+        config.commands as MutableSet<ApplicationCommand<ApplicationCommandContext<*>>>
 
     /**
      * Lookup map for the command object given it's unique ID.
      */
-    public val commandMap: Map<Snowflake, ApplicationCommand<SlashCommandContext>>
+    public val commandMap: Map<Snowflake, ApplicationCommand<ApplicationCommandContext<*>>>
         get() = _commandMap
 
     /**
      * All global commands.
      */
-    public val globalCommands: List<ApplicationCommand<SlashCommandContext>>
+    public val globalCommands: List<ApplicationCommand<ApplicationCommandContext<*>>>
         get() = commands.filter { it is GlobalApplicationCommand || it is GlobalGuildApplicationCommand }
 
     /**
      * All guild commands.
      */
-    public val guildCommands: List<GuildApplicationCommand>
-        get() = commands.filterIsInstance<GuildApplicationCommand>()
+    public val guildCommands: List<GuildApplicationCommand<*>>
+        get() = commands.filterIsInstance<GuildApplicationCommand<*>>()
 
     public suspend fun updateCommands() {
         val globalCommandNames = globalCommands.map { it.request.name() }
@@ -108,7 +108,7 @@ public class ApplicationCommands(config: Config, restClient: RestClient) {
         guildCommands
             .map { it to service.createGuildApplicationCommand(applicationId, it.guildId.asLong(), it.request).await() }
             .forEach { (command, data) ->
-                _commandMap[data.id().toSnowflake()] = command as ApplicationCommand<SlashCommandContext>
+                _commandMap[data.id().toSnowflake()] = command as ApplicationCommand<ApplicationCommandContext<*>>
             }
     }
 
@@ -117,7 +117,7 @@ public class ApplicationCommands(config: Config, restClient: RestClient) {
      * If there is a difference, returns true.
      */
     private fun isUpsertRequired(request: ApplicationCommandRequest, actual: ApplicationCommandData): Boolean =
-        !(request.name() == actual.name() && request.description() == actual.description() &&
+        !(request.name() == actual.name() && request.description().unwrap() == actual.description() &&
             request.defaultPermission() == actual.defaultPermission() &&
             request.options() == actual.options())
 
@@ -146,8 +146,8 @@ public class ApplicationCommands(config: Config, restClient: RestClient) {
             return ApplicationCommands(config, restClient).also { feature ->
                 scope.launch { feature.updateCommands() }
 
-                actorListener<SlashCommandEvent>(scope) {
-                    val eventsToProcess = Channel<SlashCommandEvent>()
+                actorListener<ApplicationCommandInteractionEvent>(scope) {
+                    val eventsToProcess = Channel<ApplicationCommandInteractionEvent>()
                     for (i in 0 until config.commandConcurrency)
                         commandWorker(feature, i, eventsToProcess)
 
@@ -160,7 +160,7 @@ public class ApplicationCommands(config: Config, restClient: RestClient) {
         private fun CoroutineScope.commandWorker(
             feature: ApplicationCommands,
             index: Int,
-            eventsToProcess: ReceiveChannel<SlashCommandEvent>
+            eventsToProcess: ReceiveChannel<ApplicationCommandInteractionEvent>
         ) = launch {
             val logger = LoggerFactory.getLogger("ApplicationCommandWorker#$index")
             for (event in eventsToProcess) {
@@ -177,7 +177,7 @@ public class ApplicationCommands(config: Config, restClient: RestClient) {
             feature: ApplicationCommands,
             commandId: Snowflake,
             logger: Logger,
-            event: SlashCommandEvent
+            event: ApplicationCommandInteractionEvent
         ) {
             feature.commandMap[commandId]?.also { command ->
                 if (command is PermissibleApplicationCommand && !command.hasPermission(
@@ -189,15 +189,41 @@ public class ApplicationCommands(config: Config, restClient: RestClient) {
                         .withEphemeral(true)
                         .await()
 
-                val context: SlashCommandContext = when (command) {
-                    is GlobalApplicationCommand -> GlobalSlashCommandContext(event, BotScope)
-                    is GuildApplicationCommand -> GuildSlashCommandContext(event, BotScope)
-                    is GlobalGuildApplicationCommand -> {
-                        if (event.interaction.guildId.isPresent)
-                            GuildSlashCommandContext(event, BotScope)
-                        else
-                            return event.reply("This command is not usable within DMs.").withEphemeral(true).await()
+                val context: ApplicationCommandContext<*> = when (event) {
+                    is ChatInputInteractionEvent -> when (command) {
+                        is GlobalSlashCommand -> GlobalSlashCommandContext(event, BotScope)
+                        is GuildSlashCommand -> GuildSlashCommandContext(event, BotScope)
+                        is GlobalGuildSlashCommand -> {
+                            if (event.interaction.guildId.isPresent)
+                                GuildSlashCommandContext(event, BotScope)
+                            else
+                                return event.reply("This command is not usable within DMs.").withEphemeral(true).await()
+                        }
+                        else -> error("")
                     }
+                    is MessageInteractionEvent -> when (command) {
+                        is GlobalMessageCommand -> GlobalMessageCommandContext(event, BotScope)
+                        is GuildMessageCommand -> GuildMessageCommandContext(event, BotScope)
+                        is GlobalGuildMessageCommand -> {
+                            if (event.interaction.guildId.isPresent)
+                                GuildMessageCommandContext(event, BotScope)
+                            else
+                                return event.reply("This command is not usable within DMs.").withEphemeral(true).await()
+                        }
+                        else -> error("")
+                    }
+                    is UserInteractionEvent -> when (command) {
+                        is GlobalUserCommand -> GlobalUserCommandContext(event, BotScope)
+                        is GuildUserCommand -> GuildUserCommandContext(event, BotScope)
+                        is GlobalGuildUserCommand -> {
+                            if (event.interaction.guildId.isPresent)
+                                GuildUserCommandContext(event, BotScope)
+                            else
+                                return event.reply("This command is not usable within DMs.").withEphemeral(true).await()
+                        }
+                        else -> error("")
+                    }
+                    else -> error("")
                 }
 
                 command.run { context.execute() }

@@ -1,10 +1,10 @@
 package io.facet.discord.appcommands
 
+import discord4j.core.`object`.command.ApplicationCommandOption
 import discord4j.discordjson.json.ApplicationCommandData
 import discord4j.discordjson.json.ApplicationCommandOptionChoiceData
 import discord4j.discordjson.json.ApplicationCommandOptionData
 import discord4j.discordjson.json.ApplicationCommandRequest
-import discord4j.rest.util.ApplicationCommandOptionType
 import org.junit.jupiter.api.Test
 
 class ApplicationCommandFeature {
@@ -17,7 +17,7 @@ class ApplicationCommandFeature {
         val subCommandDesc = "A sub command"
         val optionName = "option1"
         val optionDesc = "Option 1"
-        val optionType = ApplicationCommandOptionType.STRING
+        val optionType = ApplicationCommandOption.Type.STRING
         val optionRequired = true
         val choiceName = "Choice 1"
         val choiceValue = "choice1"
@@ -29,7 +29,7 @@ class ApplicationCommandFeature {
                 ApplicationCommandOptionData.builder()
                     .name(subCommandName)
                     .description(subCommandDesc)
-                    .type(ApplicationCommandOptionType.SUB_COMMAND.value)
+                    .type(ApplicationCommandOption.Type.SUB_COMMAND.value)
                     .addOption(
                         ApplicationCommandOptionData.builder()
                             .name(optionName)
@@ -57,7 +57,7 @@ class ApplicationCommandFeature {
                 ApplicationCommandOptionData.builder()
                     .name(subCommandName)
                     .description(subCommandDesc)
-                    .type(ApplicationCommandOptionType.SUB_COMMAND.value)
+                    .type(ApplicationCommandOption.Type.SUB_COMMAND.value)
                     .addOption(
                         ApplicationCommandOptionData.builder()
                             .name(optionName)
@@ -77,7 +77,7 @@ class ApplicationCommandFeature {
             .build()
 
         assert(
-            request.name() == actual.name() && request.description() == actual.description() &&
+            request.name() == actual.name() && request.descriptionOrElse(null) == actual.description() &&
                 request.defaultPermission() == actual.defaultPermission() &&
                 request.options() == actual.options()
         )

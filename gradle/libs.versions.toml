@@ -1,7 +1,7 @@
 [versions]
 kotlin = "1.5.31"
 kotlinx-coroutines = "1.5.2"
-discord4j = "3.2.0-RC3"
+discord4j = "3.2.0-SNAPSHOT"
 lavaplayer = "1.3.78"
 brigadier = "1.0.18"
 exposed = "0.34.2"
@@ -9,6 +9,7 @@ slf4j = "1.7.30"
 logback = "1.2.3"
 
 [plugins]
+kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 dokka = { id = "org.jetbrains.dokka", version = "1.5.+" }
 release = { id = "net.researchgate.release", version = "2.8.+" }
 

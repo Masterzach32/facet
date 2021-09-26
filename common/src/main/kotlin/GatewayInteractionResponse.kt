@@ -73,6 +73,7 @@ private class EventInteractionResponse(
 /**
  * The handler for common operations related to an interaction followup response associated with this event.
  */
+@Deprecated("Use reply functions on the event property.")
 public val InteractionCreateEvent.gatewayInteractionResponse: GatewayInteractionResponse
     get() = EventInteractionResponse(this)
 

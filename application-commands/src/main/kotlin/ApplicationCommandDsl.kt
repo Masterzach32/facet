@@ -15,10 +15,10 @@
 
 package io.facet.commands
 
+import discord4j.core.`object`.command.ApplicationCommandOption
 import discord4j.discordjson.json.ApplicationCommandOptionChoiceData
 import discord4j.discordjson.json.ApplicationCommandOptionData
 import discord4j.discordjson.json.ApplicationCommandRequest
-import discord4j.rest.util.ApplicationCommandOptionType
 
 /**
  * DSL for building [ApplicationCommandRequest]
@@ -47,7 +47,7 @@ public open class ApplicationCommandBuilder {
     public fun option(
         name: String,
         desc: String,
-        type: ApplicationCommandOptionType,
+        type: ApplicationCommandOption.Type,
         required: Boolean = false,
         block: OptionBuilder.() -> Unit = {}
     ) {
@@ -70,34 +70,34 @@ public open class ApplicationCommandBuilder {
         name: String,
         desc: String,
         block: OptionBuilder.() -> Unit = {}
-    ): Unit = option(name, desc, ApplicationCommandOptionType.SUB_COMMAND, block = block)
+    ): Unit = option(name, desc, ApplicationCommandOption.Type.SUB_COMMAND, block = block)
 
     public fun group(
         name: String,
         desc: String,
         block: OptionBuilder.() -> Unit = {}
-    ): Unit = option(name, desc, ApplicationCommandOptionType.SUB_COMMAND_GROUP, block = block)
+    ): Unit = option(name, desc, ApplicationCommandOption.Type.SUB_COMMAND_GROUP, block = block)
 
     public fun string(name: String, desc: String, required: Boolean = false): Unit =
-        option(name, desc, ApplicationCommandOptionType.STRING, required)
+        option(name, desc, ApplicationCommandOption.Type.STRING, required)
 
     public fun int(name: String, desc: String, required: Boolean = false): Unit =
-        option(name, desc, ApplicationCommandOptionType.INTEGER, required)
+        option(name, desc, ApplicationCommandOption.Type.INTEGER, required)
 
     public fun boolean(name: String, desc: String, required: Boolean = false): Unit =
-        option(name, desc, ApplicationCommandOptionType.BOOLEAN, required)
+        option(name, desc, ApplicationCommandOption.Type.BOOLEAN, required)
 
     public fun user(name: String, desc: String, required: Boolean = false): Unit =
-        option(name, desc, ApplicationCommandOptionType.USER, required)
+        option(name, desc, ApplicationCommandOption.Type.USER, required)
 
     public fun channel(name: String, desc: String, required: Boolean = false): Unit =
-        option(name, desc, ApplicationCommandOptionType.CHANNEL, required)
+        option(name, desc, ApplicationCommandOption.Type.CHANNEL, required)
 
     public fun role(name: String, desc: String, required: Boolean = false): Unit =
-        option(name, desc, ApplicationCommandOptionType.ROLE, required)
+        option(name, desc, ApplicationCommandOption.Type.ROLE, required)
 
     public fun mentionable(name: String, desc: String, required: Boolean = false): Unit =
-        option(name, desc, ApplicationCommandOptionType.MENTIONABLE, required)
+        option(name, desc, ApplicationCommandOption.Type.MENTIONABLE, required)
 }
 
 public class OptionBuilder : ApplicationCommandBuilder() {

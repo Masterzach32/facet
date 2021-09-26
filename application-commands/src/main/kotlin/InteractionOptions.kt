@@ -18,7 +18,7 @@ package io.facet.commands
 import discord4j.common.annotations.Experimental
 import discord4j.core.`object`.command.ApplicationCommandInteraction
 import discord4j.core.`object`.command.ApplicationCommandInteractionOption
-import discord4j.rest.util.ApplicationCommandOptionType
+import discord4j.core.`object`.command.ApplicationCommandOption
 import io.facet.common.unwrap
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
@@ -50,12 +50,12 @@ public class InteractionOptions(private val commandInteraction: ApplicationComma
         val optionValue = option.value.unwrap() ?: error("${property.name} was null.")
 
         return when (option.type) {
-            ApplicationCommandOptionType.STRING -> optionValue.asString() as T
-            ApplicationCommandOptionType.INTEGER -> optionValue.asLong() as T
-            ApplicationCommandOptionType.BOOLEAN -> optionValue.asBoolean() as T
-            ApplicationCommandOptionType.USER -> optionValue.asUser() as T
-            ApplicationCommandOptionType.CHANNEL -> optionValue.asChannel() as T
-            ApplicationCommandOptionType.ROLE -> optionValue.asRole() as T
+            ApplicationCommandOption.Type.STRING -> optionValue.asString() as T
+            ApplicationCommandOption.Type.INTEGER -> optionValue.asLong() as T
+            ApplicationCommandOption.Type.BOOLEAN -> optionValue.asBoolean() as T
+            ApplicationCommandOption.Type.USER -> optionValue.asUser() as T
+            ApplicationCommandOption.Type.CHANNEL -> optionValue.asChannel() as T
+            ApplicationCommandOption.Type.ROLE -> optionValue.asRole() as T
             else -> error("Unsupported type: ${option.type}")
         }
     }

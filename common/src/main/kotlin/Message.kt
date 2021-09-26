@@ -19,9 +19,9 @@ import discord4j.core.`object`.entity.Member
 import discord4j.core.`object`.entity.Message
 import discord4j.core.`object`.entity.User
 import discord4j.core.`object`.reaction.Reaction
-import discord4j.core.event.domain.interaction.ButtonInteractEvent
-import discord4j.core.event.domain.interaction.ComponentInteractEvent
-import discord4j.core.event.domain.interaction.SelectMenuInteractEvent
+import discord4j.core.event.domain.interaction.ButtonInteractionEvent
+import discord4j.core.event.domain.interaction.ComponentInteractionEvent
+import discord4j.core.event.domain.interaction.SelectMenuInteractionEvent
 import discord4j.core.event.domain.message.ReactionAddEvent
 import discord4j.core.spec.EmbedCreateSpec
 import discord4j.core.spec.MessageCreateSpec
@@ -70,20 +70,20 @@ public val Message.reactionAddEvents: Flow<ReactionAddEvent>
 /**
  * Returns a flow that emits all component interactions on this message.
  */
-public val Message.componentEvents: Flow<ComponentInteractEvent>
-    get() = client.flowOf<ComponentInteractEvent>()
+public val Message.componentEvents: Flow<ComponentInteractionEvent>
+    get() = client.flowOf<ComponentInteractionEvent>()
         .filter { it.interaction.message.unwrap()?.id == id }
 
 /**
  * Returns a flow that emits all button interactions on this message.
  */
-public val Message.buttonEvents: Flow<ButtonInteractEvent>
+public val Message.buttonEvents: Flow<ButtonInteractionEvent>
     get() = componentEvents.filterIsInstance()
 
 /**
  * Returns a flow that emits all select menu interactions on this message.
  */
-public val Message.selectMenuEvents: Flow<SelectMenuInteractEvent>
+public val Message.selectMenuEvents: Flow<SelectMenuInteractionEvent>
     get() = componentEvents.filterIsInstance()
 
 /**

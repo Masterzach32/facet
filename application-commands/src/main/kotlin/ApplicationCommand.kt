@@ -19,9 +19,9 @@ import discord4j.common.util.Snowflake
 import discord4j.discordjson.json.ApplicationCommandRequest
 
 /**
- * A discord application "slash" command.
+ * A discord application command.
  */
-public sealed interface ApplicationCommand<in C : SlashCommandContext> {
+public sealed interface ApplicationCommand<in C : ApplicationCommandContext<*>> {
 
     /**
      * The discord-json request body to be sent to the Discord API
@@ -34,20 +34,14 @@ public sealed interface ApplicationCommand<in C : SlashCommandContext> {
     public suspend fun C.execute()
 }
 
-/**
- * An application command that is available globally.
- */
-public interface GlobalApplicationCommand : ApplicationCommand<GlobalSlashCommandContext>
+public sealed interface GlobalApplicationCommand<in C> : ApplicationCommand<C>
+    where C : ApplicationCommandContext<*>, C : GlobalCommandContext
 
-/**
- * An application command that is available globally, but can only be used from within a guild.
- */
-public interface GlobalGuildApplicationCommand : ApplicationCommand<GuildSlashCommandContext>
+public sealed interface GlobalGuildApplicationCommand<in C> : ApplicationCommand<C>
+    where C : ApplicationCommandContext<*>, C : GuildCommandContext
 
-/**
- * An application command that is only available within a specific guild.
- */
-public interface GuildApplicationCommand : ApplicationCommand<GuildSlashCommandContext> {
+public sealed interface GuildApplicationCommand<in C> : ApplicationCommand<C>
+    where C : ApplicationCommandContext<*>, C : GuildCommandContext {
 
     /**
      * The [Snowflake] id of the guild that this command is available in.

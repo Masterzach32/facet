@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.*
 import java.net.*
 
 plugins {
-    kotlin("jvm") version "1.5.31" apply false
+    alias(libs.plugins.kotlin) apply false
     `java-library`
     `maven-publish`
     signing
@@ -135,7 +135,7 @@ subprojects {
                 artifact(dokkaJar)
                 versionMapping {
                     usage("java-api") {
-                        fromResolutionOf("runtimeClasspath")
+                        fromResolutionOf(JavaPlugin.RUNTIME_CLASSPATH_CONFIGURATION_NAME)
                     }
 
                     usage("java-runtime") {
