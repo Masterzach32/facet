@@ -38,9 +38,9 @@
                       <div class="title"><div class="divergent-group" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
 
   <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">interface <a href="-application-command/index.html">ApplicationCommand</a>&lt;in <a href="-application-command/index.html">C</a> : <a href="-slash-command-context/index.html">SlashCommandContext</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">interface <a href="-application-command/index.html">ApplicationCommand</a>&lt;in <a href="-application-command/index.html">C</a> : <a href="-application-command-context/index.html">ApplicationCommandContext</a>&lt;*&gt;&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
-<div class="brief "><p class="paragraph">A discord application "slash" command.</p></div></div>
+<div class="brief "><p class="paragraph">A discord application command.</p></div></div>
 </div>
                     </div>
                   </div>
@@ -62,6 +62,23 @@
                     </div>
                   </div>
                 </div>
+<a data-name="2139753445%2FClasslikes%2F1662165315" anchor-label="ApplicationCommandContext" id="2139753445%2FClasslikes%2F1662165315" data-filterable-set=":application-commands:dokkaHtmlPartial/main"></a>
+                <div class="table-row" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-application-command-context/index.html"><span>Application</span><wbr><span>Command</span><wbr><span><span>Context</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2139753445%2FClasslikes%2F1662165315"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">sealed class <a href="-application-command-context/index.html">ApplicationCommandContext</a>&lt;<a href="-application-command-context/index.html">E</a> : <a href="https://javadoc.io/doc/com.discord4j/discord4j-core/latest/discord4j/core/event/domain/interaction/ApplicationCommandInteractionEvent.html">ApplicationCommandInteractionEvent</a>&gt; : <a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html">CoroutineScope</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<div class="brief "><p class="paragraph">The context for an interaction with an application command.</p></div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
 <a data-name="-1800807029%2FClasslikes%2F1662165315" anchor-label="GlobalApplicationCommand" id="-1800807029%2FClasslikes%2F1662165315" data-filterable-set=":application-commands:dokkaHtmlPartial/main"></a>
                 <div class="table-row" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main">
                   <div class="main-subrow keyValue ">
@@ -72,9 +89,26 @@
                       <div class="title"><div class="divergent-group" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
 
   <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">interface <a href="-global-application-command/index.html">GlobalApplicationCommand</a> : <a href="-application-command/index.html">ApplicationCommand</a>&lt;<a href="-global-slash-command-context/index.html">GlobalSlashCommandContext</a>&gt; <span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">interface <a href="-global-application-command/index.html">GlobalApplicationCommand</a>&lt;in <a href="-global-application-command/index.html">C</a> : <a href="-application-command-context/index.html">ApplicationCommandContext</a>&lt;*&gt;, <a href="-global-command-context/index.html">GlobalCommandContext</a>&gt; : <a href="-application-command/index.html">ApplicationCommand</a>&lt;<a href="-global-application-command/index.html">C</a>&gt; <span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
-<div class="brief "><p class="paragraph">An application command that is available globally.</p></div></div>
+</div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="709992482%2FClasslikes%2F1662165315" anchor-label="GlobalCommandContext" id="709992482%2FClasslikes%2F1662165315" data-filterable-set=":application-commands:dokkaHtmlPartial/main"></a>
+                <div class="table-row" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-global-command-context/index.html"><span>Global</span><wbr><span>Command</span><wbr><span><span>Context</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="709992482%2FClasslikes%2F1662165315"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">interface <a href="-global-command-context/index.html">GlobalCommandContext</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
 </div>
                     </div>
                   </div>
@@ -89,9 +123,111 @@
                       <div class="title"><div class="divergent-group" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
 
   <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">interface <a href="-global-guild-application-command/index.html">GlobalGuildApplicationCommand</a> : <a href="-application-command/index.html">ApplicationCommand</a>&lt;<a href="-guild-slash-command-context/index.html">GuildSlashCommandContext</a>&gt; <span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">interface <a href="-global-guild-application-command/index.html">GlobalGuildApplicationCommand</a>&lt;in <a href="-global-guild-application-command/index.html">C</a> : <a href="-application-command-context/index.html">ApplicationCommandContext</a>&lt;*&gt;, <a href="-guild-command-context/index.html">GuildCommandContext</a>&gt; : <a href="-application-command/index.html">ApplicationCommand</a>&lt;<a href="-global-guild-application-command/index.html">C</a>&gt; <span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-650251835%2FClasslikes%2F1662165315" anchor-label="GlobalGuildMessageCommand" id="-650251835%2FClasslikes%2F1662165315" data-filterable-set=":application-commands:dokkaHtmlPartial/main"></a>
+                <div class="table-row" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-global-guild-message-command/index.html"><span>Global</span><wbr><span>Guild</span><wbr><span>Message</span><wbr><span><span>Command</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-650251835%2FClasslikes%2F1662165315"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">interface <a href="-global-guild-message-command/index.html">GlobalGuildMessageCommand</a> : <a href="-message-command/index.html">MessageCommand</a>&lt;<a href="-guild-message-command-context/index.html">GuildMessageCommandContext</a>&gt; , <a href="-global-guild-application-command/index.html">GlobalGuildApplicationCommand</a>&lt;<a href="-guild-message-command-context/index.html">GuildMessageCommandContext</a>&gt; <span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
 <div class="brief "><p class="paragraph">An application command that is available globally, but can only be used from within a guild.</p></div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="1675686203%2FClasslikes%2F1662165315" anchor-label="GlobalGuildSlashCommand" id="1675686203%2FClasslikes%2F1662165315" data-filterable-set=":application-commands:dokkaHtmlPartial/main"></a>
+                <div class="table-row" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-global-guild-slash-command/index.html"><span>Global</span><wbr><span>Guild</span><wbr><span>Slash</span><wbr><span><span>Command</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1675686203%2FClasslikes%2F1662165315"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">interface <a href="-global-guild-slash-command/index.html">GlobalGuildSlashCommand</a> : <a href="-slash-command/index.html">SlashCommand</a>&lt;<a href="-guild-slash-command-context/index.html">GuildSlashCommandContext</a>&gt; , <a href="-global-guild-application-command/index.html">GlobalGuildApplicationCommand</a>&lt;<a href="-guild-slash-command-context/index.html">GuildSlashCommandContext</a>&gt; <span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<div class="brief "><p class="paragraph">An application command that is available globally, but can only be used from within a guild.</p></div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="1430797273%2FClasslikes%2F1662165315" anchor-label="GlobalGuildUserCommand" id="1430797273%2FClasslikes%2F1662165315" data-filterable-set=":application-commands:dokkaHtmlPartial/main"></a>
+                <div class="table-row" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-global-guild-user-command/index.html"><span>Global</span><wbr><span>Guild</span><wbr><span>User</span><wbr><span><span>Command</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1430797273%2FClasslikes%2F1662165315"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">interface <a href="-global-guild-user-command/index.html">GlobalGuildUserCommand</a> : <a href="-user-command/index.html">UserCommand</a>&lt;<a href="-guild-user-command-context/index.html">GuildUserCommandContext</a>&gt; , <a href="-global-guild-application-command/index.html">GlobalGuildApplicationCommand</a>&lt;<a href="-guild-user-command-context/index.html">GuildUserCommandContext</a>&gt; <span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<div class="brief "><p class="paragraph">An application command that is available globally, but can only be used from within a guild.</p></div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-123408702%2FClasslikes%2F1662165315" anchor-label="GlobalMessageCommand" id="-123408702%2FClasslikes%2F1662165315" data-filterable-set=":application-commands:dokkaHtmlPartial/main"></a>
+                <div class="table-row" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-global-message-command/index.html"><span>Global</span><wbr><span>Message</span><wbr><span><span>Command</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-123408702%2FClasslikes%2F1662165315"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">interface <a href="-global-message-command/index.html">GlobalMessageCommand</a> : <a href="-message-command/index.html">MessageCommand</a>&lt;<a href="-global-message-command-context/index.html">GlobalMessageCommandContext</a>&gt; , <a href="-global-application-command/index.html">GlobalApplicationCommand</a>&lt;<a href="-global-message-command-context/index.html">GlobalMessageCommandContext</a>&gt; <span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<div class="brief "><p class="paragraph">An application command that is available globally.</p></div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="1040542161%2FClasslikes%2F1662165315" anchor-label="GlobalMessageCommandContext" id="1040542161%2FClasslikes%2F1662165315" data-filterable-set=":application-commands:dokkaHtmlPartial/main"></a>
+                <div class="table-row" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-global-message-command-context/index.html"><span>Global</span><wbr><span>Message</span><wbr><span>Command</span><wbr><span><span>Context</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1040542161%2FClasslikes%2F1662165315"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">class <a href="-global-message-command-context/index.html">GlobalMessageCommandContext</a>(event: <a href="https://javadoc.io/doc/com.discord4j/discord4j-core/latest/discord4j/core/event/domain/interaction/MessageInteractionEvent.html">MessageInteractionEvent</a>, scope: <a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html">CoroutineScope</a>) : <a href="-message-command-context/index.html">MessageCommandContext</a>, <a href="-global-command-context/index.html">GlobalCommandContext</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<div class="brief "><p class="paragraph">The context for an interaction with an <a href="-application-command/index.html">ApplicationCommand</a> that could have been used in a DM.</p></div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-705885832%2FClasslikes%2F1662165315" anchor-label="GlobalSlashCommand" id="-705885832%2FClasslikes%2F1662165315" data-filterable-set=":application-commands:dokkaHtmlPartial/main"></a>
+                <div class="table-row" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-global-slash-command/index.html"><span>Global</span><wbr><span>Slash</span><wbr><span><span>Command</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-705885832%2FClasslikes%2F1662165315"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">interface <a href="-global-slash-command/index.html">GlobalSlashCommand</a> : <a href="-slash-command/index.html">SlashCommand</a>&lt;<a href="-global-slash-command-context/index.html">GlobalSlashCommandContext</a>&gt; , <a href="-global-application-command/index.html">GlobalApplicationCommand</a>&lt;<a href="-global-slash-command-context/index.html">GlobalSlashCommandContext</a>&gt; <span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<div class="brief "><p class="paragraph">An application command that is available globally.</p></div></div>
 </div>
                     </div>
                   </div>
@@ -106,7 +242,41 @@
                       <div class="title"><div class="divergent-group" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
 
   <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">class <a href="-global-slash-command-context/index.html">GlobalSlashCommandContext</a>(event: <a href="https://javadoc.io/doc/com.discord4j/discord4j-core/latest/discord4j/core/event/domain/interaction/SlashCommandEvent.html">SlashCommandEvent</a>, scope: <a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html">CoroutineScope</a>) : <a href="-slash-command-context/index.html">SlashCommandContext</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">class <a href="-global-slash-command-context/index.html">GlobalSlashCommandContext</a>(event: <a href="https://javadoc.io/doc/com.discord4j/discord4j-core/latest/discord4j/core/event/domain/interaction/ChatInputInteractionEvent.html">ChatInputInteractionEvent</a>, scope: <a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html">CoroutineScope</a>) : <a href="-slash-command-context/index.html">SlashCommandContext</a>, <a href="-global-command-context/index.html">GlobalCommandContext</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<div class="brief "><p class="paragraph">The context for an interaction with an <a href="-application-command/index.html">ApplicationCommand</a> that could have been used in a DM.</p></div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="661235708%2FClasslikes%2F1662165315" anchor-label="GlobalUserCommand" id="661235708%2FClasslikes%2F1662165315" data-filterable-set=":application-commands:dokkaHtmlPartial/main"></a>
+                <div class="table-row" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-global-user-command/index.html"><span>Global</span><wbr><span>User</span><wbr><span><span>Command</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="661235708%2FClasslikes%2F1662165315"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">interface <a href="-global-user-command/index.html">GlobalUserCommand</a> : <a href="-user-command/index.html">UserCommand</a>&lt;<a href="-global-user-command-context/index.html">GlobalUserCommandContext</a>&gt; , <a href="-global-application-command/index.html">GlobalApplicationCommand</a>&lt;<a href="-global-user-command-context/index.html">GlobalUserCommandContext</a>&gt; <span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<div class="brief "><p class="paragraph">An application command that is available globally.</p></div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-315442345%2FClasslikes%2F1662165315" anchor-label="GlobalUserCommandContext" id="-315442345%2FClasslikes%2F1662165315" data-filterable-set=":application-commands:dokkaHtmlPartial/main"></a>
+                <div class="table-row" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-global-user-command-context/index.html"><span>Global</span><wbr><span>User</span><wbr><span>Command</span><wbr><span><span>Context</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-315442345%2FClasslikes%2F1662165315"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">class <a href="-global-user-command-context/index.html">GlobalUserCommandContext</a>(event: <a href="https://javadoc.io/doc/com.discord4j/discord4j-core/latest/discord4j/core/event/domain/interaction/UserInteractionEvent.html">UserInteractionEvent</a>, scope: <a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html">CoroutineScope</a>) : <a href="-user-command-context/index.html">UserCommandContext</a>, <a href="-global-command-context/index.html">GlobalCommandContext</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
 <div class="brief "><p class="paragraph">The context for an interaction with an <a href="-application-command/index.html">ApplicationCommand</a> that could have been used in a DM.</p></div></div>
 </div>
@@ -123,7 +293,75 @@
                       <div class="title"><div class="divergent-group" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
 
   <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">interface <a href="-guild-application-command/index.html">GuildApplicationCommand</a> : <a href="-application-command/index.html">ApplicationCommand</a>&lt;<a href="-guild-slash-command-context/index.html">GuildSlashCommandContext</a>&gt; <span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">interface <a href="-guild-application-command/index.html">GuildApplicationCommand</a>&lt;in <a href="-guild-application-command/index.html">C</a> : <a href="-application-command-context/index.html">ApplicationCommandContext</a>&lt;*&gt;, <a href="-guild-command-context/index.html">GuildCommandContext</a>&gt; : <a href="-application-command/index.html">ApplicationCommand</a>&lt;<a href="-guild-application-command/index.html">C</a>&gt; <span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-2010220062%2FClasslikes%2F1662165315" anchor-label="GuildCommandContext" id="-2010220062%2FClasslikes%2F1662165315" data-filterable-set=":application-commands:dokkaHtmlPartial/main"></a>
+                <div class="table-row" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-guild-command-context/index.html"><span>Guild</span><wbr><span>Command</span><wbr><span><span>Context</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2010220062%2FClasslikes%2F1662165315"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">interface <a href="-guild-command-context/index.html">GuildCommandContext</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="1451346050%2FClasslikes%2F1662165315" anchor-label="GuildMessageCommand" id="1451346050%2FClasslikes%2F1662165315" data-filterable-set=":application-commands:dokkaHtmlPartial/main"></a>
+                <div class="table-row" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-guild-message-command/index.html"><span>Guild</span><wbr><span>Message</span><wbr><span><span>Command</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1451346050%2FClasslikes%2F1662165315"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">interface <a href="-guild-message-command/index.html">GuildMessageCommand</a> : <a href="-message-command/index.html">MessageCommand</a>&lt;<a href="-guild-message-command-context/index.html">GuildMessageCommandContext</a>&gt; , <a href="-guild-application-command/index.html">GuildApplicationCommand</a>&lt;<a href="-guild-message-command-context/index.html">GuildMessageCommandContext</a>&gt; <span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<div class="brief "><p class="paragraph">An application command that is only available within a specific guild.</p></div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-1735124975%2FClasslikes%2F1662165315" anchor-label="GuildMessageCommandContext" id="-1735124975%2FClasslikes%2F1662165315" data-filterable-set=":application-commands:dokkaHtmlPartial/main"></a>
+                <div class="table-row" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-guild-message-command-context/index.html"><span>Guild</span><wbr><span>Message</span><wbr><span>Command</span><wbr><span><span>Context</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1735124975%2FClasslikes%2F1662165315"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">class <a href="-guild-message-command-context/index.html">GuildMessageCommandContext</a>(event: <a href="https://javadoc.io/doc/com.discord4j/discord4j-core/latest/discord4j/core/event/domain/interaction/MessageInteractionEvent.html">MessageInteractionEvent</a>, scope: <a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html">CoroutineScope</a>) : <a href="-message-command-context/index.html">MessageCommandContext</a>, <a href="-guild-command-context/index.html">GuildCommandContext</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<div class="brief "><p class="paragraph">The context for an interaction with an <a href="-application-command/index.html">ApplicationCommand</a> that occurred in a <a href="https://javadoc.io/doc/com.discord4j/discord4j-core/latest/discord4j/core/object/entity/Guild.html">server</a>.</p></div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-994749640%2FClasslikes%2F1662165315" anchor-label="GuildSlashCommand" id="-994749640%2FClasslikes%2F1662165315" data-filterable-set=":application-commands:dokkaHtmlPartial/main"></a>
+                <div class="table-row" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-guild-slash-command/index.html"><span>Guild</span><wbr><span>Slash</span><wbr><span><span>Command</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-994749640%2FClasslikes%2F1662165315"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">interface <a href="-guild-slash-command/index.html">GuildSlashCommand</a> : <a href="-slash-command/index.html">SlashCommand</a>&lt;<a href="-guild-slash-command-context/index.html">GuildSlashCommandContext</a>&gt; , <a href="-guild-application-command/index.html">GuildApplicationCommand</a>&lt;<a href="-guild-slash-command-context/index.html">GuildSlashCommandContext</a>&gt; <span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
 <div class="brief "><p class="paragraph">An application command that is only available within a specific guild.</p></div></div>
 </div>
@@ -140,7 +378,41 @@
                       <div class="title"><div class="divergent-group" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
 
   <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">class <a href="-guild-slash-command-context/index.html">GuildSlashCommandContext</a>(event: <a href="https://javadoc.io/doc/com.discord4j/discord4j-core/latest/discord4j/core/event/domain/interaction/SlashCommandEvent.html">SlashCommandEvent</a>, scope: <a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html">CoroutineScope</a>) : <a href="-slash-command-context/index.html">SlashCommandContext</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">class <a href="-guild-slash-command-context/index.html">GuildSlashCommandContext</a>(event: <a href="https://javadoc.io/doc/com.discord4j/discord4j-core/latest/discord4j/core/event/domain/interaction/ChatInputInteractionEvent.html">ChatInputInteractionEvent</a>, scope: <a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html">CoroutineScope</a>) : <a href="-slash-command-context/index.html">SlashCommandContext</a>, <a href="-guild-command-context/index.html">GuildCommandContext</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<div class="brief "><p class="paragraph">The context for an interaction with an <a href="-application-command/index.html">ApplicationCommand</a> that occurred in a <a href="https://javadoc.io/doc/com.discord4j/discord4j-core/latest/discord4j/core/object/entity/Guild.html">server</a>.</p></div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-40819140%2FClasslikes%2F1662165315" anchor-label="GuildUserCommand" id="-40819140%2FClasslikes%2F1662165315" data-filterable-set=":application-commands:dokkaHtmlPartial/main"></a>
+                <div class="table-row" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-guild-user-command/index.html"><span>Guild</span><wbr><span>User</span><wbr><span><span>Command</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-40819140%2FClasslikes%2F1662165315"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">interface <a href="-guild-user-command/index.html">GuildUserCommand</a> : <a href="-user-command/index.html">UserCommand</a>&lt;<a href="-guild-user-command-context/index.html">GuildUserCommandContext</a>&gt; , <a href="-guild-application-command/index.html">GuildApplicationCommand</a>&lt;<a href="-guild-user-command-context/index.html">GuildUserCommandContext</a>&gt; <span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<div class="brief "><p class="paragraph">An application command that is only available within a specific guild.</p></div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-108219113%2FClasslikes%2F1662165315" anchor-label="GuildUserCommandContext" id="-108219113%2FClasslikes%2F1662165315" data-filterable-set=":application-commands:dokkaHtmlPartial/main"></a>
+                <div class="table-row" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-guild-user-command-context/index.html"><span>Guild</span><wbr><span>User</span><wbr><span>Command</span><wbr><span><span>Context</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-108219113%2FClasslikes%2F1662165315"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">class <a href="-guild-user-command-context/index.html">GuildUserCommandContext</a>(event: <a href="https://javadoc.io/doc/com.discord4j/discord4j-core/latest/discord4j/core/event/domain/interaction/UserInteractionEvent.html">UserInteractionEvent</a>, scope: <a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html">CoroutineScope</a>) : <a href="-user-command-context/index.html">UserCommandContext</a>, <a href="-guild-command-context/index.html">GuildCommandContext</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
 <div class="brief "><p class="paragraph">The context for an interaction with an <a href="-application-command/index.html">ApplicationCommand</a> that occurred in a <a href="https://javadoc.io/doc/com.discord4j/discord4j-core/latest/discord4j/core/object/entity/Guild.html">server</a>.</p></div></div>
 </div>
@@ -160,6 +432,40 @@
     <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace"><div class="block"><div class="block">@<a href="https://javadoc.io/doc/com.discord4j/discord4j-common/latest/discord4j/common/annotations/Experimental.html">Experimental</a></div></div>class <a href="-interaction-options/index.html">InteractionOptions</a>(commandInteraction: <a href="https://javadoc.io/doc/com.discord4j/discord4j-core/latest/discord4j/core/object/command/ApplicationCommandInteraction.html">ApplicationCommandInteraction</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
 <div class="brief "><p class="paragraph">An experimental class for getting command options through property delegation.</p></div></div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="366679525%2FClasslikes%2F1662165315" anchor-label="MessageCommand" id="366679525%2FClasslikes%2F1662165315" data-filterable-set=":application-commands:dokkaHtmlPartial/main"></a>
+                <div class="table-row" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-message-command/index.html"><span>Message</span><wbr><span><span>Command</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="366679525%2FClasslikes%2F1662165315"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">interface <a href="-message-command/index.html">MessageCommand</a>&lt;in <a href="-message-command/index.html">C</a> : <a href="-message-command-context/index.html">MessageCommandContext</a>&gt; : <a href="-application-command/index.html">ApplicationCommand</a>&lt;<a href="-message-command/index.html">C</a>&gt; <span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="2041480526%2FClasslikes%2F1662165315" anchor-label="MessageCommandContext" id="2041480526%2FClasslikes%2F1662165315" data-filterable-set=":application-commands:dokkaHtmlPartial/main"></a>
+                <div class="table-row" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-message-command-context/index.html"><span>Message</span><wbr><span>Command</span><wbr><span><span>Context</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2041480526%2FClasslikes%2F1662165315"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">sealed class <a href="-message-command-context/index.html">MessageCommandContext</a> : <a href="-application-command-context/index.html">ApplicationCommandContext</a>&lt;<a href="https://javadoc.io/doc/com.discord4j/discord4j-core/latest/discord4j/core/event/domain/interaction/MessageInteractionEvent.html">MessageInteractionEvent</a>&gt; <span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
 </div>
                     </div>
                   </div>
@@ -198,6 +504,23 @@
                     </div>
                   </div>
                 </div>
+<a data-name="934845787%2FClasslikes%2F1662165315" anchor-label="SlashCommand" id="934845787%2FClasslikes%2F1662165315" data-filterable-set=":application-commands:dokkaHtmlPartial/main"></a>
+                <div class="table-row" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-slash-command/index.html"><span>Slash</span><wbr><span><span>Command</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="934845787%2FClasslikes%2F1662165315"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">interface <a href="-slash-command/index.html">SlashCommand</a>&lt;in <a href="-slash-command/index.html">C</a> : <a href="-slash-command-context/index.html">SlashCommandContext</a>&gt; : <a href="-application-command/index.html">ApplicationCommand</a>&lt;<a href="-slash-command/index.html">C</a>&gt; <span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                    </div>
+                  </div>
+                </div>
 <a data-name="-1784296168%2FClasslikes%2F1662165315" anchor-label="SlashCommandContext" id="-1784296168%2FClasslikes%2F1662165315" data-filterable-set=":application-commands:dokkaHtmlPartial/main"></a>
                 <div class="table-row" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main">
                   <div class="main-subrow keyValue ">
@@ -208,43 +531,77 @@
                       <div class="title"><div class="divergent-group" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
 
   <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">abstract class <a href="-slash-command-context/index.html">SlashCommandContext</a>(event: <a href="https://javadoc.io/doc/com.discord4j/discord4j-core/latest/discord4j/core/event/domain/interaction/SlashCommandEvent.html">SlashCommandEvent</a>, scope: <a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html">CoroutineScope</a>) : <a href="https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html">CoroutineScope</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">sealed class <a href="-slash-command-context/index.html">SlashCommandContext</a> : <a href="-application-command-context/index.html">ApplicationCommandContext</a>&lt;<a href="https://javadoc.io/doc/com.discord4j/discord4j-core/latest/discord4j/core/event/domain/interaction/ChatInputInteractionEvent.html">ChatInputInteractionEvent</a>&gt; <span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
-<div class="brief "><p class="paragraph">The context for an interaction with an application command.</p></div></div>
+</div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-809858119%2FClasslikes%2F1662165315" anchor-label="UserCommand" id="-809858119%2FClasslikes%2F1662165315" data-filterable-set=":application-commands:dokkaHtmlPartial/main"></a>
+                <div class="table-row" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-user-command/index.html"><span>User</span><wbr><span><span>Command</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-809858119%2FClasslikes%2F1662165315"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">interface <a href="-user-command/index.html">UserCommand</a>&lt;in <a href="-user-command/index.html">C</a> : <a href="-user-command-context/index.html">UserCommandContext</a>&gt; : <a href="-application-command/index.html">ApplicationCommand</a>&lt;<a href="-user-command/index.html">C</a>&gt; <span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-1494574854%2FClasslikes%2F1662165315" anchor-label="UserCommandContext" id="-1494574854%2FClasslikes%2F1662165315" data-filterable-set=":application-commands:dokkaHtmlPartial/main"></a>
+                <div class="table-row" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="-user-command-context/index.html"><span>User</span><wbr><span>Command</span><wbr><span><span>Context</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1494574854%2FClasslikes%2F1662165315"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">sealed class <a href="-user-command-context/index.html">UserCommandContext</a> : <a href="-application-command-context/index.html">ApplicationCommandContext</a>&lt;<a href="https://javadoc.io/doc/com.discord4j/discord4j-core/latest/discord4j/core/event/domain/interaction/UserInteractionEvent.html">UserInteractionEvent</a>&gt; <span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
 </div>
                     </div>
                   </div>
                 </div>
               </div>
               <h2 class="">Functions</h2>
-              <div class="table" data-togglable="Functions"><a data-name="1921906451%2FFunctions%2F1662165315" anchor-label="acknowledge" id="1921906451%2FFunctions%2F1662165315" data-filterable-set=":application-commands:dokkaHtmlPartial/main"></a>
+              <div class="table" data-togglable="Functions"><a data-name="-1938383314%2FFunctions%2F1662165315" anchor-label="acknowledge" id="-1938383314%2FFunctions%2F1662165315" data-filterable-set=":application-commands:dokkaHtmlPartial/main"></a>
                 <div class="table-row" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="acknowledge.html"><span><span>acknowledge</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1921906451%2FFunctions%2F1662165315"></span>
+                    <div class=""><span class="inline-flex"><a href="acknowledge.html"><span><span>acknowledge</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1938383314%2FFunctions%2F1662165315"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
                       <div class="title"><div class="divergent-group" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
 
   <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">suspend fun <a href="-slash-command-context/index.html">SlashCommandContext</a>.<a href="acknowledge.html">acknowledge</a>(ephemeral: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">suspend fun <a href="-application-command-context/index.html">ApplicationCommandContext</a>&lt;*&gt;.<a href="acknowledge.html">acknowledge</a>(ephemeral: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = false)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
 <div class="brief "><p class="paragraph">Acknowledges the interaction indicating a response will be edited later. The user sees a loading state, visible to all participants in the invoking channel. For a "only you can see this" response, set <a href="acknowledge.html">ephemeral</a> to <code>true</code>, or use acknowledgeEphemeral().</p></div></div>
 </div>
                     </div>
                   </div>
                 </div>
-<a data-name="460153665%2FFunctions%2F1662165315" anchor-label="acknowledgeEphemeral" id="460153665%2FFunctions%2F1662165315" data-filterable-set=":application-commands:dokkaHtmlPartial/main"></a>
+<a data-name="-1626996458%2FFunctions%2F1662165315" anchor-label="acknowledgeEphemeral" id="-1626996458%2FFunctions%2F1662165315" data-filterable-set=":application-commands:dokkaHtmlPartial/main"></a>
                 <div class="table-row" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="acknowledge-ephemeral.html"><span>acknowledge</span><wbr><span><span>Ephemeral</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="460153665%2FFunctions%2F1662165315"></span>
+                    <div class=""><span class="inline-flex"><a href="acknowledge-ephemeral.html"><span>acknowledge</span><wbr><span><span>Ephemeral</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1626996458%2FFunctions%2F1662165315"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
                       <div class="title"><div class="divergent-group" data-filterable-current=":application-commands:dokkaHtmlPartial/main" data-filterable-set=":application-commands:dokkaHtmlPartial/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
 
   <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">suspend fun <a href="-slash-command-context/index.html">SlashCommandContext</a>.<a href="acknowledge-ephemeral.html">acknowledgeEphemeral</a>()<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":application-commands:dokkaHtmlPartial/main"><div class="symbol monospace">suspend fun <a href="-application-command-context/index.html">ApplicationCommandContext</a>&lt;*&gt;.<a href="acknowledge-ephemeral.html">acknowledgeEphemeral</a>()<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
 <div class="brief "><p class="paragraph">Acknowledges the interaction indicating a response will be edited later. Only the invoking user sees a loading state.</p></div></div>
 </div>
