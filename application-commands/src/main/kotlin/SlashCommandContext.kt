@@ -5,9 +5,9 @@ import discord4j.core.event.domain.interaction.ChatInputInteractionEvent
 import kotlinx.coroutines.CoroutineScope
 
 public sealed class SlashCommandContext(
-    event: ChatInputInteractionEvent,
+    public override val event: ChatInputInteractionEvent,
     scope: CoroutineScope
-) : ApplicationCommandContext<ChatInputInteractionEvent>(event, scope) {
+) : ApplicationCommandContext(event, scope) {
 
     /**
      * Experimental class for getting application command options through delegation.

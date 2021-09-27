@@ -29,38 +29,43 @@ import kotlinx.coroutines.CoroutineScope
 /**
  * The context for an interaction with an application command.
  */
-public sealed class ApplicationCommandContext<E : ApplicationCommandInteractionEvent>(
+public sealed class ApplicationCommandContext(
     /**
      * The discord interaction event.
      */
-    public val event: E,
+    public open val event: ApplicationCommandInteractionEvent,
     scope: CoroutineScope
 ) : CoroutineScope by scope {
 
     /**
      * The gateway this event was dispatched from.
      */
-    public val client: GatewayDiscordClient = event.client
+    public val client: GatewayDiscordClient
+        get() = event.client
 
     /**
      * The discord interaction for this command context.
      */
-    public val interaction: Interaction = event.interaction
+    public val interaction: Interaction
+        get() = event.interaction
 
     /**
      * The ID of the [channel][MessageChannel] where this command was used.
      */
-    public val channelId: Snowflake = interaction.channelId
+    public val channelId: Snowflake
+        get() = interaction.channelId
 
     /**
      * The user that invoked this command.
      */
-    public val user: User = interaction.user
+    public val user: User
+        get() = interaction.user
 
     /**
      * The interaction followup handler.
      */
-    public val interactionResponse: GatewayInteractionResponse = event.gatewayInteractionResponse
+    public val interactionResponse: GatewayInteractionResponse
+        get() = event.gatewayInteractionResponse
 }
 
 /**
@@ -69,7 +74,7 @@ public sealed class ApplicationCommandContext<E : ApplicationCommandInteractionE
  * `true`, or use acknowledgeEphemeral().
  */
 @Deprecated("Use deferReply()", ReplaceWith("deferReply(ephemeral)"))
-public suspend fun ApplicationCommandContext<*>.acknowledge(ephemeral: Boolean = false): Unit =
+public suspend fun ApplicationCommandContext.acknowledge(ephemeral: Boolean = false): Unit =
     deferReply(ephemeral)
 
 /**
@@ -77,11 +82,11 @@ public suspend fun ApplicationCommandContext<*>.acknowledge(ephemeral: Boolean =
  * visible to all participants in the invoking channel. For a "only you can see this" response, set [ephemeral] to
  * `true`.
  */
-public suspend fun ApplicationCommandContext<*>.deferReply(ephemeral: Boolean = false): Unit =
+public suspend fun ApplicationCommandContext.deferReply(ephemeral: Boolean = false): Unit =
     event.deferReply().withEphemeral(ephemeral).await()
 
 /**
  * Acknowledges the interaction indicating a response will be edited later. Only the invoking user sees a loading state.
  */
 @Deprecated("Use deferReply()", ReplaceWith("deferReply(ephemeral = true)"))
-public suspend fun ApplicationCommandContext<*>.acknowledgeEphemeral(): Unit = deferReply(ephemeral = true)
+public suspend fun ApplicationCommandContext.acknowledgeEphemeral(): Unit = deferReply(ephemeral = true)

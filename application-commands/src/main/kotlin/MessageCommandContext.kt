@@ -9,9 +9,9 @@ import io.facet.common.await
 import kotlinx.coroutines.CoroutineScope
 
 public sealed class MessageCommandContext(
-    event: MessageInteractionEvent,
+    public final override val event: MessageInteractionEvent,
     scope: CoroutineScope
-) : ApplicationCommandContext<MessageInteractionEvent>(event, scope) {
+) : ApplicationCommandContext(event, scope) {
 
     public val targetId: Snowflake = event.targetId
 

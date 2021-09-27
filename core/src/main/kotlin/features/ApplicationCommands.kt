@@ -53,25 +53,25 @@ public class ApplicationCommands(config: Config, restClient: RestClient, private
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val service: ApplicationService = restClient.applicationService
 
-    private val _commandMap = ConcurrentHashMap<Snowflake, ApplicationCommand<ApplicationCommandContext<*>>>()
+    private val _commandMap = ConcurrentHashMap<Snowflake, ApplicationCommand<ApplicationCommandContext>>()
 
     /**
      * Commands that have been registered with this feature.
      */
     @Suppress("UNCHECKED_CAST")
-    public val commands: MutableSet<ApplicationCommand<ApplicationCommandContext<*>>> =
-        config.commands as MutableSet<ApplicationCommand<ApplicationCommandContext<*>>>
+    public val commands: MutableSet<ApplicationCommand<ApplicationCommandContext>> =
+        config.commands as MutableSet<ApplicationCommand<ApplicationCommandContext>>
 
     /**
      * Lookup map for the command object given it's unique ID.
      */
-    public val commandMap: Map<Snowflake, ApplicationCommand<ApplicationCommandContext<*>>>
+    public val commandMap: Map<Snowflake, ApplicationCommand<ApplicationCommandContext>>
         get() = _commandMap
 
     /**
      * All global commands.
      */
-    public val globalCommands: List<ApplicationCommand<ApplicationCommandContext<*>>>
+    public val globalCommands: List<ApplicationCommand<ApplicationCommandContext>>
         get() = commands.filter { it is GlobalApplicationCommand || it is GlobalGuildApplicationCommand }
 
     /**
@@ -132,7 +132,7 @@ public class ApplicationCommands(config: Config, restClient: RestClient, private
                     else -> registeredCommand.id()
                 }
 
-                _commandMap[commandId.toSnowflake()] = command as ApplicationCommand<ApplicationCommandContext<*>>
+                _commandMap[commandId.toSnowflake()] = command as ApplicationCommand<ApplicationCommandContext>
             }
         }
     }
@@ -248,7 +248,7 @@ public class ApplicationCommands(config: Config, restClient: RestClient, private
                         .withEphemeral(true)
                         .await()
 
-                val context: ApplicationCommandContext<*> = when (event) {
+                val context: ApplicationCommandContext = when (event) {
                     is ChatInputInteractionEvent -> when (command) {
                         is GlobalSlashCommand -> GlobalSlashCommandContext(event, BotScope)
                         is GuildSlashCommand -> GuildSlashCommandContext(event, BotScope)
@@ -258,7 +258,7 @@ public class ApplicationCommands(config: Config, restClient: RestClient, private
                             else
                                 return event.reply("This command is not usable within DMs.").withEphemeral(true).await()
                         }
-                        else -> error("")
+                        else -> error("Unknown CHAT_INPUT command received: ${event.commandName}")
                     }
                     is MessageInteractionEvent -> when (command) {
                         is GlobalMessageCommand -> GlobalMessageCommandContext(event, BotScope)
@@ -269,7 +269,7 @@ public class ApplicationCommands(config: Config, restClient: RestClient, private
                             else
                                 return event.reply("This command is not usable within DMs.").withEphemeral(true).await()
                         }
-                        else -> error("")
+                        else -> error("Unknown MESSAGE command received: ${event.commandName}")
                     }
                     is UserInteractionEvent -> when (command) {
                         is GlobalUserCommand -> GlobalUserCommandContext(event, BotScope)
@@ -280,9 +280,9 @@ public class ApplicationCommands(config: Config, restClient: RestClient, private
                             else
                                 return event.reply("This command is not usable within DMs.").withEphemeral(true).await()
                         }
-                        else -> error("")
+                        else -> error("Unknown USER command received: ${event.commandName}")
                     }
-                    else -> error("")
+                    else -> error("Unknown application command received: ${event.commandName}")
                 }
 
                 command.run { context.execute() }

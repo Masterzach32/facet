@@ -21,7 +21,7 @@ import discord4j.discordjson.json.ApplicationCommandRequest
 /**
  * A discord application command.
  */
-public sealed interface ApplicationCommand<in C : ApplicationCommandContext<*>> {
+public sealed interface ApplicationCommand<in C : ApplicationCommandContext> {
 
     /**
      * The discord-json request body to be sent to the Discord API
@@ -35,13 +35,13 @@ public sealed interface ApplicationCommand<in C : ApplicationCommandContext<*>> 
 }
 
 public sealed interface GlobalApplicationCommand<in C> : ApplicationCommand<C>
-    where C : ApplicationCommandContext<*>, C : GlobalCommandContext
+    where C : ApplicationCommandContext, C : GlobalCommandContext
 
 public sealed interface GlobalGuildApplicationCommand<in C> : ApplicationCommand<C>
-    where C : ApplicationCommandContext<*>, C : GuildCommandContext
+    where C : ApplicationCommandContext, C : GuildCommandContext
 
 public sealed interface GuildApplicationCommand<in C> : ApplicationCommand<C>
-    where C : ApplicationCommandContext<*>, C : GuildCommandContext {
+    where C : ApplicationCommandContext, C : GuildCommandContext {
 
     /**
      * The [Snowflake] id of the guild that this command is available in.
