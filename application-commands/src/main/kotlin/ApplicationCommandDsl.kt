@@ -23,7 +23,7 @@ import discord4j.discordjson.json.ApplicationCommandRequest
 /**
  * DSL for building [ApplicationCommandRequest] for slash commands
  */
-public fun SlashCommand<*>.applicationCommandRequest(
+public fun applicationCommandRequest(
     name: String,
     desc: String,
     block: ApplicationCommandBuilder.() -> Unit = {}
@@ -37,6 +37,15 @@ public fun SlashCommand<*>.applicationCommandRequest(
 
     return data.name(name).description(desc).defaultPermission(builder.defaultPermission).build()
 }
+
+/**
+ * DSL for building [ApplicationCommandRequest] for slash commands
+ */
+public fun SlashCommand<*>.applicationCommandRequest(
+    name: String,
+    desc: String,
+    block: ApplicationCommandBuilder.() -> Unit = {}
+): ApplicationCommandRequest = io.facet.commands.applicationCommandRequest(name, desc, block)
 
 public open class ApplicationCommandBuilder {
 
