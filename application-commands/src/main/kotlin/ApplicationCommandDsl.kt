@@ -21,9 +21,9 @@ import discord4j.discordjson.json.ApplicationCommandOptionData
 import discord4j.discordjson.json.ApplicationCommandRequest
 
 /**
- * DSL for building [ApplicationCommandRequest]
+ * DSL for building [ApplicationCommandRequest] for slash commands
  */
-public fun applicationCommandRequest(
+public fun SlashCommand<*>.applicationCommandRequest(
     name: String,
     desc: String,
     block: ApplicationCommandBuilder.() -> Unit = {}
@@ -118,3 +118,17 @@ public class OptionBuilder : ApplicationCommandBuilder() {
             .build()
     ).let { }
 }
+
+/**
+ * DSL for building [ApplicationCommandRequest] for message commands
+ */
+public fun MessageCommand<*>.applicationCommandRequest(
+    name: String
+): ApplicationCommandRequest = ApplicationCommandRequest.builder().name(name).type(3).build()
+
+/**
+ * DSL for building [ApplicationCommandRequest] for user commands
+ */
+public fun UserCommand<*>.applicationCommandRequest(
+    name: String
+): ApplicationCommandRequest = ApplicationCommandRequest.builder().name(name).type(2).build()
