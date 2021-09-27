@@ -60,7 +60,6 @@ public sealed class ApplicationCommandContext<E : ApplicationCommandInteractionE
     /**
      * The interaction followup handler.
      */
-    @Deprecated("Use reply functions on the event property.")
     public val interactionResponse: GatewayInteractionResponse = event.gatewayInteractionResponse
 }
 
@@ -69,13 +68,20 @@ public sealed class ApplicationCommandContext<E : ApplicationCommandInteractionE
  * visible to all participants in the invoking channel. For a "only you can see this" response, set [ephemeral] to
  * `true`, or use acknowledgeEphemeral().
  */
+@Deprecated("Use deferReply()", ReplaceWith("deferReply(ephemeral)"))
 public suspend fun ApplicationCommandContext<*>.acknowledge(ephemeral: Boolean = false): Unit =
-    if (ephemeral)
-        event.acknowledgeEphemeral().await()
-    else
-        event.acknowledge().await()
+    deferReply(ephemeral)
+
+/**
+ * Acknowledges the interaction indicating a response will be edited later. The user sees a loading state,
+ * visible to all participants in the invoking channel. For a "only you can see this" response, set [ephemeral] to
+ * `true`.
+ */
+public suspend fun ApplicationCommandContext<*>.deferReply(ephemeral: Boolean = false): Unit =
+    event.deferReply().withEphemeral(ephemeral).await()
 
 /**
  * Acknowledges the interaction indicating a response will be edited later. Only the invoking user sees a loading state.
  */
-public suspend fun ApplicationCommandContext<*>.acknowledgeEphemeral(): Unit = event.acknowledgeEphemeral().await()
+@Deprecated("Use deferReply()", ReplaceWith("deferReply(ephemeral = true)"))
+public suspend fun ApplicationCommandContext<*>.acknowledgeEphemeral(): Unit = deferReply(ephemeral = true)

@@ -18,6 +18,7 @@ package io.facet.core.features
 import discord4j.common.util.Snowflake
 import discord4j.common.util.TimestampFormat
 import discord4j.core.GatewayDiscordClient
+import discord4j.core.`object`.entity.Guild
 import discord4j.core.event.domain.interaction.ApplicationCommandInteractionEvent
 import discord4j.core.event.domain.interaction.ChatInputInteractionEvent
 import discord4j.core.event.domain.interaction.MessageInteractionEvent
@@ -34,7 +35,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.reactive.asFlow
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.concurrent.ConcurrentHashMap
@@ -44,11 +48,10 @@ import java.util.concurrent.ConcurrentHashMap
  */
 @OptIn(ObsoleteCoroutinesApi::class)
 @Suppress("UNCHECKED_CAST")
-public class ApplicationCommands(config: Config, restClient: RestClient) {
+public class ApplicationCommands(config: Config, restClient: RestClient, private val applicationId: Long) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val service: ApplicationService = restClient.applicationService
-    private val applicationId: Long = restClient.applicationId.block()!!
 
     private val _commandMap = ConcurrentHashMap<Snowflake, ApplicationCommand<ApplicationCommandContext<*>>>()
 
@@ -77,7 +80,7 @@ public class ApplicationCommands(config: Config, restClient: RestClient) {
     public val guildCommands: List<GuildApplicationCommand<*>>
         get() = commands.filterIsInstance<GuildApplicationCommand<*>>()
 
-    public suspend fun updateCommands() {
+    public suspend fun updateCommands(guilds: Flow<Guild>) {
         val globalCommandNames = globalCommands.map { it.request.name() }
         val registeredGlobalCommands: List<ApplicationCommandData> =
             service.getGlobalApplicationCommands(applicationId).await()
@@ -85,7 +88,7 @@ public class ApplicationCommands(config: Config, restClient: RestClient) {
         // delete commands no longer in use
         registeredGlobalCommands
             .filter { it.name() !in globalCommandNames }
-            .onEach { logger.info("Deleting unused application command: ${it.name()}") }
+            .onEach { logger.info("Deleting unused global application command: ${it.name()}") }
             .forEach { service.deleteGlobalApplicationCommand(applicationId, it.id().toLong()).await() }
 
         // create, update, or leave commands in use
@@ -105,12 +108,68 @@ public class ApplicationCommands(config: Config, restClient: RestClient) {
             _commandMap[commandId.toSnowflake()] = command
         }
 
-        guildCommands
-            .map { it to service.createGuildApplicationCommand(applicationId, it.guildId.asLong(), it.request).await() }
-            .forEach { (command, data) ->
-                _commandMap[data.id().toSnowflake()] = command as ApplicationCommand<ApplicationCommandContext<*>>
+        guilds.collect { guild ->
+            val guildCommands = guildCommands.filter { it.guildId == guild.id }
+
+            val guildCommandNames = guildCommands.map { it.request.name() }
+            val registeredCommands = service.getGuildApplicationCommands(applicationId, guild.id.asLong()).asFlow().toList()
+
+            registeredCommands
+                .filter { it.name() !in guildCommandNames }
+                .onEach { logger.info("Deleting unused guild application command: ${it.name()} for guildId ${guild.id}") }
+                .forEach { service.deleteGuildApplicationCommand(applicationId, guild.id.asLong(), it.id().toLong()).await() }
+
+            guildCommands.forEach { command ->
+                val registeredCommand = registeredCommands.firstOrNull { it.name() == command.request.name() }
+
+                val commandId: String = when {
+                    // upsert command
+                    registeredCommand == null || isUpsertRequired(command.request, registeredCommand) -> {
+                        logger.info("Pushing guild application command: ${command.request.name()} for guildId ${guild.id}")
+                        service.createGuildApplicationCommand(applicationId, guild.id.asLong(), command.request).await().id()
+                    }
+                    // no action necessary
+                    else -> registeredCommand.id()
+                }
+
+                _commandMap[commandId.toSnowflake()] = command as ApplicationCommand<ApplicationCommandContext<*>>
             }
+        }
     }
+
+//    private suspend fun updateCommands(
+//        commands: List<ApplicationCommand<*>>,
+//        registeredCommands: Flow<ApplicationCommandData>,
+//        updateCommand: suspend (request: ApplicationCommandRequest, guildId: Long?) -> ApplicationCommandData,
+//        deleteCommand: suspend (id: Long, guildId: Long?) -> Unit,
+//        guildId: Long? = null
+//    ) {
+//        val commandNames = commands.map { it.request.name() }
+//
+//        coroutineScope {
+//            registeredCommands
+//                .filter { it.name() !in commandNames }
+//                .onEach { logger.info("Deleting unused command: $it") }
+//                .onEach { deleteCommand(it.id().toLong(), guildId) }
+//                .launchIn(this)
+//
+//            commands.forEach { command ->
+//                val registeredCommand = registeredCommands.firstOrNull { it.name() == command.request.name() }
+//
+//                val commandId: String = when {
+//                    // upsert command
+//                    registeredCommand == null || isUpsertRequired(command.request, registeredCommand) -> {
+//                        logger.info("Pushing global application command: ${command.request.name()}")
+//                        updateCommand(command.request, guildId).id()
+//                    }
+//                    // no action necessary
+//                    else -> registeredCommand.id()
+//                }
+//
+//                _commandMap[commandId.toSnowflake()] = command as ApplicationCommand<ApplicationCommandContext<*>>
+//            }
+//        }
+//    }
 
     /**
      * Compares the application command request with the application command data.
@@ -143,8 +202,8 @@ public class ApplicationCommands(config: Config, restClient: RestClient) {
             configuration: Config.() -> Unit
         ): ApplicationCommands {
             val config = Config().apply(configuration)
-            return ApplicationCommands(config, restClient).also { feature ->
-                scope.launch { feature.updateCommands() }
+            return ApplicationCommands(config, restClient, restClient.applicationId.await()).also { feature ->
+                scope.launch { feature.updateCommands(guilds.asFlow()) }
 
                 actorListener<ApplicationCommandInteractionEvent>(scope) {
                     val eventsToProcess = Channel<ApplicationCommandInteractionEvent>()

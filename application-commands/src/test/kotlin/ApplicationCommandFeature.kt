@@ -5,6 +5,7 @@ import discord4j.discordjson.json.ApplicationCommandData
 import discord4j.discordjson.json.ApplicationCommandOptionChoiceData
 import discord4j.discordjson.json.ApplicationCommandOptionData
 import discord4j.discordjson.json.ApplicationCommandRequest
+import io.facet.common.unwrap
 import org.junit.jupiter.api.Test
 
 class ApplicationCommandFeature {
@@ -77,7 +78,7 @@ class ApplicationCommandFeature {
             .build()
 
         assert(
-            request.name() == actual.name() && request.descriptionOrElse(null) == actual.description() &&
+            request.name() == actual.name() && request.description().unwrap() == actual.description() &&
                 request.defaultPermission() == actual.defaultPermission() &&
                 request.options() == actual.options()
         )
