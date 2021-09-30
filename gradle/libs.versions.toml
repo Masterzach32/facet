@@ -4,7 +4,7 @@ kotlinx-coroutines = "1.5.2"
 discord4j = "3.3.0-SNAPSHOT"
 lavaplayer = "1.3.78"
 brigadier = "1.0.18"
-exposed = "0.34.2"
+exposed = "0.35.1"
 slf4j = "1.7.30"
 logback = "1.2.3"
 
