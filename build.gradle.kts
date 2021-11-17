@@ -30,6 +30,9 @@ subprojects {
     apply(plugin = "org.jetbrains.dokka")
 
     java.toolchain.languageVersion.set(JavaLanguageVersion.of(8))
+    tasks.withType(KotlinCompile::class) {
+        kotlinOptions.jvmTarget = "1.8"
+    }
 
     repositories {
         maven("https://libraries.minecraft.net")
@@ -52,17 +55,8 @@ subprojects {
 
     tasks {
         val compileKotlin by existing(KotlinCompile::class)
-        val compileTestKotlin by existing(KotlinCompile::class)
-
         compileKotlin {
-            kotlinOptions {
-                jvmTarget = "1.8"
-                freeCompilerArgs = listOf("-Xexplicit-api=strict", "-Xopt-in=kotlin.RequiresOptIn")
-            }
-        }
-
-        compileTestKotlin {
-            kotlinOptions.jvmTarget = "1.8"
+            kotlinOptions.freeCompilerArgs = listOf("-Xexplicit-api=strict", "-Xopt-in=kotlin.RequiresOptIn")
         }
 
         test {
@@ -74,41 +68,39 @@ subprojects {
     }
 
     val dokkaHtmlPartial by tasks.existing(DokkaTaskPartial::class) {
-        dokkaSourceSets {
-            configureEach {
-                sourceLink {
-                    localDirectory.set(file("src/main/kotlin"))
-                    remoteUrl.set(
-                        URL(
-                            "https://github.com/masterzach32/facet/blob/master/" +
-                                "${projectDir.toRelativeString(rootDir)}/src/main/kotlin"
-                        )
+        dokkaSourceSets.configureEach {
+            sourceLink {
+                localDirectory.set(file("src/main/kotlin"))
+                remoteUrl.set(
+                    URL(
+                        "https://github.com/masterzach32/facet/blob/master/" +
+                            "${projectDir.toRelativeString(rootDir)}/src/main/kotlin"
                     )
-                    remoteLineSuffix.set("#L")
+                )
+                remoteLineSuffix.set("#L")
+            }
+
+            val discord4jProjects = listOf(
+                "discord-json",
+                "discord4j-common",
+                "discord4j-core",
+                "discord4j-gateway",
+                "discord4j-rest",
+                "discord4j-voice"
+            )
+            discord4jProjects
+                .map { name -> "https://javadoc.io/doc/com.discord4j/$name/latest/" }
+                .forEach { url ->
+                    externalDocumentationLink(url, "${url}element-list")
                 }
 
-                val discord4jProjects = listOf(
-                    "discord-json",
-                    "discord4j-common",
-                    "discord4j-core",
-                    "discord4j-gateway",
-                    "discord4j-rest",
-                    "discord4j-voice"
-                )
-                discord4jProjects
-                    .map { name -> "https://javadoc.io/doc/com.discord4j/$name/latest/" }
-                    .forEach { url ->
-                        externalDocumentationLink(url, "${url}element-list")
-                    }
+            val externalLibDocs = listOf(
+                "https://projectreactor.io/docs/core/release/api/",
+                "https://kotlin.github.io/kotlinx.coroutines/"
+            )
 
-                val externalLibDocs = listOf(
-                    "https://projectreactor.io/docs/core/release/api/",
-                    "https://kotlin.github.io/kotlinx.coroutines/"
-                )
-
-                externalLibDocs.forEach { url ->
-                    externalDocumentationLink(url)
-                }
+            externalLibDocs.forEach { url ->
+                externalDocumentationLink(url)
             }
         }
     }
