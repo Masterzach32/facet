@@ -17,6 +17,7 @@ package io.facet.common
 
 import discord4j.core.GatewayDiscordClient
 import discord4j.core.`object`.entity.Message
+import discord4j.core.event.domain.interaction.DeferrableInteractionEvent
 import discord4j.core.event.domain.interaction.InteractionCreateEvent
 import discord4j.core.spec.EmbedCreateSpec
 import discord4j.core.spec.WebhookExecuteSpec
@@ -52,7 +53,7 @@ public interface GatewayInteractionResponse : InteractionResponse {
 }
 
 private class EventInteractionResponse(
-    event: InteractionCreateEvent
+    event: DeferrableInteractionEvent
 ) : GatewayInteractionResponse, InteractionResponse by event.interactionResponse {
 
     override val client: GatewayDiscordClient = event.client
@@ -73,7 +74,7 @@ private class EventInteractionResponse(
 /**
  * The handler for common operations related to an interaction followup response associated with this event.
  */
-public val InteractionCreateEvent.gatewayInteractionResponse: GatewayInteractionResponse
+public val DeferrableInteractionEvent.gatewayInteractionResponse: GatewayInteractionResponse
     get() = EventInteractionResponse(this)
 
 /**

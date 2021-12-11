@@ -17,6 +17,7 @@ package io.facet.common
 
 import discord4j.core.`object`.VoiceState
 import discord4j.core.`object`.entity.Guild
+import discord4j.core.`object`.entity.channel.AudioChannel
 import discord4j.core.`object`.entity.channel.VoiceChannel
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.reactive.asFlow
@@ -30,10 +31,10 @@ public suspend fun Guild.getOurVoiceState(): VoiceState? = voiceStates.asFlow()
 /**
  * Gets the [VoiceChannel] that our user is connected to in this [Guild].
  */
-public suspend fun Guild.getConnectedVoiceChannel(): VoiceChannel? = getOurVoiceState()?.channel?.await()
+public suspend fun Guild.getConnectedVoiceChannel(): AudioChannel? = getOurVoiceState()?.channel?.await()
 
 /**
  * Returns the first [VoiceChannel] found with the specified name.
  */
-public suspend fun Guild.getVoiceChannelByName(name: String): VoiceChannel? = channels.asFlow()
+public suspend fun Guild.getVoiceChannelByName(name: String): AudioChannel? = channels.asFlow()
     .firstOrNull { it.name == name } as? VoiceChannel

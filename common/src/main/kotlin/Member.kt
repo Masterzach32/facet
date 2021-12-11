@@ -17,11 +17,12 @@ package io.facet.common
 
 import discord4j.core.`object`.VoiceState
 import discord4j.core.`object`.entity.Member
+import discord4j.core.`object`.entity.channel.AudioChannel
 import discord4j.core.`object`.entity.channel.VoiceChannel
 
 /**
  * Gets the [VoiceChannel] that the member is currently connected to, if present.
  */
-public suspend fun Member.getConnectedVoiceChannel(): VoiceChannel? = voiceState
+public suspend fun Member.getConnectedVoiceChannel(): AudioChannel? = voiceState
     .flatMap(VoiceState::getChannel)
     .awaitNullable()
