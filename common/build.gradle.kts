@@ -1,3 +1,6 @@
+plugins {
+    `facet-module`
+}
 
 dependencies {
     api(libs.discord4j)
