@@ -1,0 +1,8 @@
+public final class io/facet/lavaplayer/FlowEventAdapter : com/sedmelluq/discord/lavaplayer/player/event/AudioEventAdapter {
+	public fun <init> ()V
+	public fun <init> (I)V
+	public synthetic fun <init> (IILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getEventFlow ()Lkotlinx/coroutines/flow/SharedFlow;
+	public fun onEvent (Lcom/sedmelluq/discord/lavaplayer/player/event/AudioEvent;)V
+}
+

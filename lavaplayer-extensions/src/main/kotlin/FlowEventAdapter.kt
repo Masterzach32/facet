@@ -19,13 +19,13 @@ import com.sedmelluq.discord.lavaplayer.player.event.AudioEvent
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter
 import kotlinx.coroutines.flow.*
 
-public class FlowEventAdapter : AudioEventAdapter() {
+public class FlowEventAdapter(eventBufferCapacity: Int = 64) : AudioEventAdapter() {
 
-    private val sharedFlow = MutableSharedFlow<AudioEvent>()
+    private val sharedFlow = MutableSharedFlow<AudioEvent>(extraBufferCapacity = eventBufferCapacity)
 
     public val eventFlow: SharedFlow<AudioEvent> = sharedFlow.asSharedFlow()
 
-    public inline fun <reified E : AudioEvent> of(): Flow<E> = eventFlow.filterIsInstance()
+    public inline fun <reified E : AudioEvent> on(): Flow<E> = eventFlow.filterIsInstance()
 
     override fun onEvent(event: AudioEvent) {
         sharedFlow.tryEmit(event)

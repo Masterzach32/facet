@@ -1,0 +1,30 @@
+public final class io/facet/exposed/SnowflakeColumnType : org/jetbrains/exposed/sql/ColumnType {
+	public fun <init> ()V
+	public fun nonNullValueToString (Ljava/lang/Object;)Ljava/lang/String;
+	public fun notNullValueToDB (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun sqlType ()Ljava/lang/String;
+	public fun valueFromDB (Ljava/lang/Object;)Ljava/lang/Object;
+}
+
+public final class io/facet/exposed/SnowflakeColumnTypeKt {
+	public static final fun snowflake (Lorg/jetbrains/exposed/sql/Table;Ljava/lang/String;)Lorg/jetbrains/exposed/sql/Column;
+}
+
+public final class io/facet/exposed/SnowflakeFunctionsKt {
+	public static final fun snowflakeLiteral (Ldiscord4j/common/util/Snowflake;)Lorg/jetbrains/exposed/sql/LiteralOp;
+}
+
+public class io/facet/exposed/SnowflakeIdTable : org/jetbrains/exposed/dao/id/IdTable {
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getId ()Lorg/jetbrains/exposed/sql/Column;
+	public fun getPrimaryKey ()Lorg/jetbrains/exposed/sql/Table$PrimaryKey;
+}
+
+public final class io/facet/exposed/TransactionsKt {
+	public static final fun create (Lorg/jetbrains/exposed/sql/Transaction;[Lorg/jetbrains/exposed/sql/Table;)V
+	public static final fun sql (Lkotlin/coroutines/CoroutineContext;Lorg/jetbrains/exposed/sql/Database;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun sql$default (Lkotlin/coroutines/CoroutineContext;Lorg/jetbrains/exposed/sql/Database;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+}
+

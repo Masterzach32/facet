@@ -1,0 +1,222 @@
+public abstract interface class io/facet/commands/ApplicationCommand {
+	public abstract fun execute (Lio/facet/commands/ApplicationCommandContext;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun getRequest ()Ldiscord4j/discordjson/json/ApplicationCommandRequest;
+}
+
+public class io/facet/commands/ApplicationCommandBuilder {
+	public fun <init> ()V
+	public final fun boolean (Ljava/lang/String;Ljava/lang/String;Z)V
+	public static synthetic fun boolean$default (Lio/facet/commands/ApplicationCommandBuilder;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)V
+	public final fun channel (Ljava/lang/String;Ljava/lang/String;Z)V
+	public static synthetic fun channel$default (Lio/facet/commands/ApplicationCommandBuilder;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)V
+	public final fun getDefaultPermission ()Z
+	public final fun group (Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+	public static synthetic fun group$default (Lio/facet/commands/ApplicationCommandBuilder;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public final fun int (Ljava/lang/String;Ljava/lang/String;Z)V
+	public static synthetic fun int$default (Lio/facet/commands/ApplicationCommandBuilder;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)V
+	public final fun mentionable (Ljava/lang/String;Ljava/lang/String;Z)V
+	public static synthetic fun mentionable$default (Lio/facet/commands/ApplicationCommandBuilder;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)V
+	public final fun option (Ljava/lang/String;Ljava/lang/String;Ldiscord4j/core/object/command/ApplicationCommandOption$Type;ZLkotlin/jvm/functions/Function1;)V
+	public static synthetic fun option$default (Lio/facet/commands/ApplicationCommandBuilder;Ljava/lang/String;Ljava/lang/String;Ldiscord4j/core/object/command/ApplicationCommandOption$Type;ZLkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public final fun role (Ljava/lang/String;Ljava/lang/String;Z)V
+	public static synthetic fun role$default (Lio/facet/commands/ApplicationCommandBuilder;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)V
+	public final fun setDefaultPermission (Z)V
+	public final fun string (Ljava/lang/String;Ljava/lang/String;Z)V
+	public static synthetic fun string$default (Lio/facet/commands/ApplicationCommandBuilder;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)V
+	public final fun subCommand (Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)V
+	public static synthetic fun subCommand$default (Lio/facet/commands/ApplicationCommandBuilder;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)V
+	public final fun user (Ljava/lang/String;Ljava/lang/String;Z)V
+	public static synthetic fun user$default (Lio/facet/commands/ApplicationCommandBuilder;Ljava/lang/String;Ljava/lang/String;ZILjava/lang/Object;)V
+}
+
+public abstract class io/facet/commands/ApplicationCommandContext : kotlinx/coroutines/CoroutineScope {
+	public synthetic fun <init> (Ldiscord4j/core/event/domain/interaction/ApplicationCommandInteractionEvent;Lkotlinx/coroutines/CoroutineScope;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getChannelId ()Ldiscord4j/common/util/Snowflake;
+	public final fun getClient ()Ldiscord4j/core/GatewayDiscordClient;
+	public fun getCoroutineContext ()Lkotlin/coroutines/CoroutineContext;
+	public fun getEvent ()Ldiscord4j/core/event/domain/interaction/ApplicationCommandInteractionEvent;
+	public final fun getInteraction ()Ldiscord4j/core/object/command/Interaction;
+	public final fun getInteractionResponse ()Lio/facet/common/GatewayInteractionResponse;
+	public final fun getUser ()Ldiscord4j/core/object/entity/User;
+}
+
+public final class io/facet/commands/ApplicationCommandContextKt {
+	public static final fun acknowledge (Lio/facet/commands/ApplicationCommandContext;ZLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun acknowledge$default (Lio/facet/commands/ApplicationCommandContext;ZLkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public static final fun acknowledgeEphemeral (Lio/facet/commands/ApplicationCommandContext;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun deferReply (Lio/facet/commands/ApplicationCommandContext;ZLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun deferReply$default (Lio/facet/commands/ApplicationCommandContext;ZLkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+}
+
+public final class io/facet/commands/ApplicationCommandDslKt {
+	public static final fun applicationCommandRequest (Lio/facet/commands/MessageCommand;Ljava/lang/String;)Ldiscord4j/discordjson/json/ApplicationCommandRequest;
+	public static final fun applicationCommandRequest (Lio/facet/commands/SlashCommand;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Ldiscord4j/discordjson/json/ApplicationCommandRequest;
+	public static final fun applicationCommandRequest (Lio/facet/commands/UserCommand;Ljava/lang/String;)Ldiscord4j/discordjson/json/ApplicationCommandRequest;
+	public static final fun applicationCommandRequest (Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;)Ldiscord4j/discordjson/json/ApplicationCommandRequest;
+	public static synthetic fun applicationCommandRequest$default (Lio/facet/commands/SlashCommand;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldiscord4j/discordjson/json/ApplicationCommandRequest;
+	public static synthetic fun applicationCommandRequest$default (Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;ILjava/lang/Object;)Ldiscord4j/discordjson/json/ApplicationCommandRequest;
+}
+
+public abstract interface class io/facet/commands/GlobalApplicationCommand : io/facet/commands/ApplicationCommand {
+}
+
+public abstract interface class io/facet/commands/GlobalCommandContext {
+	public abstract fun getChannel (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun getGuild (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun getGuildId ()Ldiscord4j/common/util/Snowflake;
+	public abstract fun getMember ()Ldiscord4j/core/object/entity/Member;
+}
+
+public abstract interface class io/facet/commands/GlobalGuildApplicationCommand : io/facet/commands/ApplicationCommand {
+}
+
+public abstract interface class io/facet/commands/GlobalGuildMessageCommand : io/facet/commands/GlobalGuildApplicationCommand, io/facet/commands/MessageCommand {
+}
+
+public abstract interface class io/facet/commands/GlobalGuildSlashCommand : io/facet/commands/GlobalGuildApplicationCommand, io/facet/commands/SlashCommand {
+}
+
+public abstract interface class io/facet/commands/GlobalGuildUserCommand : io/facet/commands/GlobalGuildApplicationCommand, io/facet/commands/UserCommand {
+}
+
+public abstract interface class io/facet/commands/GlobalMessageCommand : io/facet/commands/GlobalApplicationCommand, io/facet/commands/MessageCommand {
+}
+
+public final class io/facet/commands/GlobalMessageCommandContext : io/facet/commands/MessageCommandContext, io/facet/commands/GlobalCommandContext {
+	public fun <init> (Ldiscord4j/core/event/domain/interaction/MessageInteractionEvent;Lkotlinx/coroutines/CoroutineScope;)V
+	public fun getChannel (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getGuild (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getGuildId ()Ldiscord4j/common/util/Snowflake;
+	public fun getMember ()Ldiscord4j/core/object/entity/Member;
+}
+
+public abstract interface class io/facet/commands/GlobalSlashCommand : io/facet/commands/GlobalApplicationCommand, io/facet/commands/SlashCommand {
+}
+
+public final class io/facet/commands/GlobalSlashCommandContext : io/facet/commands/SlashCommandContext, io/facet/commands/GlobalCommandContext {
+	public fun <init> (Ldiscord4j/core/event/domain/interaction/ChatInputInteractionEvent;Lkotlinx/coroutines/CoroutineScope;)V
+	public fun getChannel (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getGuild (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getGuildId ()Ldiscord4j/common/util/Snowflake;
+	public fun getMember ()Ldiscord4j/core/object/entity/Member;
+}
+
+public abstract interface class io/facet/commands/GlobalUserCommand : io/facet/commands/GlobalApplicationCommand, io/facet/commands/UserCommand {
+}
+
+public final class io/facet/commands/GlobalUserCommandContext : io/facet/commands/UserCommandContext, io/facet/commands/GlobalCommandContext {
+	public fun <init> (Ldiscord4j/core/event/domain/interaction/UserInteractionEvent;Lkotlinx/coroutines/CoroutineScope;)V
+	public fun getChannel (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getGuild (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getGuildId ()Ldiscord4j/common/util/Snowflake;
+	public fun getMember ()Ldiscord4j/core/object/entity/Member;
+}
+
+public abstract interface class io/facet/commands/GuildApplicationCommand : io/facet/commands/ApplicationCommand {
+	public abstract fun getGuildId ()Ldiscord4j/common/util/Snowflake;
+}
+
+public abstract interface class io/facet/commands/GuildCommandContext {
+	public abstract fun getChannel (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun getGuild (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun getGuildId ()Ldiscord4j/common/util/Snowflake;
+	public abstract fun getMember ()Ldiscord4j/core/object/entity/Member;
+}
+
+public abstract interface class io/facet/commands/GuildMessageCommand : io/facet/commands/GuildApplicationCommand, io/facet/commands/MessageCommand {
+}
+
+public final class io/facet/commands/GuildMessageCommandContext : io/facet/commands/MessageCommandContext, io/facet/commands/GuildCommandContext {
+	public fun <init> (Ldiscord4j/core/event/domain/interaction/MessageInteractionEvent;Lkotlinx/coroutines/CoroutineScope;)V
+	public fun getChannel (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getGuild (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getGuildId ()Ldiscord4j/common/util/Snowflake;
+	public fun getMember ()Ldiscord4j/core/object/entity/Member;
+}
+
+public abstract interface class io/facet/commands/GuildSlashCommand : io/facet/commands/GuildApplicationCommand, io/facet/commands/SlashCommand {
+}
+
+public final class io/facet/commands/GuildSlashCommandContext : io/facet/commands/SlashCommandContext, io/facet/commands/GuildCommandContext {
+	public fun <init> (Ldiscord4j/core/event/domain/interaction/ChatInputInteractionEvent;Lkotlinx/coroutines/CoroutineScope;)V
+	public fun getChannel (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getGuild (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getGuildId ()Ldiscord4j/common/util/Snowflake;
+	public fun getMember ()Ldiscord4j/core/object/entity/Member;
+}
+
+public abstract interface class io/facet/commands/GuildUserCommand : io/facet/commands/GuildApplicationCommand, io/facet/commands/UserCommand {
+}
+
+public final class io/facet/commands/GuildUserCommandContext : io/facet/commands/UserCommandContext, io/facet/commands/GuildCommandContext {
+	public fun <init> (Ldiscord4j/core/event/domain/interaction/UserInteractionEvent;Lkotlinx/coroutines/CoroutineScope;)V
+	public fun getChannel (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getGuild (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getGuildId ()Ldiscord4j/common/util/Snowflake;
+	public fun getMember ()Ldiscord4j/core/object/entity/Member;
+	public fun getTargetUser (Ldiscord4j/core/retriever/EntityRetrievalStrategy;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getTargetUser (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class io/facet/commands/InteractionOptions {
+	public fun <init> (Ldiscord4j/core/object/command/ApplicationCommandInteraction;)V
+	public final fun contains (Ljava/lang/String;)Z
+	public final fun defaultValue (Ljava/lang/Object;)Lio/facet/commands/InteractionOptions$DefaultValueOptionDelegate;
+	public final fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
+	public final fun nullable ()Lio/facet/commands/InteractionOptions$NullableOptionDelegate;
+}
+
+public final class io/facet/commands/InteractionOptions$DefaultValueOptionDelegate : kotlin/properties/ReadOnlyProperty {
+	public fun <init> (Lio/facet/commands/InteractionOptions;Ljava/lang/Object;)V
+	public fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
+}
+
+public final class io/facet/commands/InteractionOptions$NullableOptionDelegate : kotlin/properties/ReadOnlyProperty {
+	public fun <init> (Lio/facet/commands/InteractionOptions;)V
+	public fun getValue (Ljava/lang/Object;Lkotlin/reflect/KProperty;)Ljava/lang/Object;
+}
+
+public abstract interface class io/facet/commands/MessageCommand : io/facet/commands/ApplicationCommand {
+}
+
+public abstract class io/facet/commands/MessageCommandContext : io/facet/commands/ApplicationCommandContext {
+	public synthetic fun <init> (Ldiscord4j/core/event/domain/interaction/MessageInteractionEvent;Lkotlinx/coroutines/CoroutineScope;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun getEvent ()Ldiscord4j/core/event/domain/interaction/ApplicationCommandInteractionEvent;
+	public final fun getEvent ()Ldiscord4j/core/event/domain/interaction/MessageInteractionEvent;
+	public final fun getTargetId ()Ldiscord4j/common/util/Snowflake;
+	public final fun getTargetMessage (Ldiscord4j/core/retriever/EntityRetrievalStrategy;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun getTargetMessage (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class io/facet/commands/OptionBuilder : io/facet/commands/ApplicationCommandBuilder {
+	public fun <init> ()V
+	public final fun choice (Ljava/lang/String;I)V
+	public final fun choice (Ljava/lang/String;Ljava/lang/String;)V
+}
+
+public abstract interface class io/facet/commands/PermissibleApplicationCommand {
+	public abstract fun hasPermission (Ldiscord4j/core/object/entity/User;Ldiscord4j/core/object/entity/Guild;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class io/facet/commands/SlashCommand : io/facet/commands/ApplicationCommand {
+}
+
+public abstract class io/facet/commands/SlashCommandContext : io/facet/commands/ApplicationCommandContext {
+	public synthetic fun <init> (Ldiscord4j/core/event/domain/interaction/ChatInputInteractionEvent;Lkotlinx/coroutines/CoroutineScope;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun getEvent ()Ldiscord4j/core/event/domain/interaction/ApplicationCommandInteractionEvent;
+	public fun getEvent ()Ldiscord4j/core/event/domain/interaction/ChatInputInteractionEvent;
+	public final fun getOptions ()Lio/facet/commands/InteractionOptions;
+}
+
+public abstract interface class io/facet/commands/UserCommand : io/facet/commands/ApplicationCommand {
+}
+
+public abstract class io/facet/commands/UserCommandContext : io/facet/commands/ApplicationCommandContext {
+	public synthetic fun <init> (Ldiscord4j/core/event/domain/interaction/UserInteractionEvent;Lkotlinx/coroutines/CoroutineScope;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun getEvent ()Ldiscord4j/core/event/domain/interaction/ApplicationCommandInteractionEvent;
+	public final fun getEvent ()Ldiscord4j/core/event/domain/interaction/UserInteractionEvent;
+	public final fun getTargetId ()Ldiscord4j/common/util/Snowflake;
+	public fun getTargetUser (Ldiscord4j/core/retriever/EntityRetrievalStrategy;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getTargetUser (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+

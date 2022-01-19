@@ -1,6 +1,7 @@
 plugins {
     base
     id("org.jetbrains.dokka")
+    id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.8.0"
     alias(libs.plugins.release)
 }
 
@@ -17,6 +18,7 @@ allprojects {
 
 tasks {
     dokkaHtmlMultiModule {
+        dependsOn(clean)
         outputDirectory.set(buildDir.resolve("docs"))
     }
 

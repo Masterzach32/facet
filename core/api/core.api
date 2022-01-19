@@ -1,0 +1,145 @@
+public final class io/facet/core/AttributeKey : java/lang/Comparable {
+	public fun <init> (Ljava/lang/String;)V
+	public fun compareTo (Lio/facet/core/AttributeKey;)I
+	public synthetic fun compareTo (Ljava/lang/Object;)I
+	public final fun getName ()Ljava/lang/String;
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/facet/core/BotScope : kotlinx/coroutines/CoroutineScope {
+	public static final field INSTANCE Lio/facet/core/BotScope;
+	public fun getCoroutineContext ()Lkotlin/coroutines/CoroutineContext;
+}
+
+public final class io/facet/core/EmptyConfig {
+	public static final field INSTANCE Lio/facet/core/EmptyConfig;
+}
+
+public abstract class io/facet/core/EventDispatcherFeature : io/facet/core/Feature {
+	public fun <init> (Ljava/lang/String;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class io/facet/core/EventDispatcherFeatureKt {
+	public static final fun feature (Ldiscord4j/core/event/EventDispatcher;Lio/facet/core/EventDispatcherFeature;)Ljava/lang/Object;
+	public static final fun featureOrNull (Ldiscord4j/core/event/EventDispatcher;Lio/facet/core/EventDispatcherFeature;)Ljava/lang/Object;
+	public static final fun install (Ldiscord4j/core/event/EventDispatcher;Lkotlinx/coroutines/CoroutineScope;Lio/facet/core/EventDispatcherFeature;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun install$default (Ldiscord4j/core/event/EventDispatcher;Lkotlinx/coroutines/CoroutineScope;Lio/facet/core/EventDispatcherFeature;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public static final fun withPlugins (Ldiscord4j/core/shard/GatewayBootstrap;Lkotlin/jvm/functions/Function3;)Ldiscord4j/core/shard/GatewayBootstrap;
+}
+
+public abstract class io/facet/core/Feature {
+	public fun <init> (Ljava/lang/String;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun checkRequiredFeatures ()V
+	public final fun getKey ()Lio/facet/core/AttributeKey;
+	public final fun getRequiredFeatures ()Ljava/util/List;
+	public abstract fun install (Ljava/lang/Object;Lkotlinx/coroutines/CoroutineScope;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class io/facet/core/Features : java/util/LinkedHashMap {
+	public static final field INSTANCE Lio/facet/core/Features;
+	public fun containsKey (Lio/facet/core/AttributeKey;)Z
+	public final fun containsKey (Ljava/lang/Object;)Z
+	public final fun entrySet ()Ljava/util/Set;
+	public fun get (Lio/facet/core/AttributeKey;)Ljava/lang/Object;
+	public final fun get (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun getEntries ()Ljava/util/Set;
+	public fun getKeys ()Ljava/util/Set;
+	public fun getOrDefault (Lio/facet/core/AttributeKey;Ljava/lang/Object;)Ljava/lang/Object;
+	public final fun getOrDefault (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+	public fun getSize ()I
+	public fun getValues ()Ljava/util/Collection;
+	public final fun keySet ()Ljava/util/Set;
+	public fun remove (Lio/facet/core/AttributeKey;)Ljava/lang/Object;
+	public fun remove (Lio/facet/core/AttributeKey;Ljava/lang/Object;)Z
+	public final fun remove (Ljava/lang/Object;)Ljava/lang/Object;
+	public final fun remove (Ljava/lang/Object;Ljava/lang/Object;)Z
+	public final fun size ()I
+	public final fun values ()Ljava/util/Collection;
+}
+
+public abstract class io/facet/core/GatewayFeature : io/facet/core/Feature {
+	public fun <init> (Ljava/lang/String;Ljava/util/List;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/util/List;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class io/facet/core/GatewayFeatureKt {
+	public static final fun feature (Ldiscord4j/core/GatewayDiscordClient;Lio/facet/core/Feature;)Ljava/lang/Object;
+	public static final fun featureOrNull (Ldiscord4j/core/GatewayDiscordClient;Lio/facet/core/Feature;)Ljava/lang/Object;
+	public static final fun install (Ldiscord4j/core/GatewayDiscordClient;Lkotlinx/coroutines/CoroutineScope;Lio/facet/core/GatewayFeature;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun install$default (Ldiscord4j/core/GatewayDiscordClient;Lkotlinx/coroutines/CoroutineScope;Lio/facet/core/GatewayFeature;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
+	public static final fun shutdown (Ldiscord4j/core/GatewayDiscordClient;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun withPlugins (Ldiscord4j/core/shard/GatewayBootstrap;Lkotlin/jvm/functions/Function3;)Lreactor/core/publisher/Mono;
+}
+
+public final class io/facet/core/LocalSuspendingVoiceConnectionRegistry : io/facet/core/SuspendingVoiceConnectionRegistry {
+	public fun <init> ()V
+	public fun <init> (Ldiscord4j/voice/VoiceConnectionRegistry;)V
+	public synthetic fun <init> (Ldiscord4j/voice/VoiceConnectionRegistry;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun disconnect (Ldiscord4j/common/util/Snowflake;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun getVoiceConnection (Ldiscord4j/common/util/Snowflake;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun registerVoiceConnection (Ldiscord4j/common/util/Snowflake;Ldiscord4j/voice/VoiceConnection;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class io/facet/core/SuspendingVoiceConnectionRegistry {
+	public abstract fun disconnect (Ldiscord4j/common/util/Snowflake;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun getVoiceConnection (Ldiscord4j/common/util/Snowflake;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun registerVoiceConnection (Ldiscord4j/common/util/Snowflake;Ldiscord4j/voice/VoiceConnection;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class io/facet/core/features/ApplicationCommands {
+	public static final field Companion Lio/facet/core/features/ApplicationCommands$Companion;
+	public fun <init> (Lio/facet/core/features/ApplicationCommands$Config;Ldiscord4j/rest/RestClient;J)V
+	public final fun getCommandMap ()Ljava/util/Map;
+	public final fun getCommands ()Ljava/util/Set;
+	public final fun getGlobalCommands ()Ljava/util/List;
+	public final fun getGuildCommands ()Ljava/util/List;
+	public final fun updateCommands (Lkotlinx/coroutines/flow/Flow;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class io/facet/core/features/ApplicationCommands$Companion : io/facet/core/GatewayFeature {
+	public fun install (Ldiscord4j/core/GatewayDiscordClient;Lkotlinx/coroutines/CoroutineScope;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public synthetic fun install (Ljava/lang/Object;Lkotlinx/coroutines/CoroutineScope;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class io/facet/core/features/ApplicationCommands$Config {
+	public fun <init> ()V
+	public final fun getCommandConcurrency ()I
+	public final fun registerCommand (Lio/facet/commands/ApplicationCommand;)V
+	public final fun registerCommand ([Lio/facet/commands/ApplicationCommand;)V
+	public final fun registerCommands ([Lio/facet/commands/ApplicationCommand;)V
+	public final fun setCommandConcurrency (I)V
+}
+
+public final class io/facet/core/features/ChatCommands {
+	public static final field Companion Lio/facet/core/features/ChatCommands$Companion;
+	public fun <init> (Lio/facet/core/features/ChatCommands$Config;)V
+	public final fun getCommandMap ()Ljava/util/Map;
+	public final fun getCommandPrefixFor ()Lkotlin/jvm/functions/Function2;
+	public final fun getCommands ()Ljava/util/Set;
+	public final fun getDispatcher ()Lcom/mojang/brigadier/CommandDispatcher;
+	public final fun registerCommand (Lio/facet/chatcommands/ChatCommand;)Z
+	public final fun registerCommands ([Lio/facet/chatcommands/ChatCommand;)Ljava/util/Map;
+}
+
+public final class io/facet/core/features/ChatCommands$Companion : io/facet/core/EventDispatcherFeature {
+	public fun install (Ldiscord4j/core/event/EventDispatcher;Lkotlinx/coroutines/CoroutineScope;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public synthetic fun install (Ljava/lang/Object;Lkotlinx/coroutines/CoroutineScope;Lkotlin/jvm/functions/Function1;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class io/facet/core/features/ChatCommands$Config {
+	public fun <init> ()V
+	public final fun commandPrefix (Lkotlin/jvm/functions/Function2;)V
+	public final fun getCommandConcurrency ()I
+	public final fun getUseDefaultHelpCommand ()Z
+	public final fun registerCommand (Lio/facet/chatcommands/ChatCommand;)Z
+	public final fun registerCommands ([Lio/facet/chatcommands/ChatCommand;)V
+	public final fun setCommandConcurrency (I)V
+	public final fun setUseDefaultHelpCommand (Z)V
+}
+
+public final class io/facet/core/features/Help : io/facet/chatcommands/ChatCommand {
+	public static final field INSTANCE Lio/facet/core/features/Help;
+}
+

@@ -1,7 +1,5 @@
 import org.jetbrains.dokka.gradle.DokkaTaskPartial
-import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.net.URL
 
 plugins {
     kotlin("jvm")
@@ -22,25 +20,34 @@ repositories {
 }
 
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(8))
-tasks.withType(KotlinCompile::class) {
-    kotlinOptions.jvmTarget = "1.8"
-}
 
 configurations.all {
     resolutionStrategy.eachDependency {
         if (requested.name == "kotlin-reflect")
-            useVersion(kotlinExtension.coreLibrariesVersion)
+            useVersion(kotlin.coreLibrariesVersion)
     }
 }
 
+kotlin {
+    explicitApi()
+}
+
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.7.2"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation(kotlin("test"))
+    testRuntimeOnly(kotlin("test-junit5"))
 }
 
 tasks {
-    compileKotlin {
-        kotlinOptions.freeCompilerArgs = listOf("-Xexplicit-api=strict", "-Xopt-in=kotlin.RequiresOptIn")
+    withType<JavaCompile> {
+        sourceCompatibility = "1.8"
+        targetCompatibility = "1.8"
+    }
+
+    withType<KotlinCompile> {
+        kotlinOptions {
+            jvmTarget = "1.8"
+            freeCompilerArgs = listOf("-Xopt-in=kotlin.RequiresOptIn")
+        }
     }
 
     test {
@@ -49,42 +56,46 @@ tasks {
             events("passed", "skipped", "failed")
         }
     }
-}
 
-tasks.withType<DokkaTaskPartial>().configureEach {
-    dokkaSourceSets.configureEach {
-        sourceLink {
-            localDirectory.set(file("src/main/kotlin"))
-            remoteUrl.set(
-                URL(
-                    "https://github.com/masterzach32/facet/blob/master/" +
-                        "${projectDir.toRelativeString(rootDir)}/src/main/kotlin"
+    named("apiCheck") {
+        onlyIf { isRelease }
+    }
+
+    withType<DokkaTaskPartial>().configureEach {
+        dokkaSourceSets.configureEach {
+            sourceLink {
+                localDirectory.set(file("src/main/kotlin"))
+                remoteUrl.set(
+                    uri(
+                        "https://github.com/masterzach32/facet/blob/master/" +
+                            "${projectDir.toRelativeString(rootDir)}/src/main/kotlin"
+                    ).toURL()
                 )
-            )
-            remoteLineSuffix.set("#L")
-        }
-
-        val discord4jProjects = listOf(
-            "discord-json",
-            "discord4j-common",
-            "discord4j-core",
-            "discord4j-gateway",
-            "discord4j-rest",
-            "discord4j-voice"
-        )
-        discord4jProjects
-            .map { name -> "https://javadoc.io/doc/com.discord4j/$name/latest/" }
-            .forEach { url ->
-                externalDocumentationLink(url, "${url}element-list")
+                remoteLineSuffix.set("#L")
             }
 
-        val externalLibDocs = listOf(
-            "https://projectreactor.io/docs/core/release/api/",
-            "https://kotlin.github.io/kotlinx.coroutines/"
-        )
+            val discord4jProjects = listOf(
+                "discord-json",
+                "discord4j-common",
+                "discord4j-core",
+                "discord4j-gateway",
+                "discord4j-rest",
+                "discord4j-voice"
+            )
+            discord4jProjects
+                .map { name -> "https://javadoc.io/doc/com.discord4j/$name/latest/" }
+                .forEach { url ->
+                    externalDocumentationLink(url, "${url}element-list")
+                }
 
-        externalLibDocs.forEach { url ->
-            externalDocumentationLink(url)
+            val externalLibDocs = listOf(
+                "https://projectreactor.io/docs/core/release/api/",
+                "https://kotlin.github.io/kotlinx.coroutines/"
+            )
+
+            externalLibDocs.forEach { url ->
+                externalDocumentationLink(url)
+            }
         }
     }
 }
